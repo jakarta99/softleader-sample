@@ -23,16 +23,16 @@ public class CalculateService {
 
 	// user4 取餘數
 	public int remainder(int a, int b) {
-
+		return (a%b);
 	}
 
 	// user5 平方
-	public int square(int a, int b) {
-
+	public int square(int a) {
+		return (a*a);
 	}
 
 	// user6 三次方
-	public int power3(int a, int b) {
-
+	public int power3(int a) {
+		return (a*a*a);
 	}
 }
