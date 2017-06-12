@@ -18,7 +18,7 @@ public class CalculateService {
 
 	// user3
 	public double divide(int a, int b) {
-
+		return a/b;
 	}
 
 	// user4 取餘數
@@ -26,6 +26,7 @@ public class CalculateService {
 		return (a%b);
 	}
 
+	
 	// user5 平方
 	public int square(int a) {
 		return (a*a);
