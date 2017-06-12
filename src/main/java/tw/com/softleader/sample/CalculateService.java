@@ -8,7 +8,7 @@ public class CalculateService {
 
 	// user1
 	public int substract(int a, int b) {
-	
+	return (a-b);
 	}
 	
 	// user2
