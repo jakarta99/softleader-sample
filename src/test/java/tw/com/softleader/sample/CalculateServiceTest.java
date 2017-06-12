@@ -1,0 +1,51 @@
+package tw.com.softleader.sample;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import org.junit.Test;
+
+public class CalculateServiceTest {
+
+	@Test
+	public void testSum() {
+		CalculateService calculateService = new CalculateService();
+		assertEquals(5, calculateService.sum(3, 2));
+		
+		assertEquals(8, calculateService.sum(3, 5));
+		
+		assertEquals(10, calculateService.sum(3, 7));
+		
+	}
+
+	@Test
+	public void testSubstract() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testMultiply() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testDivide() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testRemainder() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSquare() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testPower3() {
+		fail("Not yet implemented");
+	}
+
+}
