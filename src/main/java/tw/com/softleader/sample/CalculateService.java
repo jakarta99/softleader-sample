@@ -28,12 +28,12 @@ public class CalculateService {
 	
 	// user5 平方
 	public int square(int a) {
-		return a*a;
+		return (a*a);
 	}
 	
 	// user6 三次方
 	public int power3(int a) {
-		return a*a*a;
+		return (a*a*a);
 	}
 }
 
