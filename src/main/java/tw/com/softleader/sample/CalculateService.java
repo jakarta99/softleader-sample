@@ -32,8 +32,8 @@ public class CalculateService {
 	}
 	
 	// user6 三次方
-	public int power3(int a, int b) {
-		
+	public int power3(int a) {
+		return a*a*a;
 	}
 }
 
