@@ -27,8 +27,8 @@ public class CalculateService {
 	}
 	
 	// user5 平方
-	public int square(int a, int b) {
-		
+	public int square(int a) {
+		return a*a;
 	}
 	
 	// user6 三次方
