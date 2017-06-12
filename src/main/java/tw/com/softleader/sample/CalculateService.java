@@ -23,7 +23,7 @@ public class CalculateService {
 	
 	// user4 取餘數
 	public int remainder(int a, int b) {
-		return a%b;
+		return (a%b);
 	}
 	
 	// user5 平方
