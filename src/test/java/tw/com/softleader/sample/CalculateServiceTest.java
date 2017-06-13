@@ -45,7 +45,8 @@ public class CalculateServiceTest {
 
 	@Test
 	public void testPower3() {
-		fail("Not yet implemented");
+		CalculateService calculateService = new CalculateService();
+		assertEquals(27, calculateService.power3(3));
 	}
 
 }
