@@ -19,7 +19,7 @@ public class CalculateServiceTest {
 	}
 
 	@Test
-	public void testSubstract() {
+	public void testSubtract() {
 		CalculateService calculateService = new CalculateService();
 		assertEquals(8, calculateService.substract(15, 7));
 	}
