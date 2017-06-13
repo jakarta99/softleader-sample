@@ -1,4 +1,6 @@
 # softleader-sample
+![Github Command Flow](https://github.com/jakarta99/softleader-sample/blob/master/docs/git-flow.jpg)
+
 dd
 ## Header 1
 Lacerjoe 劉駿
