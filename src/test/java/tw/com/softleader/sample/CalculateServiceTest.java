@@ -31,8 +31,7 @@ public class CalculateServiceTest {
 
 	@Test
 	public void testDivide() {
-		CalculateService calculateService = new CalculateService();
-		assertEquals(1,calculateService.divide(3,3,0));
+		fail("Not yet implemented");
 		
 		
 	}
