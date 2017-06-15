@@ -14,11 +14,11 @@ public class BookServiceTest {
 	public void bookServiceTest() {
 		BookService bookService = new BookService();
 		String[] books=bookService.getAll();
-		for (String book : books) {
+		
 			assertEquals("Harry Porter", books[0]);
 			assertEquals("The Da Vinci Code", books[1]);
 			assertEquals("Angels & Demons", books[2]);
-		}
+		//for (String book : books) {}
 
 	}
 

@@ -39,7 +39,8 @@ public class CalculateServiceTest {
 
 	@Test
 	public void testRemainder() {
-		fail("Not yet implemented");
+		CalculateService calculateService = new CalculateService();
+		assertEquals(0, calculateService.remainder(16, 2));
 	}
 
 	@Test

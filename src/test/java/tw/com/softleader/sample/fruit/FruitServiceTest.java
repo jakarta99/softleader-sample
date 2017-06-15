@@ -9,7 +9,7 @@ public class FruitServiceTest {
 	@Test
 	public void fruitServiceTest() {
 		FruitService fruitService = new FruitService();
-		for (String movie : fruitService.getAll()) {
+		for (String fruits : fruitService.getAll()) {
 			assertEquals("西瓜","蘋果","芭樂","柳丁","橘子", fruitService.getAll());
 		}
 	}
