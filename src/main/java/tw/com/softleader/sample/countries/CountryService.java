@@ -6,4 +6,11 @@ public class CountryService {
 	public String[] getall() {
 		return countries;
 	}
+//	public static void main(String []args){
+//		CountryService countryService=new CountryService();
+//		for(String country: countryService.getall()){
+//			System.out.println(country);	
+//		}
+//		
+//	}
 }
