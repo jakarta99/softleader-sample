@@ -8,14 +8,16 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class BookServiceTest {
-	public void assertEquals(String book1, String book2, String book3, String[] book) {
-	}
+
 
 	@Test
 	public void bookServiceTest() {
 		BookService bookService = new BookService();
-		for (String book : bookService.getAll()) {
-			assertEquals("Harry Porter", "The Da Vinci Code", "Angels & Demons", bookService.getAll());
+		String[] books=bookService.getAll();
+		for (String book : books) {
+			assertEquals("Harry Porter", books[0]);
+			assertEquals("The Da Vinci Code", books[1]);
+			assertEquals("Angels & Demons", books[2]);
 		}
 
 	}
