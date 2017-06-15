@@ -26,7 +26,8 @@ public class CalculateServiceTest {
 
 	@Test
 	public void testMultiply() {
-		fail("Not yet implemented");
+		CalculateService calculateservice = new CalculateService();
+		assertEquals(63,calculateservice.multiply(7, 9));
 	}
 
 	@Test
