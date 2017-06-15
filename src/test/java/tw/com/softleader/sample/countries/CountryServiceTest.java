@@ -11,7 +11,7 @@ public class CountryServiceTest {
 	@Test
 	public void countryServiceTest() {
 		CountryService countryService = new CountryService();
-		for (String country : countryService.countries) {
+		for (String country : countryService.getall()) {
 			assertEquals("Taiwan", "Thailand", "Japan", country);
 		}
 
