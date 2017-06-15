@@ -45,7 +45,8 @@ public class CalculateServiceTest {
 
 	@Test
 	public void testSquare() {
-		fail("Not yet implemented");
+		CalculateService calculateService = new CalculateService();
+		assertEquals(4, calculateService.square(2));
 	}
 
 	@Test
