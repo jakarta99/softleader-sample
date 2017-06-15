@@ -18,7 +18,6 @@ public class BookServiceTest {
 			assertEquals("Harry Porter", books[0]);
 			assertEquals("The Da Vinci Code", books[1]);
 			assertEquals("Angels & Demons", books[2]);
-		//for (String book : books) {}
 
 	}
 
