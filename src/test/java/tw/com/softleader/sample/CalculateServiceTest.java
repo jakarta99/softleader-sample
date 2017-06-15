@@ -31,8 +31,6 @@ public class CalculateServiceTest {
 	}
 
 	@Test
-	
-
 	public void testDivide() {
 		CalculateService calculateService = new CalculateService();
 		assertEquals(1, calculateService.divide(1, 1, 0));
