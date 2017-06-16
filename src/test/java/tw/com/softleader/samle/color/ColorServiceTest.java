@@ -11,15 +11,19 @@ import org.junit.Test;
  */
 public class ColorServiceTest {
 
+	@Deprecated
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
 	@Test
 	public void testGetAll() {
-		// fail("Not yet implemented");
 		ColorService colorService = new ColorService();
 		String[] colors = colorService.getAll();
 		assertEquals("Red", colors[0]);
 		assertEquals("Yellow", colors[1]);
 		assertEquals("Blue", colors[2]);
-
+		
 	}
-
 }
