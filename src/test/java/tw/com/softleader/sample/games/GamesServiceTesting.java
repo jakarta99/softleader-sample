@@ -10,7 +10,7 @@ public class GameServiceTesting {
 
 		GameService gamer = new GameService();
 
-		String games[] = gamer.getAll();
+		String games[] = gamer.getall();
 
 		assertEquals("Detiny2", games[0]);
 		assertEquals("Witcher3", games[1]);
