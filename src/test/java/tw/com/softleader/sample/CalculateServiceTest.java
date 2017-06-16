@@ -27,14 +27,14 @@ public class CalculateServiceTest {
 	@Test
 	public void testMultiply() {
 		CalculateService calculateservice = new CalculateService();
-		assertEquals(63,calculateservice.multiply(7, 9));
+		assertEquals(63, calculateservice.multiply(7, 9));
 	}
 
 	@Test
 	public void testDivide() {
-		fail("Not yet implemented");
-		
-		
+		CalculateService calculateService = new CalculateService();
+		assertEquals(1, calculateService.divide(1, 1, 0));
+
 	}
 
 	@Test
@@ -45,7 +45,8 @@ public class CalculateServiceTest {
 
 	@Test
 	public void testSquare() {
-		fail("Not yet implemented");
+		CalculateService calculateService = new CalculateService();
+		assertEquals(4, calculateService.square(2));
 	}
 
 	@Test
