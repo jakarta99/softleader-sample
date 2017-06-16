@@ -1,4 +1,4 @@
-package tw.com.softleader.samle.color;
+package tw.com.softleader.sample.color;
 
 /**
  * 
