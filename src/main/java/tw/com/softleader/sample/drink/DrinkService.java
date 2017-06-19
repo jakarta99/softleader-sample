@@ -2,8 +2,6 @@ package tw.com.softleader.sample.drink;
 
 import java.util.Arrays;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import tw.com.softleader.sample.commons.GenericService;
 
 /**
@@ -29,7 +27,14 @@ public class DrinkService implements GenericService {
 
 	@Override
 	public void insert(String data) {
-		drinks = ArrayUtils.add(drinks, data);
+		String[] newArray = new String[drinks.length+1];
+		for(int i = 0; i< drinks.length; i++) {
+			newArray[i] = drinks[i];
+		}
+		newArray[newArray.length-1] = data;
+		
+		drinks = newArray;
+		
 	}
 
 	@Override
@@ -39,7 +44,18 @@ public class DrinkService implements GenericService {
 
 	@Override
 	public void delete(String data) {
-		drinks = ArrayUtils.removeElement(drinks, data);
+		
+		String[] newArray = new String[drinks.length-1];
+		int newArrayIndex = 0;
+		for(int i = 0; i< drinks.length; i++) {
+			if(!drinks[i].equals(data)) {
+				newArray[newArrayIndex] = drinks[i];
+				newArrayIndex++;
+			}
+		}
+		
+		drinks = newArray;
+		
 	}
 	
 
