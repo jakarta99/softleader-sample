@@ -2,6 +2,8 @@ package tw.com.softleader.sample.color;
 
 import java.util.Collection;
 
+import java.util.List;
+
 import tw.com.softleader.sample.commons.GenericService;
 
 /**
@@ -18,7 +20,7 @@ public class ColorService implements GenericService<Color> {
 	}
 
 	@Override
-	public Collection<Color> getAll() {
+	public List<Color> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -36,7 +38,7 @@ public class ColorService implements GenericService<Color> {
 	}
 
 	@Override
-	public void delete(Color data) {
+	public void delete(int data) {
 		// TODO Auto-generated method stub
 		
 	}
