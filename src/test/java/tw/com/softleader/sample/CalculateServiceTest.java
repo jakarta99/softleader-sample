@@ -1,7 +1,7 @@
 package tw.com.softleader.sample;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+//import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ public class CalculateServiceTest {
 	@Test
 	public void testDivide() {
 		CalculateService calculateService = new CalculateService();
-		assertEquals(1, calculateService.divide(1, 1, 0));
+		assertEquals(1, calculateService.divide(1, 1), 0);
 
 	}
 
