@@ -1,17 +1,15 @@
 package tw.com.softleader.sample.commons;
 
-import java.util.Collection;
+public interface GenericService {
 
-public interface GenericService<T> {
-
-	public T getOne(int id);
+	public String getOne(int id);
 	
-	public Collection<T> getAll();
+	public String[] getAll();
 	
-	public void insert(T data);
+	public void insert(String data);
 	
-	public void update(T data);
+	public void update(String data, int id);
 	
-	public void delete(T data);
+	public void delete(String data);
 	
 }

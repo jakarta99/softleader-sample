@@ -1,8 +1,6 @@
 package tw.com.softleader.sample.drink;
 
-import java.util.Collection;
-
-import org.apache.commons.lang3.ArrayUtils;
+import java.util.Arrays;
 
 import tw.com.softleader.sample.commons.GenericService;
 
@@ -13,38 +11,53 @@ import tw.com.softleader.sample.commons.GenericService;
  * @author Gary Lee
  *
  */
-public class DrinkService implements GenericService<Drink> {
+public class DrinkService implements GenericService {
 
+	private String[] drinks = {"coffee", "tea", "juice"};
+	
 	@Override
-	public Drink getOne(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public String[] getAll() {
+		return drinks;
 	}
 
 	@Override
-	public Collection<Drink> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getOne(int id) {
+		return drinks[id];
 	}
 
 	@Override
-	public void insert(Drink data) {
-		// TODO Auto-generated method stub
+	public void insert(String data) {
+		String[] newArray = new String[drinks.length+1];
+		for(int i = 0; i< drinks.length; i++) {
+			newArray[i] = drinks[i];
+		}
+		newArray[newArray.length-1] = data;
+		
+		drinks = newArray;
 		
 	}
 
 	@Override
-	public void update(Drink data) {
-		// TODO Auto-generated method stub
-		
+	public void update(String data, int id) {
+		drinks[id] = data;
 	}
 
 	@Override
-	public void delete(Drink data) {
-		// TODO Auto-generated method stub
+	public void delete(String data) {
+		
+		String[] newArray = new String[drinks.length-1];
+		int newArrayIndex = 0;
+		for(int i = 0; i< drinks.length; i++) {
+			if(!drinks[i].equals(data)) {
+				newArray[newArrayIndex] = drinks[i];
+				newArrayIndex++;
+			}
+		}
+		
+		drinks = newArray;
 		
 	}
-
+	
 
 	
 	
