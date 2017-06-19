@@ -5,13 +5,41 @@ import org.junit.Test;
 import tw.com.softleader.sample.country.CountryService;
 
 public class CountryServiceTest {
-	@Test
-	public void countryServiceTest() {
-		CountryService countryService = new CountryService();
-		String[] country = countryService.getAll();
 
-		assertEquals("Taiwan", country[0]);
-		assertEquals("Thailand", country[1]);
-		assertEquals("Japan", country[2]);
+	private CountryService countryService = new CountryService();
+
+	@Test
+	public void testGetAll() {
+		// countryService.getAll();
 	}
+
+	@Test
+	public void testGetOne() {
+		assertEquals("Taiwan", countryService.getOne(0));
+	}
+
+	@Test
+	public void testInsertAndTestUpdateAndTestDelete() {
+		countryService.insert("HongKong");
+		for (String country : countryService.getAll()) {
+			System.out.println(country);
+		}
+		assertEquals("HongKong", countryService.getOne(3));
+		System.out.println("-----------------------");
+
+		countryService.update("Singapore", 3);
+		for (String country : countryService.getAll()) {
+			System.out.println(country);
+		}
+		assertEquals("Singapore", countryService.getOne(3));
+		System.out.println("-----------------------");
+		countryService.delete("Singapore");
+
+		for (String country : countryService.getAll()) {
+			System.out.println(country);
+		}
+
+		assertEquals(3, countryService.getAll().length);
+	}
+
 }
