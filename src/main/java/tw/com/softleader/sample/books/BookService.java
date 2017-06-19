@@ -1,10 +1,13 @@
 package tw.com.softleader.sample.books;
 
-public class BookService {
-	String[] books = { "Harry Porter", "The Da Vinci Code", "Angels & Demons" };
+import tw.com.softleader.sample.commons.GenericService;
 
+public class BookService implements GenericService {
+
+	@Override
 	public String[] getAll() {
-		return books;	
+		String[] books = { "Harry Porter", "The Da Vinci Code", "Angels & Demons" };
+		return books;
 	}
 
 }
