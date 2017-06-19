@@ -1,7 +1,5 @@
 package tw.com.softleader.sample.drink;
 
-import java.util.Arrays;
-
 import org.apache.commons.lang3.ArrayUtils;
 
 import tw.com.softleader.sample.commons.GenericService;
