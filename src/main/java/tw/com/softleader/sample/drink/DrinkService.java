@@ -11,35 +11,8 @@ import tw.com.softleader.sample.commons.GenericService;
  * @author Gary Lee
  *
  */
-public class DrinkService implements GenericService {
+public class DrinkService implements GenericService<Drink> {
 
-	private String[] drinks = {"coffee", "tea", "juice"};
-	
-	@Override
-	public String[] getAll() {
-		return drinks;
-	}
-
-	@Override
-	public String getOne(int id) {
-		return drinks[id];
-	}
-
-	@Override
-	public void insert(String data) {
-		drinks = ArrayUtils.add(drinks, data);
-	}
-
-	@Override
-	public void update(String data, int id) {
-		drinks[id] = data;
-	}
-
-	@Override
-	public void delete(String data) {
-		drinks = ArrayUtils.removeElement(drinks, data);
-	}
-	
 
 	
 	
