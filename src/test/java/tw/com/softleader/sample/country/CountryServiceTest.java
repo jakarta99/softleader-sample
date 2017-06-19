@@ -1,10 +1,7 @@
 package tw.com.softleader.sample.country;
 
 import static org.junit.Assert.assertEquals;
-//import static org.junit.Assert.fail;
 import org.junit.Test;
-
-import tw.com.softleader.sample.books.BookService;
 import tw.com.softleader.sample.country.CountryService;
 
 public class CountryServiceTest {
