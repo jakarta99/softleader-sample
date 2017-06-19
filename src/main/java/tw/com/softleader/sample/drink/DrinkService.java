@@ -1,6 +1,7 @@
 package tw.com.softleader.sample.drink;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import tw.com.softleader.sample.commons.GenericService;
 
@@ -11,53 +12,63 @@ import tw.com.softleader.sample.commons.GenericService;
  * @author Gary Lee
  *
  */
-public class DrinkService implements GenericService {
+public class DrinkService implements GenericService<Drink> {
 
-	private String[] drinks = {"coffee", "tea", "juice"};
+	private List<Drink> drinks = new ArrayList<Drink>();
+	
+	public DrinkService() {
+
+		Drink drink1 = new Drink();
+		drink1.setId(1);
+		drink1.setName("coffee");
+		drink1.setColor("black");
+		
+		Drink drink2 = new Drink();
+		drink2.setId(2);
+		drink2.setName("juice");
+		drink2.setColor("orange");
+		
+		Drink drink3 = new Drink();
+		drink3.setId(3);
+		drink3.setName("tea");
+		drink3.setColor("brown");
+		
+		drinks.add(drink1);
+		drinks.add(drink2);
+		drinks.add(drink3);
+	}
+	
 	
 	@Override
-	public String[] getAll() {
+	public Drink getOne(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Drink> getAll() {
+		
 		return drinks;
 	}
 
 	@Override
-	public String getOne(int id) {
-		return drinks[id];
-	}
-
-	@Override
-	public void insert(String data) {
-		String[] newArray = new String[drinks.length+1];
-		for(int i = 0; i< drinks.length; i++) {
-			newArray[i] = drinks[i];
-		}
-		newArray[newArray.length-1] = data;
-		
-		drinks = newArray;
+	public void insert(Drink data) {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void update(String data, int id) {
-		drinks[id] = data;
+	public void update(Drink data) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public void delete(String data) {
-		
-		String[] newArray = new String[drinks.length-1];
-		int newArrayIndex = 0;
-		for(int i = 0; i< drinks.length; i++) {
-			if(!drinks[i].equals(data)) {
-				newArray[newArrayIndex] = drinks[i];
-				newArrayIndex++;
-			}
-		}
-		
-		drinks = newArray;
+	public void delete(int id) {
+		// TODO Auto-generated method stub
 		
 	}
-	
+
 
 	
 	

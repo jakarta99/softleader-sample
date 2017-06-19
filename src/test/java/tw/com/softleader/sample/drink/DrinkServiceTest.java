@@ -1,8 +1,9 @@
 package tw.com.softleader.sample.drink;
 
-import static org.junit.Assert.fail;
+import java.util.List;
 
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 
 public class DrinkServiceTest {
@@ -11,37 +12,15 @@ public class DrinkServiceTest {
 
 	@Test
 	public void testGetAll() {
-		//drinkService.getAll();
+		List<Drink> drinks = drinkService.getAll();
+		
+		assertEquals(drinks.get(0).getName(), "coffee");
+		assertEquals(drinks.get(0).getColor(), "black");
+		
 	}
 
-	@Test
-	public void testGetOne() {
-		assertEquals("coffee", drinkService.getOne(0));
-	}
 
-	@Test
-	public void testInsertAndTestUpdateAndTestDelete() {
-		drinkService.insert("milk");
-		for(String drink:drinkService.getAll()) {
-			System.out.println(drink);
-		}
-		assertEquals("milk", drinkService.getOne(3));
-		System.out.println("-----------------------");
-		
-		drinkService.update("water", 3);
-		for(String drink:drinkService.getAll()) {
-			System.out.println(drink);
-		}
-		assertEquals("water", drinkService.getOne(3));
-		System.out.println("-----------------------");
-		drinkService.delete("water");
-		
-		for(String drink:drinkService.getAll()) {
-			System.out.println(drink);
-		}
-		
-		assertEquals(3, drinkService.getAll().length);
-	}
+
 
 	
 }
