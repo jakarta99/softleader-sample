@@ -33,9 +33,11 @@ public class BookService implements GenericService {
 	@Override
 	public void delete(String data) {
 		String[] newbooks=new String[books.length-1];
+		int newbooksIndex=0;
 		for (int i = 0; i < books.length; i++) {
 			if (!books[i].equals(data)) {
-				newbooks[i]=books[i];
+				newbooks[newbooksIndex]=books[i];
+				newbooksIndex++;
 			}
 		}
 
