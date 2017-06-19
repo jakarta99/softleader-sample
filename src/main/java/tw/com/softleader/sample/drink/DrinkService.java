@@ -1,6 +1,6 @@
 package tw.com.softleader.sample.drink;
 
-import java.util.Arrays;
+import java.util.Collection;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -13,35 +13,38 @@ import tw.com.softleader.sample.commons.GenericService;
  * @author Gary Lee
  *
  */
-public class DrinkService implements GenericService {
+public class DrinkService implements GenericService<Drink> {
 
-	private String[] drinks = {"coffee", "tea", "juice"};
-	
 	@Override
-	public String[] getAll() {
-		return drinks;
+	public Drink getOne(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public String getOne(int id) {
-		return drinks[id];
+	public Collection<Drink> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public void insert(String data) {
-		drinks = ArrayUtils.add(drinks, data);
+	public void insert(Drink data) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public void update(String data, int id) {
-		drinks[id] = data;
+	public void update(Drink data) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public void delete(String data) {
-		drinks = ArrayUtils.removeElement(drinks, data);
+	public void delete(Drink data) {
+		// TODO Auto-generated method stub
+		
 	}
-	
+
 
 	
 	
