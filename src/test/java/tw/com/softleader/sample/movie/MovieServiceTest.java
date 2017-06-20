@@ -66,7 +66,7 @@ public class MovieServiceTest {
 
 	@Test
 	public void testDelete() {
-		movieService.delete(4);
+		movieService.delete(3);
 		assertEquals(movieService.getAll().contains("Silence of the lambs"), false);
 	}
 
