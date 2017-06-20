@@ -8,10 +8,10 @@ import org.junit.Test;
 
 public class BookServiceTest {
 	private BookService bookService = new BookService();
+	List<Book> books = bookService.getAll();
 
 	@Test
 	public void testGetAll() {
-		List<Book> books = bookService.getAll();
 
 		assertEquals(books.get(0).getId(), 1);
 		assertEquals(books.get(0).getName(), "Harry Potter");
@@ -27,7 +27,7 @@ public class BookServiceTest {
 
 	@Test
 	public void testInsert() {
-		List<Book> books = bookService.getAll();
+
 		Book book = new Book();
 		book.setId(4);
 		book.setName("Digital Fortress");
@@ -42,7 +42,7 @@ public class BookServiceTest {
 
 	@Test
 	public void update() {
-		List<Book> books = bookService.getAll();
+
 		Book book = new Book();
 		book.setId(3);
 		book.setName("Inferno");
@@ -57,7 +57,7 @@ public class BookServiceTest {
 
 	@Test
 	public void testDelete() {
-		List<Book> books = bookService.getAll();
+
 		bookService.delete(1);
 		assertEquals(books.get(0).getId(), 1);
 		assertEquals(books.get(0).getName(), "Harry Potter");
