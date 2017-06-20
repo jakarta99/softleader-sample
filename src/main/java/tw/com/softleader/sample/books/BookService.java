@@ -33,7 +33,8 @@ public class BookService implements GenericService<Book> {
 
 	@Override
 	public Book getOne(int id) {
-		return null;
+		Book book = books.get(id);
+		return book;
 	}
 
 	@Override

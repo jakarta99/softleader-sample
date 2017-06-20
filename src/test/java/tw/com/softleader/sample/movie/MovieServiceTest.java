@@ -2,23 +2,27 @@ package tw.com.softleader.sample.movie;
 
 import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.fail;
+import java.util.List;
 
 import org.junit.Test;
 
-import tw.com.softleader.sample.movie.MovieService;
-
 public class MovieServiceTest {
+	
+	private MovieService movieService = new MovieService();
 
 	@Test
-	public void testString() {
-		MovieService movieService = new MovieService();
-		String[] movies = movieService.getAll();
-		assertEquals("Captain of America", movies[0]);
-		assertEquals("Silence of the lambs", movies[1]);
-		assertEquals("King Arthor legend of the sword", movies[2]);
-		assertEquals("Crimson Peak", movies[3]);
-		assertEquals("The Godfather", movies[4]);
-
+	public void testGetMovie() {
+		List<Movie> movies = movieService.getAll();
+		
+		assertEquals(movies.get(0).getName(),"Captain of America");
+		assertEquals(movies.get(0).getPrice(),"100");
+		assertEquals(movies.get(1).getName(),"Silence of the lambs");
+		assertEquals(movies.get(1).getPrice(),"200");
+		assertEquals(movies.get(2).getName(),"King Arthor legend of the sword");
+		assertEquals(movies.get(2).getPrice(),"300");
+		assertEquals(movies.get(3).getName(),"Crimson Peak");
+		assertEquals(movies.get(3).getPrice(),"400");
+		assertEquals(movies.get(4).getName(),"The Godfather");
+		assertEquals(movies.get(4).getPrice(),"500");
 	}
 }
