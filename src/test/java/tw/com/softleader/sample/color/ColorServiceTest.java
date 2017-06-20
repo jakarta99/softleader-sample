@@ -29,12 +29,17 @@ public class ColorServiceTest {
 	
 	@Test
 	public void testInsertAndTestUpdateAndTestDelete() {
-//		colorService.insert("milk");
-//		for(String drink:colorService.getAll()) {
+		Color newColor = new Color();
+		newColor.setId(3);
+		newColor.setName("white");
+		newColor.setCode("FFFFFF");
+		
+		colorService.insert(newColor);
+//		for(String color:colorService.getAll()) {
 //			System.out.println(drink);
 //		}
-//		assertEquals("milk", colorService.getOne(3));
-//		System.out.println("-----------------------");
+		assertEquals("white", colorService.getOne(2).getName());
+		System.out.println("-----------------------");
 //		
 //		colorService.update("water", 3);
 //		for(String drink:colorService.getAll()) {
