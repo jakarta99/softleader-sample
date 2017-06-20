@@ -11,7 +11,7 @@ public class BookServiceTest {
 	List<Book> books = bookService.getAll();
 
 	@Test
-	public void getOne() {
+	public void testGetOne() {
 		Book book = bookService.getOne(2);
 		assertEquals(book.getId(), 3);
 		assertEquals(book.getName(), "The Da Vinci Code");
