@@ -1,6 +1,12 @@
 package tw.com.softleader.sample.books;
 
 public class Book {
+	private int id;
+
+	private String name;
+
+	private String type;
+
 	public int getId() {
 		return id;
 	}
@@ -25,13 +31,4 @@ public class Book {
 		this.type = type;
 	}
 
-	private int id;
-	
-	private String name;
-	
-	private String type;
-
-
-	
 }
-
