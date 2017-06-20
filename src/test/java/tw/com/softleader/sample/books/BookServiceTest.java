@@ -40,9 +40,7 @@ public class BookServiceTest {
 		book.setId(4);
 		book.setName("Digital Fortress");
 		book.setType("suspenseful");
-
 		bookService.insert(book);
-
 		assertEquals(books.get(3).getId(), 4);
 		assertEquals(books.get(3).getName(), "Digital Fortress");
 		assertEquals(books.get(3).getType(), "suspenseful");
@@ -55,9 +53,7 @@ public class BookServiceTest {
 		book.setId(3);
 		book.setName("Inferno");
 		book.setType("secared");
-
 		bookService.update(book);
-
 		assertEquals(books.get(2).getId(), 3);
 		assertEquals(books.get(2).getName(), "Inferno");
 		assertEquals(books.get(2).getType(), "secared");
@@ -65,14 +61,9 @@ public class BookServiceTest {
 
 	@Test
 	public void testDelete() {
-
+		Book book = books.get(1);
 		bookService.delete(1);
-		assertEquals(books.get(0).getId(), 1);
-		assertEquals(books.get(0).getName(), "Harry Potter");
-		assertEquals(books.get(0).getType(), "magic");
-		assertEquals(books.get(1).getId(), 3);
-		assertEquals(books.get(1).getName(), "The Da Vinci Code");
-		assertEquals(books.get(1).getType(), "mysterious");
+		assertEquals(books.contains(book), false);
 
 	}
 
