@@ -26,23 +26,20 @@ public class CountryServiceTest {
 
 	@Test
 	public void testInsertAndTestUpdateAndTestDelete() {
-
+		
 		Country newCountry = new Country();
 		newCountry.setName("Hong Kong");
 		newCountry.setId(countries.size() + 1);
 		countryService.insert(newCountry);
 		assertEquals(countries.get(3).getName(), "Hong Kong");
-		System.out.println(countries.get(3).getName());
 
 		Country update = new Country();
 		update.setName("Korea");
 		countryService.update(update);
 		assertEquals(countryService.getOne(3).getName(), "Korea");
-		System.out.println(countryService.getOne(3).getName());
 
-		countryService.delete(countries.size() - 1);
+		countryService.delete(3);
 		assertEquals(countries.size(), 3);
-		System.out.println(countries.size());
-
+		
 	}
 }
