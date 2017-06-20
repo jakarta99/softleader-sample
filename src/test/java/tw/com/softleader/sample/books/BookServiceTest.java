@@ -49,7 +49,7 @@ public class BookServiceTest {
 	}
 
 	@Test
-	public void update() {
+	public void testUpdate() {
 
 		Book book = new Book();
 		book.setId(3);
