@@ -1,7 +1,6 @@
 package tw.com.softleader.sample.sports;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import tw.com.softleader.sample.commons.GenericService;
@@ -57,13 +56,6 @@ public class SportsService implements GenericService<Sport> {
 	@Override
 	public void delete(int id) {
 		sports.remove(id);
-
-	}
-
-	public static void main(String[] args) {
-
-		SportsService test1 = new SportsService();
-		System.out.println(test1.getOne(1).getName());
 
 	}
 
