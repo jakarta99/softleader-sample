@@ -1,9 +1,9 @@
-package tw.com.softleader.sample.country;
+package tw.com.softleader.sample.fruit;
 
-public class Country {
+public class Fruit {
 	private int id;
 	private String name;
-	private String size;
+	private String color;
 
 	public int getId() {
 		return id;
@@ -21,12 +21,12 @@ public class Country {
 		this.name = name;
 	}
 
-	public String getSize() {
-		return size;
+	public String getColor() {
+		return color;
 	}
 
-	public void setSize(String size) {
-		this.size = size;
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 }

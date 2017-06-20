@@ -1,45 +1,51 @@
 package tw.com.softleader.sample.country;
 
 import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
-import tw.com.softleader.sample.country.CountryService;
+import tw.com.softleader.sample.country.*;
 
 public class CountryServiceTest {
-
-	private CountryService countryService = new CountryService();
-
+	CountryService countryService = new CountryService();
+	private List<Country> countries = new ArrayList<Country>();
+		List<Country> HongKong=null,Singapore=null,Taiwan=null,Japan=null,Malaysia=null;
 	@Test
 	public void testGetAll() {
-		// countryService.getAll();
+		assertEquals((Country)Taiwan,countryService.getOne(0));
+		assertEquals((Country)Japan,countryService.getOne(1));
+		assertEquals((Country)Malaysia,countryService.getOne(2));
 	}
 
 	@Test
 	public void testGetOne() {
-		assertEquals("Taiwan", countryService.getOne(0));
+		assertEquals((Country)Taiwan, countryService.getOne(0));
 	}
 
 	@Test
-	public void testInsertAndTestUpdateAndTestDelete() {
-		countryService.insert("HongKong");
-		for (String country : countryService.getAll()) {
-			System.out.println(country);
+	public void testInsertAndTestUpdateAndTestDelete()throws Exception {
+
+
+
+		countries.add((Country) HongKong);
+		for (Country print:countries) {
+			System.out.println(print);
 		}
 		assertEquals("HongKong", countryService.getOne(3));
 		System.out.println("-----------------------");
 
-		countryService.update("Singapore", 3);
-		for (String country : countryService.getAll()) {
-			System.out.println(country);
+		countryService.update((Country)Singapore);
+		for (Country print:countries) {
+			System.out.println(print);
 		}
 		assertEquals("Singapore", countryService.getOne(3));
 		System.out.println("-----------------------");
-		countryService.delete("Singapore");
-
-		for (String country : countryService.getAll()) {
-			System.out.println(country);
+		countryService.delete(3);
+		for (Country print:countries) {
+			System.out.println(print);
 		}
-
-		assertEquals(3, countryService.getAll().length);
+		assertEquals(3, countries.size());
 	}
 
 }
