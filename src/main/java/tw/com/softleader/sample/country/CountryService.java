@@ -1,8 +1,6 @@
 package tw.com.softleader.sample.country;
 
 import java.util.*;
-//import org.apache.commons.lang3.*;
-
 import tw.com.softleader.sample.commons.GenericService;
 
 public class CountryService implements GenericService<Country> {
@@ -10,6 +8,7 @@ public class CountryService implements GenericService<Country> {
 	private List<Country> countries = new ArrayList<Country>();
 
 	public CountryService() {
+
 		Country country1 = new Country();
 		country1.setId(1);
 		country1.setName("Taiwan");
@@ -28,19 +27,16 @@ public class CountryService implements GenericService<Country> {
 		countries.add(country1);
 		countries.add(country2);
 		countries.add(country3);
-
 	}
 
 	@Override
 	public Country getOne(int id) {
-		return countries.get(id);			
-
-
+		return countries.get(id);
 	}
 
 	@Override
 	public List<Country> getAll() {
-		return ;
+		return countries;
 	}
 
 	@Override
@@ -56,12 +52,6 @@ public class CountryService implements GenericService<Country> {
 	@Override
 	public void delete(int id) {
 		countries.remove(id);
-	}
-
-	public static void main() {
-		CountryService abc = new CountryService();
-		System.out.println(abc.getOne(1));
-		System.out.println(abc.getAll());
 
 	}
 }
