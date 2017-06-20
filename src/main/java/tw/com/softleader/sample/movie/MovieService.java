@@ -33,7 +33,7 @@ public class MovieService implements GenericService<Movie> {
 		movies5.setId(5);
 		movies5.setName("The Godfather");
 		movies5.setPrice("500");
-		
+
 		movies.add(movies1);
 		movies.add(movies2);
 		movies.add(movies3);
@@ -52,20 +52,17 @@ public class MovieService implements GenericService<Movie> {
 	}
 
 	@Override
-	public void insert(Movie movies) {
-		movies.setId(5);
-		movies.setName("Transformers:The Last Knight");
-		movies.setPrice("600");
+	public void insert(Movie data) {
+		movies.add(data);
 	}
 
 	@Override
-	public void update(Movie movies) {
-		movies.setName("The Godfather2");
-		movies.setPrice("550");
+	public void update(Movie data) {
+		movies.set(data.getId() - 1, data);
 	}
 
 	@Override
 	public void delete(int id) {
-		movies.remove(5);
+		movies.remove(id);
 	}
 }
