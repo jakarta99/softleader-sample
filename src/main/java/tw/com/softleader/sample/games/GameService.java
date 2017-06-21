@@ -48,7 +48,7 @@ public class GameService implements GenericService<Game> {
 
 	@Override
 	public void update(Game data) {
-		games.set(3, data);
+		games.set(4, data);
 
 	}
 
