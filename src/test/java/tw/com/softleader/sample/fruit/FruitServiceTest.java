@@ -1,19 +1,58 @@
 package tw.com.softleader.sample.fruit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.util.List;
 
 import org.junit.Test;
 
 public class FruitServiceTest {
-	
-	@SuppressWarnings("deprecation")
+	private FruitService fruitservice = new FruitService();
+	List<Fruit> fruitsss = fruitservice.getAll();
+
 	@Test
-	public void fruitServiceTest() {
-		String[] compair = {"西瓜","蘋果","芭樂","柳丁","橘子" };
-		FruitService fruitService = new FruitService();
-			assertEquals(compair, fruitService.getAll());
-		
+	public void testGetAll() {
+		assertEquals(fruitsss.get(0).getId(), 1);
+		assertEquals(fruitsss.get(0).getName(), "apple");
+		assertEquals(fruitsss.get(0).getColor(), "red");
+		assertEquals(fruitsss.get(1).getId(), 2);
+		assertEquals(fruitsss.get(1).getName(), "pineapple");
+		assertEquals(fruitsss.get(1).getColor(), "yellow");
+		assertEquals(fruitsss.get(2).getId(), 3);
+		assertEquals(fruitsss.get(2).getName(), "kiwi");
+		assertEquals(fruitsss.get(2).getColor(), "green");
 	}
 
+	@Test
+	public void testgetOne() {
+		Fruit fruits = fruitservice.getOne(0);
+
+		assertEquals(fruits.getId(), 1);
+		assertEquals(fruits.getName(), "apple");
+		assertEquals(fruits.getColor(), "red");
+
+		// assertEquals(fruits.getName(), "pineapple");
+
+	}
+
+	@Test
+	public void testinsertupdatadelete() {
+		Fruit fruits = new Fruit();
+		fruits.setId(4);
+		fruits.setName("coconut");
+		fruits.setColor("white");
+		fruitservice.insert(fruits);
+		assertEquals(fruitsss.get(3).getColor(), "white");
+
+		Fruit fruitss = new Fruit();
+		fruitss.setId(4);
+		fruitss.setName("cherry");
+		fruitss.setColor("black");
+		fruitservice.update(fruitss);
+		assertEquals(fruitsss.get(3).getColor(), "black");
+
+		fruitservice.delete(3);
+		assertEquals(fruitsss.size(), 3);
+	}
 
 }
