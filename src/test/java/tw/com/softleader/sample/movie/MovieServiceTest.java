@@ -9,7 +9,8 @@ import org.junit.Test;
 public class MovieServiceTest {
 
 	private MovieService movieService = new MovieService();
-		List<Movie> movies = movieService.getAll();
+	List<Movie> movies = movieService.getAll();
+
 	@Test
 	public void testGetAll() {
 
@@ -29,13 +30,13 @@ public class MovieServiceTest {
 		assertEquals(movies.get(4).getName(), "The Godfather");
 		assertEquals(movies.get(4).getPrice(), "500");
 	}
-	
+
 	@Test
 	public void testGetOne() {
 		Movie movie = movieService.getOne(1);
-		assertEquals(movie.getId(),2);
-		assertEquals(movie.getName(),"Silence of the lambs");
-		assertEquals(movie.getPrice(),"200");
+		assertEquals(movie.getId(), 2);
+		assertEquals(movie.getName(), "Silence of the lambs");
+		assertEquals(movie.getPrice(), "200");
 	}
 
 	@Test
@@ -46,29 +47,29 @@ public class MovieServiceTest {
 		movie.setPrice("600");
 
 		movieService.insert(movie);
-		assertEquals(movie.getId(),6);
+		assertEquals(movie.getId(), 6);
 		assertEquals(movie.getName(), "Transformers:The Last Knight");
 		assertEquals(movie.getPrice(), "600");
 	}
-	
+
 	@Test
 	public void testUpdate() {
 		Movie movie = new Movie();
 		movie.setId(5);
 		movie.setName("The Godfather2");
 		movie.setPrice("550");
-		
+
 		movieService.update(movie);
-		assertEquals(movie.getId(),5);
-		assertEquals(movie.getName(),"The Godfather2");
-		assertEquals(movie.getPrice(),"550");
+		assertEquals(movie.getId(), 5);
+		assertEquals(movie.getName(), "The Godfather2");
+		assertEquals(movie.getPrice(), "550");
 	}
 
 	@Test
 	public void testDelete() {
 		Movie movie = movies.get(1);
 		movieService.delete(1);
-		assertEquals(movies.contains(movie),false);
+		assertEquals(movies.contains(movie), false);
 	}
 
 }
