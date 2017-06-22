@@ -1,6 +1,5 @@
 package tw.com.softleader.sample.games;
 
-
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
@@ -25,8 +24,8 @@ public class GameServiceTest {
 	@Test
 	public void testGetAll() {
 
-		//GameService games = new GameService();
-		// gameService.getAll();
+		// GameService games = new GameService();
+		//gameService.getAll();
 		assertEquals("Destiny2", game.get(0).getName());
 		assertEquals(1, game.get(0).getId());
 		assertEquals("Fps", game.get(0).getType());
@@ -49,6 +48,7 @@ public class GameServiceTest {
 		game4.setId(a);
 		game4.setName(b);
 		game4.setType(c);
+		games.insert(game4);
 		assertEquals(4, game4.getId());
 		assertEquals(b, game4.getName());
 		assertEquals(c, game4.getType());
@@ -59,26 +59,27 @@ public class GameServiceTest {
 	public void testUpdate() {
 		GameService games = new GameService();
 		Game gaming = new Game();
-		int aa = 1;
+		int aa = 5;
 		String bb = "LOL";
 		String cc = "MOBA";
 		gaming.setId(aa);
 		gaming.setName(bb);
 		gaming.setType(cc);
-		gameService.update(gaming);
-		
-		assertEquals(aa, gameService.getOne(0).getId());
-		assertEquals(bb, gameService.getOne(0).getName());
-		assertEquals(cc, gameService.getOne(0).getType());
+
+		games.update(gaming);
+
+		assertEquals(aa, gaming.getId());
+		assertEquals(bb, gaming.getName());
+		assertEquals(cc, gaming.getType());
 	}
 
 	@Test
 	public void testDelete() {
-		//GameService games = new GameService();
-		game.remove(0);
-		assertEquals("Witcher3", game.get(0).getName());
-		assertEquals("Rpg", game.get(0).getType());
-		assertEquals(2, game.get(0).getId());
+		 GameService games = new GameService();
+		games.delete(1);
+		assertEquals("Witcher3", game.get(1).getName());
+		assertEquals("Rpg", game.get(1).getType());
+		assertEquals(1, game.get(0).getId());
 	}
 
 }
