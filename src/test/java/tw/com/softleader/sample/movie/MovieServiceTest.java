@@ -33,8 +33,10 @@ public class MovieServiceTest {
 
 	@Test
 	public void testGetOne() {
-		assertEquals(movies.get(1).getName(), "Silence of the lambs");
-		assertEquals(movies.get(1).getPrice(), "200");
+		Movie movies = movieService.getOne(1);
+		assertEquals(movies.getId(),2);
+		assertEquals(movies.getName(), "Silence of the lambs");
+		assertEquals(movies.getPrice(), "200");
 	}
 
 	@Test
