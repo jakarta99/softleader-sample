@@ -31,7 +31,12 @@ public class CountryService implements GenericService<Country> {
 
 	@Override
 	public Country getOne(int id) {
-		return countries.get(id);
+		for (int i = 0; i < countries.size(); i++) {
+			if (countries.get(i).getId() == id) {
+				return countries.get(i);
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -46,12 +51,21 @@ public class CountryService implements GenericService<Country> {
 
 	@Override
 	public void update(Country data) {
-		countries.set(3, data);
+		for (int i = 0; i < countries.size(); i++) {
+			if (countries.get(i).getId() == data.getId()) {
+				countries.get(i).setName(data.getName());
+				countries.get(i).setSize(data.getSize());
+				countries.get(i).setId(data.getId());
+			}
+		}
 	}
 
 	@Override
 	public void delete(int id) {
-		countries.remove(id);
-
+		for (int i = 0; i < countries.size(); i++) {
+			if (countries.get(i).getId() == id) {
+				countries.remove(i);
+			}
+		}
 	}
 }

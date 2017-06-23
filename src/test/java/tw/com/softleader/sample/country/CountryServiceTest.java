@@ -1,7 +1,9 @@
 package tw.com.softleader.sample.country;
 
+import static org.junit.Assert.*;
+
 import java.util.List;
-import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 public class CountryServiceTest {
@@ -12,34 +14,57 @@ public class CountryServiceTest {
 	@Test
 	public void testGetAll() {
 
-		assertEquals(countries.get(0).getName(), "Taiwan");
-		assertEquals(countries.get(1).getName(), "Japan");
-		assertEquals(countries.get(2).getName(), "Malaysia");
+		assertEquals(countryService.getOne(1).getName(), "Taiwan");
+		assertEquals(countryService.getOne(1).getId(), 1);
+		assertEquals(countryService.getOne(1).getSize(), "Small");
+
+		assertEquals(countryService.getOne(2).getName(), "Japan");
+		assertEquals(countryService.getOne(2).getId(), 2);
+		assertEquals(countryService.getOne(2).getSize(), "Medium");
+
+		assertEquals(countryService.getOne(3).getName(), "Malaysia");
+		assertEquals(countryService.getOne(3).getId(), 3);
+		assertEquals(countryService.getOne(3).getSize(), "Big");
+
 	}
 
 	@Test
 	public void testGetOne() {
 
-		int i = 0;
-		assertEquals(countryService.getOne(i).getName(), "Taiwan");
+		assertEquals(countryService.getOne(1).getName(), "Taiwan");
+		assertEquals(countryService.getOne(1).getId(), 1);
+		assertEquals(countryService.getOne(1).getSize(), "Small");
+
 	}
 
 	@Test
 	public void testInsertAndTestUpdateAndTestDelete() {
-		
+
 		Country newCountry = new Country();
 		newCountry.setName("Hong Kong");
 		newCountry.setId(countries.size() + 1);
+		newCountry.setSize("Tiny");
+
 		countryService.insert(newCountry);
-		assertEquals(countries.get(3).getName(), "Hong Kong");
+		assertEquals(countryService.getOne(4).getName(), "Hong Kong");
+		assertEquals(countryService.getOne(4).getId(), 4);
+		assertEquals(countryService.getOne(4).getSize(), "Tiny");
+		assertEquals(countries.size(), 4);
 
 		Country update = new Country();
 		update.setName("Korea");
-		countryService.update(update);
-		assertEquals(countryService.getOne(3).getName(), "Korea");
+		update.setSize("Medium");
+		update.setId(4);
+		update.setId(newCountry.getId());
 
-		countryService.delete(3);
+		countryService.update(update);
+		assertEquals(countryService.getOne(4).getName(), "Korea");
+		assertEquals(countryService.getOne(4).getId(), 4);
+		assertEquals(countryService.getOne(4).getSize(), "Medium");
+		assertEquals(countries.size(), 4);
+
+		countryService.delete(4);
 		assertEquals(countries.size(), 3);
-		
+
 	}
 }
