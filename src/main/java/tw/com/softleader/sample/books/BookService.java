@@ -22,7 +22,7 @@ public class BookService implements GenericService<Book> {
 		book2.setType("religious");
 
 		Book book3 = new Book();
-		book3.setId(3);
+		book3.setId(19);
 		book3.setName("The Da Vinci Code");
 		book3.setType("mysterious");
 
@@ -33,8 +33,12 @@ public class BookService implements GenericService<Book> {
 
 	@Override
 	public Book getOne(int id) {
-		Book book = books.get(id);
-		return book;
+		for (int i = 0; i < books.size(); i++) {
+			if (books.get(i).getId() == id) {
+				return books.get(i);
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -49,12 +53,20 @@ public class BookService implements GenericService<Book> {
 
 	@Override
 	public void update(Book data) {
-		books.set(data.getId() - 1, data);
+		for (int i = 0; i < books.size(); i++) {
+			if (data.getId() == books.get(i).getId()) {
+				books.set(i, data);
+			}
+		}
 	}
 
 	@Override
 	public void delete(int id) {
-		books.remove(id);
+		for(int i=0;i<books.size();i++){
+			if(books.get(i).getId()==id){
+				books.remove(i);
+			}
+		}
 	}
 
 }
