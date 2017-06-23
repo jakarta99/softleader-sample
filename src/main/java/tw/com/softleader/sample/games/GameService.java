@@ -2,7 +2,7 @@ package tw.com.softleader.sample.games;
 
 import java.util.ArrayList;
 import java.util.List;
-//
+
 public class GameService implements GenericService<Game> {
 
 	private List<Game> games = new ArrayList<Game>();
@@ -31,8 +31,12 @@ public class GameService implements GenericService<Game> {
 
 	@Override
 	public Game getOne(int id) {
-		return games.get(id);
-
+		for (int i = 0; i < games.size(); i++) {
+			if (games.get(i).getId() == id) {
+				return games.get(i);
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -48,14 +52,23 @@ public class GameService implements GenericService<Game> {
 
 	@Override
 	public void update(Game data) {
-		games.set(1, data);
+		for (int i = 0; i < games.size(); i++) {
+			if (games.get(i).getId() == data.getId()) {
+				games.get(i).setName(data.getName());
+				games.get(i).setType(data.getType());
+				games.get(i).setId(data.getId());
+			}
+		}
 
 	}
 
 	@Override
 	public void delete(int id) {
-		games.remove(id);
-
+		for (int i = 0; i < games.size(); i++) {
+			if (games.get(i).getId() == id) {
+				games.remove(i);
+			}
+		}
 	}
 
 }
