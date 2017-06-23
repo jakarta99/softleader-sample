@@ -33,43 +33,51 @@ public class MovieServiceTest {
 
 	@Test
 	public void testGetOne() {
-		Movie movie = movieService.getOne(1);
-		assertEquals(movie.getId(), 2);
-		assertEquals(movie.getName(), "Silence of the lambs");
-		assertEquals(movie.getPrice(), "200");
+		assertEquals(movies.get(1).getName(), "Silence of the lambs");
+		assertEquals(movies.get(1).getPrice(), "200");
 	}
 
 	@Test
-	public void testInsert() {
+	public void testInsertUpdateDelete() {
 		Movie movie = new Movie();
+		
 		movie.setId(6);
 		movie.setName("Transformers:The Last Knight");
 		movie.setPrice("600");
-
 		movieService.insert(movie);
-		assertEquals(movie.getId(), 6);
-		assertEquals(movie.getName(), "Transformers:The Last Knight");
-		assertEquals(movie.getPrice(), "600");
-	}
+		assertEquals(movies.get(5).getName(),"Transformers:The Last Knight");
+		assertEquals(movies.get(5).getPrice(),"600");
 
-	@Test
-	public void testUpdate() {
-		Movie movie = new Movie();
-		movie.setId(5);
-		movie.setName("The Godfather2");
-		movie.setPrice("550");
-
+		movies.get(5).setName("The Godfather2");
+		movies.get(5).setPrice("550");
 		movieService.update(movie);
-		assertEquals(movie.getId(), 5);
-		assertEquals(movie.getName(), "The Godfather2");
-		assertEquals(movie.getPrice(), "550");
+		Movie movie1 = movies.get(5);
+		movieService.update(movie1);
+		assertEquals(movies.contains(movie1),true);
+		
+		Movie movie2 = movies.get(1);
+		movieService.delete(1);
+		assertEquals(movies.contains(movie2), false);
 	}
 
-	@Test
-	public void testDelete() {
-		Movie movie = movies.get(1);
-		movieService.delete(1);
-		assertEquals(movies.contains(movie), false);
-	}
+	// @Test
+	// public void testUpdate() {
+	// Movie movie = new Movie();
+	// movie.setId(5);
+	// movie.setName("The Godfather2");
+	// movie.setPrice("550");
+	//
+	// movieService.update(movie);
+	// assertEquals(movie.getId(), 5);
+	// assertEquals(movie.getName(), "The Godfather2");
+	// assertEquals(movie.getPrice(), "550");
+	// }
+	//
+	// @Test
+	// public void testDelete() {
+	// Movie movie = movies.get(1);
+	// movieService.delete(1);
+	// assertEquals(movies.contains(movie), false);
+	// }
 
 }
