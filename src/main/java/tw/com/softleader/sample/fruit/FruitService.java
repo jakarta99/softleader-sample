@@ -41,10 +41,9 @@ public class FruitService implements GenericService<Fruit> {
 	@Override
 	public Fruit getOne(int id) {
 		int id2 = 0;
-		for (int i = 0; i >= 0; i++) {
+		for (int i = 0; i<fruits.size(); i++) {
 			if (fruits.get(i).getId() == id) {
 				id2 = i;
-				break;
 			}
 
 		}
@@ -69,7 +68,6 @@ public class FruitService implements GenericService<Fruit> {
 		for (int i = 0; i<fruits.size(); i++) {
 			if (fruits.get(i).getId() == id2) {
 				id2 = i;
-				break;
 			}
 
 		}
