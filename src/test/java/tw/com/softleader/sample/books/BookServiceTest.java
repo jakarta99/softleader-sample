@@ -12,8 +12,8 @@ public class BookServiceTest {
 
 	@Test
 	public void testGetOne() {
-		Book book = bookService.getOne(2);
-		assertEquals(book.getId(), 3);
+		Book book = bookService.getOne(19);
+		assertEquals(book.getId(), 19);
 		assertEquals(book.getName(), "The Da Vinci Code");
 		assertEquals(book.getType(), "mysterious");
 	}
@@ -27,42 +27,33 @@ public class BookServiceTest {
 		assertEquals(books.get(1).getId(), 2);
 		assertEquals(books.get(1).getName(), "Angels and Demons");
 		assertEquals(books.get(1).getType(), "religious");
-		assertEquals(books.get(2).getId(), 3);
+		assertEquals(books.get(2).getId(), 19);
 		assertEquals(books.get(2).getName(), "The Da Vinci Code");
 		assertEquals(books.get(2).getType(), "mysterious");
 
 	}
 
 	@Test
-	public void testInsert() {
+	public void testInsertUpdateDelete() {
 
-		Book book = new Book();
-		book.setId(4);
-		book.setName("Digital Fortress");
-		book.setType("suspenseful");
-		bookService.insert(book);
-		assertEquals(books.get(3).getId(), 4);
+		Book book1 = new Book();
+		book1.setId(5);
+		book1.setName("Digital Fortress");
+		book1.setType("suspenseful");
+		bookService.insert(book1);
+		assertEquals(books.get(3).getId(), 5);
 		assertEquals(books.get(3).getName(), "Digital Fortress");
 		assertEquals(books.get(3).getType(), "suspenseful");
-	}
-
-	@Test
-	public void testUpdate() {
-
-		Book book = new Book();
-		book.setId(3);
-		book.setName("Inferno");
-		book.setType("secared");
-		bookService.update(book);
-		assertEquals(books.get(2).getId(), 3);
+		Book book2 = new Book();
+		book2.setId(19);
+		book2.setName("Inferno");
+		book2.setType("secared");
+		bookService.update(book2);
+		assertEquals(books.get(2).getId(), 19);
 		assertEquals(books.get(2).getName(), "Inferno");
 		assertEquals(books.get(2).getType(), "secared");
-	}
-
-	@Test
-	public void testDelete() {
-		Book book = books.get(1);
-		bookService.delete(1);
+		Book book = bookService.getOne(19);
+		bookService.delete(19);
 		assertEquals(books.contains(book), false);
 
 	}
