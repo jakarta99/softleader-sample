@@ -45,11 +45,13 @@ public class FruitServiceTest {
 		assertEquals(fruitsss.get(3).getColor(), "white");
 		//資料已存在 exception?
 
-		Fruit fruitup = new Fruit();
+		Fruit fruitup = new Fruit();//其實沿用ad就好了
 		fruitup.setId(4);
 		fruitup.setName("cherry");
 		fruitup.setColor("black");
 		fruitservice.update(fruitup);
+		assertEquals(fruitsss.get(3).getId(), 4);
+		assertEquals(fruitsss.get(3).getName(), "cherry");
 		assertEquals(fruitsss.get(3).getColor(), "black");
 
 		fruitservice.delete(3);
