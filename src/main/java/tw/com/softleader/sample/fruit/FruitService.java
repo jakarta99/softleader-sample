@@ -66,7 +66,7 @@ public class FruitService implements GenericService<Fruit> {
 	@Override
 	public void update(Fruit data) {
 		int id2 = data.getId();
-		for (int i = 0; i >= 0; i++) {
+		for (int i = 0; i<fruits.size(); i++) {
 			if (fruits.get(i).getId() == id2) {
 				id2 = i;
 				break;
