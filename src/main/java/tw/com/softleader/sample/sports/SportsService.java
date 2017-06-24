@@ -11,17 +11,17 @@ public class SportsService implements GenericService<Sport> {
 
 	public SportsService() {
 		Sport sport1 = new Sport();
-		sport1.setId(1);
+		sport1.setId(3);
 		sport1.setName("Basketball");
 		sport1.setPeople("5");
 
 		Sport sport2 = new Sport();
-		sport2.setId(1);
+		sport2.setId(6);
 		sport2.setName("Baseball");
 		sport2.setPeople("9");
 
 		Sport sport3 = new Sport();
-		sport3.setId(1);
+		sport3.setId(9);
 		sport3.setName("Swimming");
 		sport3.setPeople("1");
 
@@ -33,7 +33,12 @@ public class SportsService implements GenericService<Sport> {
 
 	@Override
 	public Sport getOne(int id) {
-		return sports.get(id);
+		for (int i = 0; i < sports.size(); i++) {
+			if (sports.get(i).getId() == id) {
+				return sports.get(i);
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -49,13 +54,21 @@ public class SportsService implements GenericService<Sport> {
 
 	@Override
 	public void update(Sport data) {
-		sports.set(data.getId(), data);
+		for (int i = 0; i < sports.size(); i++) {
+			if (sports.get(i).getId() == data.getId()) {
+				sports.set(i, data);
+			}
+		}
 
 	}
 
 	@Override
 	public void delete(int id) {
-		sports.remove(id);
+		for (int i = 0; i < sports.size(); i++) {
+			if (sports.get(i).getId() == id) {
+				sports.remove(i);
+			}
+		}
 
 	}
 

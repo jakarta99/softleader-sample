@@ -19,28 +19,33 @@ public class SportsServiceTest {
 
 	@Test
 	public void getOneTest() {
-		assertEquals(test1.getOne(0).getName(), "Basketball");
+		assertEquals(test1.getOne(3).getId(),3);
+		assertEquals(test1.getOne(3).getName(), "Basketball");
+		assertEquals(test1.getOne(12),null);
 
 	}
 
 	@Test
 	public void testInsertAndUpdateAndDelete() {
 		Sport Tennis = new Sport();
-		Tennis.setId(test1List.size() + 1);
+		Tennis.setId(12);
 		Tennis.setName("Tennis");
 		Tennis.setPeople("2 or 4");
+		
 		test1.insert(Tennis);
-		assertEquals(test1.getOne(3).getName(), "Tennis");
+		assertEquals(test1.getOne(12).getName(), "Tennis");
 
 		Sport Boxing = new Sport();
-		Boxing.setId(3);
+		Boxing.setId(12);
 		Boxing.setName("Boxing");
 		Boxing.setPeople("2");
+		
 		test1.update(Boxing);
-		assertEquals(test1.getOne(3).getName(), "Boxing");
+		assertEquals(test1.getOne(12).getName(), "Boxing");
 
-		test1.delete(3);
+		test1.delete(12);
 		assertEquals(test1.getAll().contains(Boxing), false);
+		assertEquals(test1.getAll().contains(test1List.get(1)), true);
 	}
 
 }
