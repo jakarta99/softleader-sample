@@ -34,31 +34,30 @@ public class MovieServiceTest {
 	@Test
 	public void testGetOne() {
 		Movie movies = movieService.getOne(1);
-		assertEquals(movies.getId(),2);
+		assertEquals(movies.getId(), 2);
 		assertEquals(movies.getName(), "Silence of the lambs");
 		assertEquals(movies.getPrice(), "200");
 	}
 
 	@Test
 	public void testInsertUpdateDelete() {
-		Movie movie = new Movie();
-
-		movie.setId(6);
-		movie.setName("Transformers:The Last Knight");
-		movie.setPrice("600");
-		movieService.insert(movie);
+		Movie movie1 = new Movie();
+		movie1.setId(6);
+		movie1.setName("Transformers:The Last Knight");
+		movie1.setPrice("600");
+		movieService.insert(movie1);
+		assertEquals(movies.get(5).getId(), 6);
 		assertEquals(movies.get(5).getName(), "Transformers:The Last Knight");
 		assertEquals(movies.get(5).getPrice(), "600");
-
-		movies.get(5).setName("The Godfather2");
-		movies.get(5).setPrice("550");
-		movieService.update(movie);
-		Movie movie1 = movies.get(5);
-		movieService.update(movie1);
-		assertEquals(movies.contains(movie1), true);
-
-		Movie movie2 = movies.get(1);
+		Movie movie2 = new Movie();
+		movies.get(4).setName("The Godfather2");
+		movies.get(4).setPrice("550");
+		movieService.update(movie2);
+		assertEquals(movies.get(4).getId(), 5);
+		assertEquals(movies.get(4).getName(), "The Godfather2");
+		assertEquals(movies.get(4).getPrice(), "550");
+		Movie movie3 = movieService.getOne(1);
 		movieService.delete(1);
-		assertEquals(movies.contains(movie2), false);
+		assertEquals(movies.contains(movie3), false);
 	}
 }

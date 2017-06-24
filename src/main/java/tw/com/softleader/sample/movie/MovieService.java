@@ -6,6 +6,7 @@ import java.util.List;
 import tw.com.softleader.sample.commons.GenericService;
 
 public class MovieService implements GenericService<Movie> {
+
 	private List<Movie> movies = new ArrayList<Movie>();
 
 	public MovieService() {
@@ -43,7 +44,13 @@ public class MovieService implements GenericService<Movie> {
 
 	@Override
 	public Movie getOne(int id) {
-		return movies.get(id);
+		for (int i = 0; i < movies.size(); i++) {
+			if (id == movies.get(i).getId()) {
+				return movies.get(id);
+			}
+		}
+		return null;
+
 	}
 
 	@Override
@@ -58,11 +65,20 @@ public class MovieService implements GenericService<Movie> {
 
 	@Override
 	public void update(Movie data) {
-		movies.set(data.getId() - 1, data);
+		for (int i = 0; i < movies.size(); i++) {
+			if (data.getId() == movies.get(i).getId()) {
+				movies.set(data.getId(), data);
+			}
+		}
+
 	}
 
 	@Override
 	public void delete(int id) {
-		movies.remove(id);
+		for (int i = 0; i < movies.size(); i++) {
+			if (id == movies.get(i).getId()) {
+				movies.remove(id);
+			}
+		}
 	}
 }
