@@ -2,6 +2,7 @@ package tw.com.softleader.sample.games;
 
 import java.util.ArrayList;
 import java.util.List;
+import tw.com.softleader.sample.commons.GenericService;
 
 public class GameService implements GenericService<Game> {
 
