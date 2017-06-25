@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-@SuppressWarnings("unused")
 public class GameServiceTest {
 
 	private GameService gameService = new GameService();//
@@ -110,8 +109,8 @@ public class GameServiceTest {
 		assertEquals(y, games.getOne(6).getType());
 
 		gameService.delete(6);
-		assertEquals(t, games.getOne(6).getName());
-		assertEquals(y, games.getOne(6).getType());
+		assertEquals(3,game.size());
+		
 
 	}
 
