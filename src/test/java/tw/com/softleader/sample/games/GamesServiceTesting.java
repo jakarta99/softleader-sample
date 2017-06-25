@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.junit.Test;
+import tw.com.softleader.sample.commons.GenericService;
 
 public class GameServiceTest {
 
@@ -109,8 +110,7 @@ public class GameServiceTest {
 		assertEquals(y, games.getOne(6).getType());
 
 		gameService.delete(6);
-		assertEquals(3,game.size());
-		
+		assertEquals(3, game.size());
 
 	}
 
