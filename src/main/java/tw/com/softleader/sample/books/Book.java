@@ -1,9 +1,11 @@
-package tw.com.softleader.sample.country;
+package tw.com.softleader.sample.books;
 
-public class Country {
+public class Book {
 	private int id;
+
 	private String name;
-	private String size;
+
+	private String type;
 
 	public int getId() {
 		return id;
@@ -21,12 +23,12 @@ public class Country {
 		this.name = name;
 	}
 
-	public String getSize() {
-		return size;
+	public String getType() {
+		return type;
 	}
 
-	public void setSize(String size) {
-		this.size = size;
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

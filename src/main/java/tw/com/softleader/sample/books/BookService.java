@@ -1,44 +1,72 @@
 package tw.com.softleader.sample.books;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import tw.com.softleader.sample.commons.GenericService;
 
-public class BookService implements GenericService {
+public class BookService implements GenericService<Book> {
 
-	private String[] books = { "Harry Porter", "The Da Vinci Code", "Angels & Demons" };
+	private List<Book> books = new ArrayList<Book>();
+
+	public BookService() {
+
+		Book book1 = new Book();
+		book1.setId(1);
+		book1.setName("Harry Potter");
+		book1.setType("magic");
+
+		Book book2 = new Book();
+		book2.setId(2);
+		book2.setName("Angels and Demons");
+		book2.setType("religious");
+
+		Book book3 = new Book();
+		book3.setId(19);
+		book3.setName("The Da Vinci Code");
+		book3.setType("mysterious");
+
+		books.add(book1);
+		books.add(book2);
+		books.add(book3);
+	}
 
 	@Override
-	public String[] getAll() {
+	public Book getOne(int id) {
+		for (int i = 0; i < books.size(); i++) {
+			if (books.get(i).getId() == id) {
+				return books.get(i);
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<Book> getAll() {
 		return books;
 	}
 
 	@Override
-	public String getOne(int id) {
-		String book = books[id];
-		return book;
+	public void insert(Book data) {
+		books.add(data);
 	}
 
 	@Override
-	public void insert(String data) {
-		books = Arrays.copyOf(books, books.length + 1);
-		books[books.length - 1] = data;
-	}
-
-	@Override
-	public void update(String data, int id) {
-		books[id] = data;
-	}
-
-	@Override
-	public void delete(String data) {
-		String[] newbooks=new String[books.length-1];
-		for (int i = 0; i < books.length; i++) {
-			if (!books[i].equals(data)) {
-				newbooks[i]=books[i];
+	public void update(Book data) {
+		for (int i = 0; i < books.size(); i++) {
+			if (data.getId() == books.get(i).getId()) {
+				books.set(i, data);
 			}
 		}
+	}
 
+	@Override
+	public void delete(int id) {
+		for (int i = 0; i < books.size(); i++) {
+			if (books.get(i).getId() == id) {
+				books.remove(i);
+			}
+		}
 	}
 
 }

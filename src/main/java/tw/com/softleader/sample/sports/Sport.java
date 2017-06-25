@@ -1,9 +1,10 @@
-package tw.com.softleader.sample.country;
+package tw.com.softleader.sample.sports;
 
-public class Country {
+public class Sport {
+
 	private int id;
 	private String name;
-	private String size;
+	private String people;
 
 	public int getId() {
 		return id;
@@ -21,12 +22,12 @@ public class Country {
 		this.name = name;
 	}
 
-	public String getSize() {
-		return size;
+	public String getPeople() {
+		return people;
 	}
 
-	public void setSize(String size) {
-		this.size = size;
+	public void setPeople(String people) {
+		this.people = people;
 	}
 
 }

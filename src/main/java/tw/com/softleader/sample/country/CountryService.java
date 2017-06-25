@@ -1,44 +1,71 @@
 package tw.com.softleader.sample.country;
 
-import java.util.Arrays;
-
+import java.util.*;
 import tw.com.softleader.sample.commons.GenericService;
 
-public class CountryService implements GenericService {
-	private String[] country = { "Taiwan", "Thailand", "Japan" };
+public class CountryService implements GenericService<Country> {
 
-	@Override
-	public String[] getAll() {
+	private List<Country> countries = new ArrayList<Country>();
 
-		return country;
+	public CountryService() {
+
+		Country country1 = new Country();
+		country1.setId(1);
+		country1.setName("Taiwan");
+		country1.setSize("Small");
+
+		Country country2 = new Country();
+		country2.setId(2);
+		country2.setName("Japan");
+		country2.setSize("Medium");
+
+		Country country3 = new Country();
+		country3.setId(3);
+		country3.setName("Malaysia");
+		country3.setSize("Big");
+
+		countries.add(country1);
+		countries.add(country2);
+		countries.add(country3);
 	}
 
 	@Override
-	public String getOne(int id) {
-		return country[id];
-	}
-
-	@Override
-	public void insert(String data) {
-		country = Arrays.copyOf(country, country.length + 1);
-		country[country.length - 1] = data;
-	}
-
-	@Override
-	public void update(String data, int id) {
-		country[id] = data;
-	}
-
-	@Override
-	public void delete(String data) {
-		String[] newCountry = new String[country.length - 1];
-		int newCountryIndex = 0;
-		for (int i = 0; i < country.length; i++) {
-			if (!country[i].equals(data)) {
-				newCountry[newCountryIndex] = country[i];
-				newCountryIndex++;
+	public Country getOne(int id) {
+		for (int i = 0; i < countries.size(); i++) {
+			if (countries.get(i).getId() == id) {
+				return countries.get(i);
 			}
 		}
+		return null;
+	}
 
+	@Override
+	public List<Country> getAll() {
+		return countries;
+	}
+
+	@Override
+	public void insert(Country data) {
+		countries.add(data);
+	}
+
+	@Override
+	public void update(Country data) {
+		for (int i = 0; i < countries.size(); i++) {
+			if (countries.get(i).getId() == data.getId()) {
+				countries.get(i).setName(data.getName());
+				countries.get(i).setSize(data.getSize());
+				countries.get(i).setId(data.getId());
+			}
+		}
+	}
+
+	@Override
+	public void delete(int id) {
+		for (int i = 0; i < countries.size(); i++) {
+			if (countries.get(i).getId() == id) {
+				countries.remove(i);
+			}
+		}
 	}
 }
