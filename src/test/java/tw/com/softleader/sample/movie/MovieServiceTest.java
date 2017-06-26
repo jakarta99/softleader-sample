@@ -49,13 +49,16 @@ public class MovieServiceTest {
 		assertEquals(movies.get(5).getId(), 6);
 		assertEquals(movies.get(5).getName(), "Transformers:The Last Knight");
 		assertEquals(movies.get(5).getPrice(), "600");
+
 		Movie movie2 = new Movie();
-		movies.get(4).setName("The Godfather2");
-		movies.get(4).setPrice("550");
+		movie2.setId(5);
+		movie2.setName("The Godfather2");
+		movie2.setPrice("550");
 		movieService.update(movie2);
 		assertEquals(movies.get(4).getId(), 5);
 		assertEquals(movies.get(4).getName(), "The Godfather2");
 		assertEquals(movies.get(4).getPrice(), "550");
+
 		Movie movie3 = movieService.getOne(1);
 		movieService.delete(1);
 		assertEquals(movies.contains(movie3), false);
