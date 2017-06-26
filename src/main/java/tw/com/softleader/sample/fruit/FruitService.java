@@ -40,15 +40,14 @@ public class FruitService implements GenericService<Fruit> {
 
 	@Override
 	public Fruit getOne(int id) {
-		int id2 = 0;
 		for (int i = 0; i<fruits.size(); i++) {
 			if (fruits.get(i).getId() == id) {
-				id2 = i;
+				return fruits.get(i);
 			}
 
 		}
+		return null;
 
-		return fruits.get(id2);
 	}
 
 	@Override
@@ -64,20 +63,24 @@ public class FruitService implements GenericService<Fruit> {
 
 	@Override
 	public void update(Fruit data) {
-		int id2 = data.getId();
 		for (int i = 0; i<fruits.size(); i++) {
-			if (fruits.get(i).getId() == id2) {
-				id2 = i;
+			if (fruits.get(i).getId() == data.getId()) {
+				fruits.set(i, data);
 			}
 
 		}
-		fruits.set(id2, data);
 		
 	}
 
 	@Override
 	public void delete(int id) {
-		fruits.remove(id);
+
+		for (int i = 0; i<fruits.size(); i++) {
+			if (fruits.get(i).getId() == id) {
+				fruits.remove(i);
+			}
+
+		}
 
 	}
 
