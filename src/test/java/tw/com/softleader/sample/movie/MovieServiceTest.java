@@ -33,7 +33,7 @@ public class MovieServiceTest {
 
 	@Test
 	public void testGetOne() {
-		Movie movies = movieService.getOne(1);
+		Movie movies = movieService.getOne(2);
 		assertEquals(movies.getId(), 2);
 		assertEquals(movies.getName(), "Silence of the lambs");
 		assertEquals(movies.getPrice(), "200");
@@ -56,8 +56,8 @@ public class MovieServiceTest {
 		movie2.setPrice("550");
 		movieService.update(movie2);
 		assertEquals(movies.get(4).getId(), 5);
-		assertEquals(movies.get(4).getName(), "The Godfather2");
-		assertEquals(movies.get(4).getPrice(), "550");
+		assertEquals(movies.get(4).getName(),"The Godfather2");
+		assertEquals(movies.get(4).getPrice(),"550");
 
 		Movie movie3 = movieService.getOne(1);
 		movieService.delete(1);

@@ -67,7 +67,7 @@ public class MovieService implements GenericService<Movie> {
 	public void update(Movie data) {
 		for (int i = 0; i < movies.size(); i++) {
 			if (data.getId() == movies.get(i).getId()) {
-				movies.set(data.getId(), data);
+				movies.set(i, data);
 			}
 		}
 
