@@ -70,12 +70,20 @@ public class ColorService implements GenericService<Color> {
 
 	@Override
 	public void delete(int data) {
+		// Watch out :Concurrent Modification Exception
+//		for (int i = 0; i < colors.size(); i++) {
+//			if (colors.get(i).getId() == data) {
+//				colors.remove(i);
+//			}
+//		}
+		Color removeColor = new Color();
 		for (int i = 0; i < colors.size(); i++) {
 			if (colors.get(i).getId() == data) {
-				colors.remove(i);
+				removeColor.setId(colors.get(i).getId());
+				removeColor.setName(colors.get(i).getName());
+				removeColor.setCode(colors.get(i).getCode());
 			}
 		}
+		colors.remove(removeColor.getId());
 	}
-
-
 }
