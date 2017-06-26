@@ -28,42 +28,53 @@ public class ColorService implements GenericService<Color> {
 		color2.setName("Black");
 		color2.setCode("#FFFFFF");
 		
+		Color color3 = new Color();
+		color3.setId(3);
+		color3.setName("Green");
+		color3.setCode("#00FF00");
+		
 		colors.add(color1);
 		colors.add(color2);
+		colors.add(color3);
 	}
 
 	@Override
 	public Color getOne(int id) {
-		// TODO Auto-generated method stub
-		return colors.get(id);
+		for (int i=0;i<colors.size();i++){
+			if (colors.get(i).getId() == colors.get(id).getId()){
+				return colors.get(i);
+			}
+		}
+		return null;
 	}
 
 	@Override
 	public List<Color> getAll() {
-		// TODO Auto-generated method stub
 		return colors;
 	}
 
 	@Override
 	public void insert(Color data) {
-		// TODO Auto-generated method stub
-		Color newColor = new Color();
-		newColor.setId(data.getId());
-		newColor.setName(data.getName());
-		newColor.setCode(data.getCode());
-		
-		colors.add(newColor);
+		colors.add(data);
 	}
 
 	@Override
 	public void update(Color data) {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < colors.size(); i++) {
+			if (colors.get(i).getId() == data.getId()){
+				colors.get(i).setName(data.getName());
+				colors.get(i).setCode(data.getCode());
+			}
+		}
 	}
 
 	@Override
 	public void delete(int data) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < colors.size(); i++) {
+			if (colors.get(i).getId() == data){
+				colors.remove(i);
+			}
+		}	
 		
 	}
 

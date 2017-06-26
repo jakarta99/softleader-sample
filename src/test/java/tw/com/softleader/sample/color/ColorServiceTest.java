@@ -2,6 +2,9 @@ package tw.com.softleader.sample.color;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 /**
@@ -21,39 +24,56 @@ public class ColorServiceTest {
 	@Test
 	public void testGetAll() {
 		
-//		String[] colors = colorService.getAll();
-//		assertEquals("Red", colors[0]);
-//		assertEquals("Yellow", colors[1]);
-//		assertEquals("Blue", colors[2]);
+		assertEquals(3, colorService.getAll().size());
+	}
+	
+	@Test
+	public void testGetOne() {
+		
+		assertEquals(1, colorService.getOne(0).getId());
+		assertEquals("Red", colorService.getOne(0).getName());
+		assertEquals("#FF0000", colorService.getOne(0).getCode());
+
+		assertEquals(2, colorService.getOne(1).getId());
+		assertEquals("Black", colorService.getOne(1).getName());
+		assertEquals("#FFFFFF", colorService.getOne(1).getCode());
+		
+		assertEquals(3, colorService.getOne(2).getId());
+		assertEquals("Green", colorService.getOne(2).getName());
+		assertEquals("#00FF00", colorService.getOne(2).getCode());
+
 	}
 	
 	@Test
 	public void testInsertAndTestUpdateAndTestDelete() {
+		
+		/** testInsert*/
 		Color newColor = new Color();
-		newColor.setId(3);
+		newColor.setId(4);
 		newColor.setName("white");
-		newColor.setCode("FFFFFF");
+		newColor.setCode("#000000");
 		
 		colorService.insert(newColor);
-//		for(String color:colorService.getAll()) {
-//			System.out.println(drink);
-//		}
-		assertEquals("white", colorService.getOne(2).getName());
-		System.out.println("-----------------------");
-//		
-//		colorService.update("water", 3);
-//		for(String drink:colorService.getAll()) {
-//			System.out.println(drink);
-//		}
-//		assertEquals("water", colorService.getOne(3));
-//		System.out.println("-----------------------");
-//		colorService.delete("water");
-//		
-//		for(String drink:colorService.getAll()) {
-//			System.out.println(drink);
-//		}
-//		
-//		assertEquals(3, colorService.getAll().length);
+
+		/** testGetOne*/
+		assertEquals("white", colorService.getOne(3).getName());
+		System.out.print("test Get Insert's Name : " + colorService.getOne(3).getName()+ " ,Color Code: " + colorService.getOne(3).getCode() + "\n-------------------------------\n");
+		
+		/** testUpdate*/
+		Color updateColor = new Color();
+		updateColor.setId(3);
+		updateColor.setName("Blue");
+		updateColor.setCode("#0000FF");
+		colorService.update(updateColor);
+
+		assertEquals("Blue", colorService.getOne(2).getName());
+		System.out.print("test Get Update's Name : " + colorService.getOne(2).getName()+ " ,Color Code: " + colorService.getOne(2).getCode() + "\n-------------------------------\n");
+		
+		/** testDelete*/
+		colorService.delete(2);
+		
+		assertEquals(3, colorService.getAll().size());
+		System.out.print("test Get Delete's Color Black, So Id 2 will change --> Name : " + colorService.getOne(1).getName()+ " ,Color Code: " + colorService.getOne(1).getCode() + "\n-------------------------------\n");
 	}
 
 }
