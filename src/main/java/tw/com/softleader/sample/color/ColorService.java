@@ -27,12 +27,12 @@ public class ColorService implements GenericService<Color> {
 		color2.setId(2);
 		color2.setName("Black");
 		color2.setCode("#FFFFFF");
-		
+
 		Color color3 = new Color();
 		color3.setId(3);
 		color3.setName("Green");
 		color3.setCode("#00FF00");
-		
+
 		colors.add(color1);
 		colors.add(color2);
 		colors.add(color3);
@@ -40,8 +40,8 @@ public class ColorService implements GenericService<Color> {
 
 	@Override
 	public Color getOne(int id) {
-		for (int i=0;i<colors.size();i++){
-			if (colors.get(i).getId() == colors.get(id).getId()){
+		for (int i = 0; i < colors.size(); i++) {
+			if (colors.get(i).getId() == colors.get(id).getId()) {
 				return colors.get(i);
 			}
 		}
@@ -61,7 +61,7 @@ public class ColorService implements GenericService<Color> {
 	@Override
 	public void update(Color data) {
 		for (int i = 0; i < colors.size(); i++) {
-			if (colors.get(i).getId() == data.getId()){
+			if (colors.get(i).getId() == data.getId()) {
 				colors.get(i).setName(data.getName());
 				colors.get(i).setCode(data.getCode());
 			}
@@ -71,11 +71,10 @@ public class ColorService implements GenericService<Color> {
 	@Override
 	public void delete(int data) {
 		for (int i = 0; i < colors.size(); i++) {
-			if (colors.get(i).getId() == data){
+			if (colors.get(i).getId() == data) {
 				colors.remove(i);
 			}
-		}	
-		
+		}
 	}
 
 

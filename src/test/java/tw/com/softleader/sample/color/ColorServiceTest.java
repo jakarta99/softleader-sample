@@ -46,20 +46,20 @@ public class ColorServiceTest {
 	
 	@Test
 	public void testInsertAndTestUpdateAndTestDelete() {
-		
-		/** testInsert*/
+
+		/** testInsert */
 		Color newColor = new Color();
 		newColor.setId(4);
 		newColor.setName("white");
 		newColor.setCode("#000000");
-		
+
 		colorService.insert(newColor);
 
-		/** testGetOne*/
+		/** testGetOne */
 		assertEquals("white", colorService.getOne(3).getName());
-		System.out.print("test Get Insert's Name : " + colorService.getOne(3).getName()+ " ,Color Code: " + colorService.getOne(3).getCode() + "\n-------------------------------\n");
-		
-		/** testUpdate*/
+		System.out.print("test Get Insert's Name : " + colorService.getOne(3).getName() + " ,Color Code: " + colorService.getOne(3).getCode() + "\n-------------------------------\n");
+
+		/** testUpdate */
 		Color updateColor = new Color();
 		updateColor.setId(3);
 		updateColor.setName("Blue");
@@ -67,13 +67,14 @@ public class ColorServiceTest {
 		colorService.update(updateColor);
 
 		assertEquals("Blue", colorService.getOne(2).getName());
-		System.out.print("test Get Update's Name : " + colorService.getOne(2).getName()+ " ,Color Code: " + colorService.getOne(2).getCode() + "\n-------------------------------\n");
-		
-		/** testDelete*/
+		System.out.print("test Get Update's Name : " + colorService.getOne(2).getName() + " ,Color Code: " + colorService.getOne(2).getCode() + "\n-------------------------------\n");
+
+		/** testDelete */
 		colorService.delete(2);
-		
+
 		assertEquals(3, colorService.getAll().size());
-		System.out.print("test Get Delete's Color Black, So Id 2 will change --> Name : " + colorService.getOne(1).getName()+ " ,Color Code: " + colorService.getOne(1).getCode() + "\n-------------------------------\n");
+		System.out.print(
+				"test Get Delete's Color Black, So Id 2 will change --> Name : " + colorService.getOne(1).getName() + " ,Color Code: " + colorService.getOne(1).getCode() + "\n-------------------------------\n");
 	}
 
 }
