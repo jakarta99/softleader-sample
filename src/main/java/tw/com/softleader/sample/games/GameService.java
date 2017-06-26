@@ -57,19 +57,23 @@ public class GameService implements GenericService<Game> {
 			if (games.get(i).getId() == data.getId()) {
 				games.get(i).setName(data.getName());
 				games.get(i).setType(data.getType());
-				games.get(i).setId(data.getId());
+
 			}
 		}
 
 	}
 
 	@Override
+
 	public void delete(int id) {
+		Game removeGame = new Game();
 		for (int i = 0; i < games.size(); i++) {
 			if (games.get(i).getId() == id) {
-				games.remove(i);
+				removeGame.setId(games.get(i).getId());
+				removeGame.setName(games.get(i).getName());
+				removeGame.setType(games.get(i).getType());
 			}
 		}
 	}
 
-}//
+}
