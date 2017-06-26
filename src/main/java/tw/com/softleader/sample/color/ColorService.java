@@ -76,14 +76,13 @@ public class ColorService implements GenericService<Color> {
 //				colors.remove(i);
 //			}
 //		}
-		Color removeColor = new Color();
+		
+		List<Color> removeColor = new ArrayList<Color>();
 		for (int i = 0; i < colors.size(); i++) {
 			if (colors.get(i).getId() == data) {
-				removeColor.setId(colors.get(i).getId());
-				removeColor.setName(colors.get(i).getName());
-				removeColor.setCode(colors.get(i).getCode());
+				removeColor.add(colors.get(i));
 			}
 		}
-		colors.remove(removeColor.getId());
+		colors.removeAll(removeColor);
 	}
 }
