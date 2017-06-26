@@ -1,10 +1,12 @@
 package tw.com.softleader.sample.color;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import java.util.List;
 
 import tw.com.softleader.sample.commons.GenericService;
+import tw.com.softleader.sample.country.Country;
 
 /**
  * 
@@ -12,36 +14,76 @@ import tw.com.softleader.sample.commons.GenericService;
  *
  */
 public class ColorService implements GenericService<Color> {
+	
+	private List<Color> colors = new ArrayList<Color>();
+
+	public ColorService() {
+		Color color1 = new Color();
+		color1.setId(1);
+		color1.setName("Red");
+		color1.setCode("#FF0000");
+
+		Color color2 = new Color();
+		color2.setId(2);
+		color2.setName("Black");
+		color2.setCode("#FFFFFF");
+
+		Color color3 = new Color();
+		color3.setId(3);
+		color3.setName("Green");
+		color3.setCode("#00FF00");
+
+		colors.add(color1);
+		colors.add(color2);
+		colors.add(color3);
+	}
 
 	@Override
 	public Color getOne(int id) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < colors.size(); i++) {
+			if (colors.get(i).getId() == colors.get(id).getId()) {
+				return colors.get(i);
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public List<Color> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return colors;
 	}
 
 	@Override
 	public void insert(Color data) {
-		// TODO Auto-generated method stub
-		
+		colors.add(data);
 	}
 
 	@Override
 	public void update(Color data) {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < colors.size(); i++) {
+			if (colors.get(i).getId() == data.getId()) {
+				colors.get(i).setName(data.getName());
+				colors.get(i).setCode(data.getCode());
+			}
+		}
 	}
 
 	@Override
 	public void delete(int data) {
-		// TODO Auto-generated method stub
-		
+		// Watch out :Concurrent Modification Exception
+//		for (int i = 0; i < colors.size(); i++) {
+//			if (colors.get(i).getId() == data) {
+//				colors.remove(i);
+//			}
+//		}
+		Color removeColor = new Color();
+		for (int i = 0; i < colors.size(); i++) {
+			if (colors.get(i).getId() == data) {
+				removeColor.setId(colors.get(i).getId());
+				removeColor.setName(colors.get(i).getName());
+				removeColor.setCode(colors.get(i).getCode());
+			}
+		}
+		colors.remove(removeColor.getId());
 	}
-
-
 }
