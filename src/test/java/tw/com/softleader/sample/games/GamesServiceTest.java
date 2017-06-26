@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-
 public class GameServiceTest {
 
 	private GameService gameService = new GameService();//
@@ -34,51 +33,6 @@ public class GameServiceTest {
 		assertEquals("Fallout4", games.getOne(3).getName());
 		assertEquals(3, games.getOne(3).getId());
 		assertEquals("Rpg", games.getOne(3).getType());
-	}
-
-	@Test
-	public void testInsert() {
-		GameService games = new GameService();
-
-		String b = "WOW";
-		String c = "MMORPG";
-		Game game4 = new Game();
-
-		game4.setId(4);
-		game4.setName(b);
-		game4.setType(c);
-		games.insert(game4);
-		assertEquals(4, game4.getId());
-		assertEquals(b, game4.getName());
-		assertEquals(c, game4.getType());
-
-	}
-
-	@Test
-	public void testUpdate() {
-		GameService games = new GameService();
-		Game gaming = new Game();
-
-		String bb = "LOL";
-		String cc = "MOBA";
-		gaming.setId(5);
-		gaming.setName(bb);
-		gaming.setType(cc);
-
-		games.update(gaming);
-
-		assertEquals(5, gaming.getId());
-		assertEquals(bb, gaming.getName());
-		assertEquals(cc, gaming.getType());
-	}
-
-	@Test
-	public void testDelete() {
-		GameService games = new GameService();
-		games.delete(1);
-		assertEquals("Witcher3", games.getOne(2).getName());
-		assertEquals("Rpg", games.getOne(2).getType());
-		assertEquals(2, games.getOne(2).getId());
 	}
 
 	@Test
