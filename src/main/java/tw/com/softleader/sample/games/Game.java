@@ -1,19 +1,9 @@
-package tw.com.softleader.sample.books;
+package tw.com.softleader.sample.games;
 
-public class Book {
-	private int id;
-
+public class Game {
 	private String name;
-
 	private String type;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+	private int id;
 
 	public String getName() {
 		return name;
@@ -31,4 +21,12 @@ public class Book {
 		this.type = type;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 }
+//

@@ -1,11 +1,10 @@
-package tw.com.softleader.sample.books;
+package tw.com.softleader.sample.sports;
 
-public class Book {
+public class Sport {
+
 	private int id;
-
 	private String name;
-
-	private String type;
+	private String people;
 
 	public int getId() {
 		return id;
@@ -23,12 +22,12 @@ public class Book {
 		this.name = name;
 	}
 
-	public String getType() {
-		return type;
+	public String getPeople() {
+		return people;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setPeople(String people) {
+		this.people = people;
 	}
 
 }
