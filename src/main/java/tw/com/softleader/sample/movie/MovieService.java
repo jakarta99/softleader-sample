@@ -46,7 +46,7 @@ public class MovieService implements GenericService<Movie> {
 	public Movie getOne(int id) {
 		for (int i = 0; i < movies.size(); i++) {
 			if (id == movies.get(i).getId()) {
-				return movies.get(id);
+				return movies.get(i);
 			}
 		}
 		return null;
@@ -67,7 +67,7 @@ public class MovieService implements GenericService<Movie> {
 	public void update(Movie data) {
 		for (int i = 0; i < movies.size(); i++) {
 			if (data.getId() == movies.get(i).getId()) {
-				movies.set(data.getId(), data);
+				movies.set(i, data);
 			}
 		}
 
@@ -77,7 +77,7 @@ public class MovieService implements GenericService<Movie> {
 	public void delete(int id) {
 		for (int i = 0; i < movies.size(); i++) {
 			if (id == movies.get(i).getId()) {
-				movies.remove(id);
+				movies.remove(i);
 			}
 		}
 	}
