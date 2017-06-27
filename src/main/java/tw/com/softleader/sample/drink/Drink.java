@@ -3,19 +3,23 @@ package tw.com.softleader.sample.drink;
 public class Drink {
 	
 	
-	private int id;
+	private Long id;
 	
 	private String name;
 	
 	private String color;
 
-	
-	
-	public int getId() {
+
+	@Override
+	public String toString() {
+		return "Drink [id=" + id + ", name=" + name + ", color=" + color + "]";
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
