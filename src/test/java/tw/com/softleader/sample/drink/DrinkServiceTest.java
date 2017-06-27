@@ -1,10 +1,10 @@
 package tw.com.softleader.sample.drink;
 
-import java.util.List;
+import static org.junit.Assert.assertEquals;
+
+import java.util.Collection;
 
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 public class DrinkServiceTest {
 	
@@ -12,13 +12,15 @@ public class DrinkServiceTest {
 
 	@Test
 	public void testGetAll() {
-		List<Drink> drinks = drinkService.getAll();
 		
-		assertEquals(drinks.get(0).getName(), "coffee");
-		assertEquals(drinks.get(0).getColor(), "black");
+		
+		Collection<Drink> drinks = drinkService.getAll();
+		
+		for(Drink drink:drinks) {
+			System.out.println(drink);
+		}
 		
 	}
-
 
 
 
