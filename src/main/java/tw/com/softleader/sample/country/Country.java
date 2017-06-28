@@ -1,15 +1,20 @@
 package tw.com.softleader.sample.country;
 
 public class Country {
-	private int id;
+	private Long id;
 	private String name;
 	private String size;
 
-	public int getId() {
-		return id;
+	@Override
+	public String toString() {
+		return "Country[id="+id+",name="+name+",size="+size+"]";
 	}
 
-	public void setId(int id) {
+	public Long getId(){
+		return id;
+	}
+	
+	public void setId(Long id) {
 		this.id = id;
 	}
 
