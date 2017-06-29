@@ -1,72 +1,40 @@
 package tw.com.softleader.sample.books;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Collection;
 import tw.com.softleader.sample.commons.GenericService;
 
 public class BookService implements GenericService<Book> {
-
-	private List<Book> books = new ArrayList<Book>();
-
-	public BookService() {
-
-		Book book1 = new Book();
-		book1.setId(1);
-		book1.setName("Harry Potter");
-		book1.setType("magic");
-
-		Book book2 = new Book();
-		book2.setId(2);
-		book2.setName("Angels and Demons");
-		book2.setType("religious");
-
-		Book book3 = new Book();
-		book3.setId(19);
-		book3.setName("The Da Vinci Code");
-		book3.setType("mysterious");
-
-		books.add(book1);
-		books.add(book2);
-		books.add(book3);
+	
+	BookDao bookDao = new BookDao();
+	
+	@Override
+	public Book getOne(Long id) {
+		
+		return bookDao.findOne(id);
 	}
 
 	@Override
-	public Book getOne(int id) {
-		for (int i = 0; i < books.size(); i++) {
-			if (books.get(i).getId() == id) {
-				return books.get(i);
-			}
-		}
-		return null;
+	public Collection<Book> getAll() {
+
+		return bookDao.findAll();
 	}
 
 	@Override
-	public List<Book> getAll() {
-		return books;
+	public void insert(Book entity) {
+		bookDao.insert(entity);
+
 	}
 
 	@Override
-	public void insert(Book data) {
-		books.add(data);
+	public void update(Book entity) {
+		bookDao.update(entity);
+
 	}
 
 	@Override
-	public void update(Book data) {
-		for (int i = 0; i < books.size(); i++) {
-			if (data.getId() == books.get(i).getId()) {
-				books.set(i, data);
-			}
-		}
-	}
+	public void delete(Long id) {
+		bookDao.delete(id);
 
-	@Override
-	public void delete(int id) {
-		for (int i = 0; i < books.size(); i++) {
-			if (books.get(i).getId() == id) {
-				books.remove(i);
-			}
-		}
 	}
 
 }

@@ -1,17 +1,24 @@
 package tw.com.softleader.sample.books;
 
 public class Book {
-	private int id;
+	private Long id;
 
 	private String name;
 
 	private String type;
 
-	public int getId() {
+	@Override
+	public String toString() {
+
+		return "Book [id=" + id + ", name=" + name + ", type=" + type + "]";
+
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
