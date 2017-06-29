@@ -2,15 +2,20 @@ package tw.com.softleader.sample.sports;
 
 public class Sport {
 
-	private int id;
+	private Long id;
 	private String name;
 	private String people;
 
-	public int getId() {
+	@Override
+	public String toString() {
+		return "Sport [ id = " + id + ", name = " + name + " , people = " + people + "]";
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
