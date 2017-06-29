@@ -1,70 +1,63 @@
 package tw.com.softleader.sample.country;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
+import java.util.Collection;
 
 import org.junit.Test;
 
 public class CountryServiceTest {
 
 	CountryService countryService = new CountryService();
-	private List<Country> countries = countryService.getAll();
-
-	@Test
-	public void testGetAll() {
-
-		assertEquals(countryService.getOne(1).getName(), "Taiwan");
-		assertEquals(countryService.getOne(1).getId(), 1);
-		assertEquals(countryService.getOne(1).getSize(), "Small");
-
-		assertEquals(countryService.getOne(2).getName(), "Japan");
-		assertEquals(countryService.getOne(2).getId(), 2);
-		assertEquals(countryService.getOne(2).getSize(), "Medium");
-
-		assertEquals(countryService.getOne(3).getName(), "Malaysia");
-		assertEquals(countryService.getOne(3).getId(), 3);
-		assertEquals(countryService.getOne(3).getSize(), "Big");
-
-	}
 
 	@Test
 	public void testGetOne() {
-
-		assertEquals(countryService.getOne(1).getName(), "Taiwan");
-		assertEquals(countryService.getOne(1).getId(), 1);
-		assertEquals(countryService.getOne(1).getSize(), "Small");
-
+		System.out.println(countryService.getOne(2l));
 	}
 
 	@Test
-	public void testInsertAndTestUpdateAndTestDelete() {
+	public void testGetAll() {
+		Collection<Country> countries = countryService.getAll();
+		for (Country country : countries) {
+			System.out.println(country);
+		}
+	}
 
-		Country newCountry = new Country();
-		newCountry.setName("Hong Kong");
-		newCountry.setId(countries.size() + 1);
-		newCountry.setSize("Tiny");
-
-		countryService.insert(newCountry);
-		assertEquals(countryService.getOne(4).getName(), "Hong Kong");
-		assertEquals(countryService.getOne(4).getId(), 4);
-		assertEquals(countryService.getOne(4).getSize(), "Tiny");
-		assertEquals(countries.size(), 4);
+	@Test
+	public void testInsertUpdateDelete() {
+		Country insertNew = new Country();
+		insertNew.setId(3l);
+		insertNew.setName("Singapore");
+		insertNew.setSize("Tiny");
+		countryService.insert(insertNew);
 
 		Country update = new Country();
-		update.setName("Korea");
+		update.setId(3l);
+		update.setName("Japan");
 		update.setSize("Medium");
-		update.setId(4);
-		update.setId(newCountry.getId());
-
 		countryService.update(update);
-		assertEquals(countryService.getOne(4).getName(), "Korea");
-		assertEquals(countryService.getOne(4).getId(), 4);
-		assertEquals(countryService.getOne(4).getSize(), "Medium");
-		assertEquals(countries.size(), 4);
 
-		countryService.delete(4);
-		assertEquals(countries.size(), 3);
-
+		countryService.delete(3l);
 	}
+	// @Test
+	// public void testInsert() {
+	// Country insertNew = new Country();
+	// insertNew.setId(3l);
+	// insertNew.setName("Singapore");
+	// insertNew.setSize("Tiny");
+	// countryService.insert(insertNew);
+	// }
+	//
+	// @Test
+	// public void testUpdate() {
+	// Country update = new Country();
+	// update.setId(3l);
+	// update.setName("Japan");
+	// update.setSize("Medium");
+	// countryService.update(update);
+	// }
+	//
+	// @Test
+	// public void testDelete() {
+	// countryService.delete(3l);
+	// }
+
 }
