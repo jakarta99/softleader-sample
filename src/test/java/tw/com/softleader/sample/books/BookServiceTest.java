@@ -1,60 +1,45 @@
 package tw.com.softleader.sample.books;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.List;
-
+import java.util.Collection;
 import org.junit.Test;
 
 public class BookServiceTest {
-	private BookService bookService = new BookService();
-	List<Book> books = bookService.getAll();
 
-	@Test
-	public void testGetOne() {
-		Book book = bookService.getOne(19);
-		assertEquals(book.getId(), 19);
-		assertEquals(book.getName(), "The Da Vinci Code");
-		assertEquals(book.getType(), "mysterious");
-	}
+	private BookService bookService = new BookService();
 
 	@Test
 	public void testGetAll() {
+		Collection<Book> books = bookService.getAll();
 
-		assertEquals(books.get(0).getId(), 1);
-		assertEquals(books.get(0).getName(), "Harry Potter");
-		assertEquals(books.get(0).getType(), "magic");
-		assertEquals(books.get(1).getId(), 2);
-		assertEquals(books.get(1).getName(), "Angels and Demons");
-		assertEquals(books.get(1).getType(), "religious");
-		assertEquals(books.get(2).getId(), 19);
-		assertEquals(books.get(2).getName(), "The Da Vinci Code");
-		assertEquals(books.get(2).getType(), "mysterious");
+		for (Book book : books) {
+			System.out.println(book);
+		}
 
+	}
+
+	@Test
+	public void testGetOne() {
+		Book book = bookService.getOne((long) 2);
+		System.out.println(book);
 	}
 
 	@Test
 	public void testInsertUpdateDelete() {
-
 		Book book1 = new Book();
-		book1.setId(5);
-		book1.setName("Digital Fortress");
-		book1.setType("suspenseful");
+		book1.setId(6L);
+		book1.setName("The Lord of the Rings");
+		book1.setType("fantasy");
+
 		bookService.insert(book1);
-		assertEquals(books.get(3).getId(), 5);
-		assertEquals(books.get(3).getName(), "Digital Fortress");
-		assertEquals(books.get(3).getType(), "suspenseful");
+
 		Book book2 = new Book();
-		book2.setId(19);
-		book2.setName("Inferno");
-		book2.setType("secared");
+		book2.setId(6L);
+		book2.setName("Java 8 API");
+		book2.setType("educational");
+
 		bookService.update(book2);
-		assertEquals(books.get(2).getId(), 19);
-		assertEquals(books.get(2).getName(), "Inferno");
-		assertEquals(books.get(2).getType(), "secared");
-		Book book = bookService.getOne(19);
-		bookService.delete(19);
-		assertEquals(books.contains(book), false);
+
+		bookService.delete(6L);
 
 	}
 

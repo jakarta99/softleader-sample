@@ -1,11 +1,22 @@
 package tw.com.softleader.sample.movie;
 
 public class Movie {
-	public int getId() {
+
+	private long id;
+	private String name;
+
+	private String price;
+
+	@Override
+	public String toString() {
+		return "Movie [id=" + id + ", name=" + name + ", price=" + price + "]";
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -24,9 +35,5 @@ public class Movie {
 	public void setPrice(String price) {
 		this.price = price;
 	}
-
-	private int id;
-	private String name;
-	private String price;
 
 }
