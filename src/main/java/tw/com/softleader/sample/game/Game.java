@@ -1,9 +1,25 @@
-package tw.com.softleader.sample.games;
+/**
+ * 
+ */
+package tw.com.softleader.sample.game;
 
 public class Game {
+	private Long id;
 	private String name;
 	private String type;
-	private int id;
+
+	@Override
+	public String toString() {
+		return "Game [id=" + id + ", name=" + name + ", type=" + type + "]";
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -21,12 +37,4 @@ public class Game {
 		this.type = type;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 }
-//
