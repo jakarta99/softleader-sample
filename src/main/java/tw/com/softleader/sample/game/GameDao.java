@@ -145,7 +145,7 @@ public class GameDao implements GenericDao<Game> {
 	@Override
 	public void delete(Long id) {
 		try {
-			String StmlDelete = "Delete from game where id=?" + id;
+			String StmlDelete = "Delete from game where id=?";
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
 			PreparedStatement pst = connection.prepareStatement(StmlDelete);

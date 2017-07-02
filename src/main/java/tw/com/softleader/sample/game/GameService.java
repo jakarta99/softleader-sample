@@ -23,7 +23,7 @@ public class GameService implements GenericService<Game> {
 	public void insert(Game entity) {
 
 		gameD.insert(entity);
-		;
+
 	}
 
 	@Override
