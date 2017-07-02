@@ -12,7 +12,7 @@ public class GameServiceTest {
 
 	@Test
 	public void testGetOne() {
-		System.out.println(gameService.getOne((long) 3));
+		System.out.println(gameService.getOne((long) 2));
 	}
 
 	@Test

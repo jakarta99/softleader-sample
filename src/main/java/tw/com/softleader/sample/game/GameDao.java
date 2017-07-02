@@ -27,7 +27,7 @@ public class GameDao implements GenericDao<Game> {
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
 
 			Statement stmt = connection.createStatement();
-			String Stmt1 = "Select name,type from game where id =" + id;
+			String Stmt1 = "Select * from game where id =" + id;
 			ResultSet rs = stmt.executeQuery(Stmt1);
 
 			while (rs.next()) {
