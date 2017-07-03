@@ -20,7 +20,7 @@ public class GameDao implements GenericDao<Game> {
 
 	private final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
 
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	public Game findOne(Long id) {
 		Game games = new Game();
 		try {
