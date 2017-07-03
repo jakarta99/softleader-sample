@@ -34,11 +34,11 @@ public class SportDao implements GenericDao<Sport> {
 
 			ResultSet rs = pstmt.executeQuery();
 
-			while (rs.next()) {
+			if (rs.next()) {
 				sport.setId(rs.getLong("id"));
 				sport.setName(rs.getString("name"));
 				sport.setPeople(rs.getString("people"));
-				;
+				return sport;
 			}
 			rs.close();
 			pstmt.close();
@@ -51,7 +51,7 @@ public class SportDao implements GenericDao<Sport> {
 			e.printStackTrace();
 		}
 
-		return sport;
+		return null;
 	}
 
 	@Override
@@ -99,13 +99,12 @@ public class SportDao implements GenericDao<Sport> {
 
 			Connection conn = DriverManager.getConnection(DB_URL, "postgres", "postgres");
 
-			String sqlCmd = "INSERT INTO sport(id,name,people) VALUES (?,?,?)";
+			String sqlCmd = "INSERT INTO sport(name,people) VALUES (?,?)";
 
 			PreparedStatement pstmt = conn.prepareStatement(sqlCmd);
 
-			pstmt.setLong(1, entity.getId());
-			pstmt.setString(2, entity.getName());
-			pstmt.setString(3, entity.getPeople());
+			pstmt.setString(1, entity.getName());
+			pstmt.setString(2, entity.getPeople());
 			pstmt.executeUpdate();
 
 			pstmt.close();
