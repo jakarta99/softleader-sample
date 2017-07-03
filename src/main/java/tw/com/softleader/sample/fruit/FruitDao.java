@@ -36,6 +36,12 @@ public class FruitDao implements GenericDao<Fruit> {
 				fruit.setColor(rs.getString("color"));
 
 			}
+			else{
+				return null;
+			}
+			rs.close();
+			stmt.close();
+			connection.close();
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -83,15 +89,14 @@ public class FruitDao implements GenericDao<Fruit> {
 	@Override
 	public void insert(Fruit entity) {
 
-		String sqlCmd = "insert into fruit(id,name,color)values(?,?,?)";
+		String sqlCmd = "insert into fruit(name,color)values(?,?)";
 		try {
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL,"postgres","postgres");
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
 			
-			pstmt.setLong(1, entity.getId() );
-			pstmt.setString(2, entity.getName());
-			pstmt.setString(3, entity.getColor());
+			pstmt.setString(1, entity.getName());
+			pstmt.setString(2, entity.getColor());
 			pstmt.executeUpdate();
 			
 			pstmt.close();
@@ -110,17 +115,16 @@ public class FruitDao implements GenericDao<Fruit> {
 
 	@Override
 	public void update(Fruit entity) {
-		String sqlCmd = "update fruit set id=?,name=?,color=? where id=?";
+		String sqlCmd = "update fruit set name=?,color=? where id=?";
 		
 		try {
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL,"postgres","postgres");
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
 			
-			pstmt.setLong(1, entity.getId());
-			pstmt.setString(2, entity.getName());
-			pstmt.setString(3, entity.getColor());
-			pstmt.setLong(4, entity.getId());
+			pstmt.setString(1, entity.getName());
+			pstmt.setString(2, entity.getColor());
+			pstmt.setLong(3, entity.getId());
 			
 			pstmt.executeUpdate();
 			
