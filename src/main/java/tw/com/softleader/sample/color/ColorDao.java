@@ -19,8 +19,39 @@ public class ColorDao implements GenericDao<Color>{
 
 	@Override
 	public Color findOne(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Color color = new Color();
+
+		try {
+			Class.forName(DB_DRIVER);
+			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+
+			Statement stmt = connection.createStatement();
+
+			String sqlCmd = "SELECT * FROM COLOR WHERE id=" + id + ";";
+
+			ResultSet rs = stmt.executeQuery(sqlCmd);
+
+			if (rs.next()) {
+				color.setId(rs.getLong("id"));
+				color.setName(rs.getString("name"));
+				color.setCode(rs.getString("code"));
+
+			}
+
+			rs.close();
+
+			stmt.close();
+
+			connection.close();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return color;
 	}
 
 	@Override
@@ -33,7 +64,7 @@ public class ColorDao implements GenericDao<Color>{
 			
 			Statement stmt = connection.createStatement();
 			
-			String sqlCmd = "SELECT * FROM Color";
+			String sqlCmd = "SELECT * FROM COLOR;";
 			
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 			
@@ -67,19 +98,79 @@ public class ColorDao implements GenericDao<Color>{
 
 	@Override
 	public void insert(Color entity) {
-		// TODO Auto-generated method stub
-		
+		try {
+			Class.forName(DB_DRIVER);
+			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+
+			Statement stmt = connection.createStatement();
+
+			String sqlCmd = "INSERT INTO COLOR(NAME,CODE) VALUES ('" + entity.getName() + "', '" + entity.getCode() + "');";
+
+			stmt.executeUpdate(sqlCmd);
+
+			stmt.close();
+
+			connection.close();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
 	public void update(Color entity) {
-		// TODO Auto-generated method stub
+		try {
+			Class.forName(DB_DRIVER);
+			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+
+			Statement stmt = connection.createStatement();
+
+			String sqlCmd = "UPDATE COLOR SET NAME='" + entity.getName() + "', CODE='" + entity.getCode() + "' WHERE ID='" + entity.getId() + "';";
+
+			stmt.executeUpdate(sqlCmd);
+
+			stmt.close();
+
+			connection.close();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
+		try {
+			Class.forName(DB_DRIVER);
+			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+
+			Statement stmt = connection.createStatement();
+
+			String sqlCmd = "DELETE FROM COLOR WHERE ID='" + id + "';";
+
+			stmt.executeUpdate(sqlCmd);
+
+			stmt.close();
+
+			connection.close();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

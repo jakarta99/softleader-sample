@@ -7,6 +7,7 @@ import java.util.List;
 
 import tw.com.softleader.sample.commons.GenericService;
 import tw.com.softleader.sample.country.Country;
+import tw.com.softleader.sample.drink.DrinkDao;
 
 /**
  * 
@@ -16,6 +17,7 @@ import tw.com.softleader.sample.country.Country;
 public class ColorService implements GenericService<Color> {
 	
 	private List<Color> colors = new ArrayList<Color>();
+	ColorDao colorDao = new ColorDao();
 
 	public ColorService() {
 		Color color1 = new Color();
@@ -40,49 +42,26 @@ public class ColorService implements GenericService<Color> {
 
 	@Override
 	public Color getOne(Long id) {
-		for (int i = 0; i < colors.size(); i++) {
-			if (colors.get(i).getId() == colors.get(id).getId()) {
-				return colors.get(i);
-			}
-		}
-		return null;
+		return colorDao.findOne(id);
 	}
 
 	@Override
-	public List<Color> getAll() {
-		return colors;
+	public Collection<Color> getAll() {	
+		return colorDao.findAll();
 	}
 
 	@Override
 	public void insert(Color data) {
-		colors.add(data);
+		colorDao.insert(data);
 	}
 
 	@Override
 	public void update(Color data) {
-		for (int i = 0; i < colors.size(); i++) {
-			if (colors.get(i).getId() == data.getId()) {
-				colors.get(i).setName(data.getName());
-				colors.get(i).setCode(data.getCode());
-			}
-		}
+		colorDao.update(data);
 	}
 
 	@Override
 	public void delete(Long data) {
-		// Watch out :Concurrent Modification Exception
-//		for (int i = 0; i < colors.size(); i++) {
-//			if (colors.get(i).getId() == data) {
-//				colors.remove(i);
-//			}
-//		}
-		
-		List<Color> removeColor = new ArrayList<Color>();
-		for (int i = 0; i < colors.size(); i++) {
-			if (colors.get(i).getId() == data) {
-				removeColor.add(colors.get(i));
-			}
-		}
-		colors.removeAll(removeColor);
+		colorDao.delete(data);
 	}
 }
