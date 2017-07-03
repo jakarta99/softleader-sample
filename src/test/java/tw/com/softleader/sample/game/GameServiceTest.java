@@ -12,7 +12,7 @@ public class GameServiceTest {
 
 	@Test
 	public void testGetOne() {
-		System.out.println(gameService.getOne((long) 2));
+		System.out.println(gameService.getOne((long) 1));
 	}
 
 	@Test
@@ -28,20 +28,19 @@ public class GameServiceTest {
 	@Test
 	public void testInsertUpdateDelete() {
 		Game Input = new Game();
-		Input.setId((long) 20);
+		Input.setId((long) 3);
 		Input.setName("Fallout4");
 		Input.setType("Fps");
 		gameService.insert(Input);
-        
+
 		Game patch = new Game();
-		
-		
-		patch.setId((long) 20);
+
+		patch.setId((long) 4);
 		patch.setName("WOW");
 		patch.setType("MMORPG");
 		gameService.update(patch);
-		
-		gameService.delete((long) 20);
+
+		gameService.delete((long) 4);
 
 	}
 

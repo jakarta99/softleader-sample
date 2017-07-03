@@ -20,6 +20,7 @@ public class GameDao implements GenericDao<Game> {
 
 	private final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
 
+	@SuppressWarnings("unused")
 	public Game findOne(Long id) {
 		Game games = new Game();
 		try {
@@ -30,11 +31,13 @@ public class GameDao implements GenericDao<Game> {
 			String Stmt1 = "Select * from game where id =" + id;
 			ResultSet rs = stmt.executeQuery(Stmt1);
 
-			while (rs.next()) {
+			if (rs.next()) {
 
 				games.setId(rs.getLong("id"));
 				games.setName(rs.getString("name"));
 				games.setType(rs.getString("type"));
+			 
+				return games;
 			}
 			rs.close();
 
@@ -47,7 +50,8 @@ public class GameDao implements GenericDao<Game> {
 			e.printStackTrace();
 		}
 
-		return games;
+		return null;
+
 	}
 
 	public Collection<Game> findAll() {
@@ -96,13 +100,13 @@ public class GameDao implements GenericDao<Game> {
 		// GameDao games = new GameDao();
 
 		try {
-			String StmlInsert = "insert into game values (?,?,?)";
+			String StmlInsert = "insert into game values id,name,type";
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
 			// Statement stmt = connection.createStatement();
 			PreparedStatement pst = connection.prepareStatement(StmlInsert);
 
-			pst.setLong(1, entity.getId());
+			//pst.setLong(1, entity.getId());
 			pst.setString(2, entity.getName());
 			pst.setString(3, entity.getType());
 			pst.executeUpdate();
@@ -120,13 +124,13 @@ public class GameDao implements GenericDao<Game> {
 	@Override
 	public void update(Game entity) {
 		try {
-			String StmlUpdate = "Update game set id =?,name=?,type=?where id =?";
+			String StmlUpdate = "Update game set id=?,name=?,type=?where id =?";
 
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
 			PreparedStatement pst = connection.prepareStatement(StmlUpdate);
 
-			pst.setLong(1, entity.getId());
+			//pst.setLong(1, entity.getId());
 			pst.setString(2, entity.getName());
 			pst.setString(3, entity.getType());
 			pst.setLong(4, entity.getId());
