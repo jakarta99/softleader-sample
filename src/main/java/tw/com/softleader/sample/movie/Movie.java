@@ -2,9 +2,8 @@ package tw.com.softleader.sample.movie;
 
 public class Movie {
 
-	private long id;
+	private Long id;
 	private String name;
-
 	private String price;
 
 	@Override
