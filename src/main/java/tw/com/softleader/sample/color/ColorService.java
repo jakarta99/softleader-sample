@@ -19,17 +19,17 @@ public class ColorService implements GenericService<Color> {
 
 	public ColorService() {
 		Color color1 = new Color();
-		color1.setId(1);
+		color1.setId(1L);
 		color1.setName("Red");
 		color1.setCode("#FF0000");
 
 		Color color2 = new Color();
-		color2.setId(2);
+		color2.setId(2L);
 		color2.setName("Black");
 		color2.setCode("#FFFFFF");
 
 		Color color3 = new Color();
-		color3.setId(3);
+		color3.setId(3L);
 		color3.setName("Green");
 		color3.setCode("#00FF00");
 
@@ -39,7 +39,7 @@ public class ColorService implements GenericService<Color> {
 	}
 
 	@Override
-	public Color getOne(int id) {
+	public Color getOne(Long id) {
 		for (int i = 0; i < colors.size(); i++) {
 			if (colors.get(i).getId() == colors.get(id).getId()) {
 				return colors.get(i);
@@ -69,7 +69,7 @@ public class ColorService implements GenericService<Color> {
 	}
 
 	@Override
-	public void delete(int data) {
+	public void delete(Long data) {
 		// Watch out :Concurrent Modification Exception
 //		for (int i = 0; i < colors.size(); i++) {
 //			if (colors.get(i).getId() == data) {

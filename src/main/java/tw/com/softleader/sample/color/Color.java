@@ -1,15 +1,20 @@
 package tw.com.softleader.sample.color;
 
 public class Color {
-	private int id;
+	private Long id;
 	private String name;
 	private String code;
 
-	public int getId() {
+	@Override
+	public String toString() {
+		return "Color [id=" + id + ", name=" + name + ", code=" + code + "]";
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -28,6 +33,5 @@ public class Color {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	
 
 }
