@@ -2,6 +2,7 @@ package tw.com.softleader.sample.books;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,7 +29,7 @@ public class BookDao implements GenericDao<Book> {
 
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 
-			while (rs.next()) {
+			if (rs.next()) {
 
 				book.setId(rs.getLong("id"));
 				book.setName(rs.getString("name"));
@@ -96,14 +97,16 @@ public class BookDao implements GenericDao<Book> {
 			Class.forName(DB_DRIVER);
 
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+			String sqlCmd = "insert into book(name,type) values (?,?)";
 
-			Statement stmt = connection.createStatement();
+			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
 
-			String sqlCmd = "insert into book values ('" + entity.getId() + "','" + entity.getName() + "','"
-					+ entity.getType() + "')";
-			stmt.executeUpdate(sqlCmd);
+			pstmt.setString(1, entity.getName());
+			pstmt.setString(2, entity.getType());
 
-			stmt.close();
+			pstmt.executeUpdate();
+
+			pstmt.close();
 
 			connection.close();
 
