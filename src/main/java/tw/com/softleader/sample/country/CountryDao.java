@@ -25,7 +25,7 @@ public class CountryDao implements GenericDao<Country> {
 			Statement stmt = connection.createStatement();
 			String sqlCmd = "select id,name,size from country where id=" + id;
 			ResultSet rs = stmt.executeQuery(sqlCmd);
-			if(rs.next()==true){
+			if(rs.next()){
 				country.setId(rs.getLong("id"));
 				country.setName(rs.getString("name"));
 				country.setSize(rs.getString("size"));

@@ -26,20 +26,19 @@ public class BookServiceTest {
 	@Test
 	public void testInsertUpdateDelete() {
 		Book book1 = new Book();
-		book1.setId(6L);
 		book1.setName("The Lord of the Rings");
 		book1.setType("fantasy");
 
 		bookService.insert(book1);
 
 		Book book2 = new Book();
-		book2.setId(6L);
+		book2.setId(4L);
 		book2.setName("Java 8 API");
 		book2.setType("educational");
 
 		bookService.update(book2);
 
-		bookService.delete(6L);
+		bookService.delete(4L);
 
 	}
 

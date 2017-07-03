@@ -19,7 +19,7 @@ public class MovieServiceTest {
 
 	@Test
 	public void testGetOne() {
-		Movie movie = movieService.getOne((long) 2);
+		Movie movie = movieService.getOne(2L);
 		System.out.println(movie);
 	}
 
