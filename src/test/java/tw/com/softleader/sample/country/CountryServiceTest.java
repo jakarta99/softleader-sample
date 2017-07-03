@@ -1,7 +1,6 @@
 package tw.com.softleader.sample.country;
 
 import java.util.Collection;
-
 import org.junit.Test;
 
 public class CountryServiceTest {
