@@ -16,11 +16,12 @@ public class ColorDao implements GenericDao<Color>{
 	private final String DB_DRIVER = "org.postgresql.Driver";
 	
 	private final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
+	
+	private Color color ; 
 
 	@Override
 	public Color findOne(Long id) {
-		Color color = new Color();
-
+		
 		try {
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
@@ -32,10 +33,12 @@ public class ColorDao implements GenericDao<Color>{
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 
 			if (rs.next()) {
+				color = new Color();
 				color.setId(rs.getLong("id"));
 				color.setName(rs.getString("name"));
 				color.setCode(rs.getString("code"));
-
+			} else {
+				return null;
 			}
 
 			rs.close();
