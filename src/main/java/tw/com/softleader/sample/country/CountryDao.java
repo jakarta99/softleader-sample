@@ -79,7 +79,6 @@ public class CountryDao implements GenericDao<Country> {
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
 
-			stmt.setLong(1, entity.getId());
 			stmt.setString(2, entity.getName());
 			stmt.setString(3, entity.getSize());
 			stmt.executeUpdate();
@@ -103,7 +102,6 @@ public class CountryDao implements GenericDao<Country> {
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
 
-			stmt.setLong(1, entity.getId());
 			stmt.setString(2, entity.getName());
 			stmt.setString(3, entity.getSize());
 			stmt.setLong(4, entity.getId());
