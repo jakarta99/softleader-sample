@@ -2,6 +2,7 @@ package tw.com.softleader.sample.movie;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,10 +25,12 @@ public class MovieDao implements GenericDao<Movie> {
 			Statement stmt = connection.createStatement();
 			String sqlCmd = "select * from movie where id=" + id;
 			ResultSet rs = stmt.executeQuery(sqlCmd);
-			while (rs.next()) {
+			if (rs.next() == true) {
 				movie.setId(rs.getLong("id"));
 				movie.setName(rs.getString("name"));
 				movie.setPrice(rs.getString("Price"));
+			} else {
+				return null;
 			}
 			rs.close();
 			stmt.close();
@@ -69,47 +72,53 @@ public class MovieDao implements GenericDao<Movie> {
 
 	@Override
 	public void insert(Movie entity) {
+		String sqlCmd = "insert into movie(name,price) values(?,?)";
 		try {
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-			Statement stmt = connection.createStatement();
-			String sqlCmd = "insert into movie values ('" + entity.getId() + "','" + entity.getName() + "','"+ entity.getPrice() + "')";
-			stmt.executeUpdate(sqlCmd);
-			stmt.close();
-			connection.close();			
+			PreparedStatement prst = connection.prepareStatement(sqlCmd);
+			prst.setString(1, entity.getName());
+			prst.setString(2, entity.getPrice());
+			prst.executeUpdate();
+			prst.close();
+			connection.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 
 	@Override
 	public void update(Movie entity) {
+		String sqlCmd = "update movie set id = ?,name = ?,price = ? where id = ?";
 		try {
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-			Statement stmt = connection.createStatement();
-			String sqlCmd = "update movie set name='" + entity.getName() + "',price='" + entity.getPrice()+ "' where id='" + entity.getId() + "'";
-			stmt.executeUpdate(sqlCmd);
-			stmt.close();
-			connection.close();			
+			PreparedStatement prst = connection.prepareStatement(sqlCmd);
+			prst.setString(2, entity.getName());
+			prst.setString(3, entity.getPrice());
+			prst.setLong(4, entity.getId());
+			prst.executeUpdate();
+			prst.close();
+			connection.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 
 	@Override
 	public void delete(Long id) {
+		String sqlCmd = "delete from movie where id=?";
 		try {
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-			Statement stmt = connection.createStatement();
-			String sqlCmd = "delete from movie where id=" + id;
-			stmt.executeUpdate(sqlCmd);
-			stmt.close();
+			PreparedStatement prst = connection.prepareStatement(sqlCmd);
+			prst.setLong(1, 2);
+			prst.executeUpdate();
+			prst.close();
 			connection.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
