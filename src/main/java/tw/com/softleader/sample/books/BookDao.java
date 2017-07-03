@@ -18,7 +18,7 @@ public class BookDao implements GenericDao<Book> {
 
 	@Override
 	public Book findOne(Long id) {
-		Book book = new Book();
+
 		try {
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
@@ -30,10 +30,12 @@ public class BookDao implements GenericDao<Book> {
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 
 			if (rs.next()) {
-
+				Book book = new Book();
 				book.setId(rs.getLong("id"));
 				book.setName(rs.getString("name"));
 				book.setType(rs.getString("type"));
+
+				return book;
 
 			}
 			rs.close();
@@ -47,7 +49,7 @@ public class BookDao implements GenericDao<Book> {
 			e.printStackTrace();
 		}
 
-		return book;
+		return null;
 	}
 
 	@Override
