@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import tw.com.softleader.sample.commons.GenericDao;
-import tw.com.softleader.sample.country.Country;
 
 public class MovieDao implements GenericDao<Movie> {
 
