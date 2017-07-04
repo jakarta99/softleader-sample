@@ -1,27 +1,30 @@
 package tw.com.softleader.sample.country;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
+
+import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
 
 public class CountryDao implements GenericDao<Country> {
 
-	private final String DB_DRIVER = "org.postgresql.Driver";
-	private final String DB_URL = "jdbc:postgresql://localhost:5433/testdb";
-
+	private Logger log = Logger.getLogger(this.getClass());
+	
 	@Override
 	public Country findOne(Long id) {
 		Country country = new Country();
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
+
 			Statement stmt = connection.createStatement();
 			String sqlCmd = "select id,name,size from country where id=" + id;
 			ResultSet rs = stmt.executeQuery(sqlCmd);
@@ -36,8 +39,6 @@ public class CountryDao implements GenericDao<Country> {
 			stmt.close();
 			connection.close();
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -48,8 +49,9 @@ public class CountryDao implements GenericDao<Country> {
 	public Collection<Country> findAll() {
 		Collection<Country> countries = new ArrayList<Country>();
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
+
 			Statement stmt = connection.createStatement();
 			String sqlCmd = "select * from country";
 			ResultSet rs = stmt.executeQuery(sqlCmd);
@@ -60,11 +62,13 @@ public class CountryDao implements GenericDao<Country> {
 				country.setSize(rs.getString("size"));
 				countries.add(country);
 			}
+			
+			log.info("2:sqlCmd-->"+sqlCmd);
+			
 			rs.close();
 			stmt.close();
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -75,18 +79,25 @@ public class CountryDao implements GenericDao<Country> {
 	public void insert(Country entity) {
 		String sqlCmd = "insert into country(name,size)values(?,?)";
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
+
+			PreparedStatement stmt = connection.prepareStatement(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, entity.getName());
 			stmt.setString(2, entity.getSize());
 			stmt.executeUpdate();
-			// System.out.println("Insert Completed");
 
+			ResultSet keySet = stmt.getGeneratedKeys();
+			log.info("2:keySet-->"+keySet);
+			if (keySet.next()) {
+				Long generatedId = keySet.getLong("ID");
+				entity.setId(generatedId);
+			}
+
+			keySet.close();
 			stmt.close();
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -97,20 +108,19 @@ public class CountryDao implements GenericDao<Country> {
 	public void update(Country entity) {
 		String sqlCmd = "update country set name=?,size=? where id=?";
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
+
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
 
-			stmt.setString(2, entity.getName());
-			stmt.setString(3, entity.getSize());
-			stmt.setLong(4, entity.getId());
+			stmt.setString(1, entity.getName());
+			stmt.setString(2, entity.getSize());
+			stmt.setLong(3, entity.getId());
 			stmt.executeUpdate();
-			// System.out.println("Update Completed");
 
 			stmt.close();
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -121,17 +131,16 @@ public class CountryDao implements GenericDao<Country> {
 	public void delete(Long id) {
 		String sqlCmd = "delete from country where id=?";
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
+
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
 			stmt.setLong(1, id);
 			stmt.executeUpdate();
-			// System.out.println("Delete Completed");
 
 			stmt.close();
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

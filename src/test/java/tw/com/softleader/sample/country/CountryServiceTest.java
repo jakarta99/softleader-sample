@@ -1,62 +1,71 @@
 package tw.com.softleader.sample.country;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
+
+import javax.sql.DataSource;
+
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import tw.com.softleader.sample.commons.DataSourceUtil;
+
 public class CountryServiceTest {
+
+	private Logger log = Logger.getLogger(this.getClass());
 
 	CountryService countryService = new CountryService();
 
 	@Test
 	public void testGetOne() {
-		System.out.println(countryService.getOne(2l));
+		try {
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
+
+			Statement stmt = connection.createStatement();
+			String sqlCmd = "SELECT id FROM country ORDER BY RANDOM() LIMIT 1";
+			ResultSet rs = stmt.executeQuery(sqlCmd);
+			if (rs.next()) {
+				log.info("2:testGetOne-->" + countryService.getOne(rs.getLong("id")));
+			} else {
+				log.info("2:testGetOne,DB has no data");
+			}
+			rs.close();
+			stmt.close();
+			connection.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void testGetAll() {
 		Collection<Country> countries = countryService.getAll();
 		for (Country country : countries) {
-			System.out.println(country);
+			log.info("2:testGetAll-->" + country);
 		}
 	}
 
 	@Test
 	public void testInsertUpdateDelete() {
 		Country insertNew = new Country();
-		insertNew.setId(3l);
 		insertNew.setName("Singapore");
 		insertNew.setSize("Tiny");
 		countryService.insert(insertNew);
 
+		log.info("2:testInsertNew.getId-->" + insertNew.getId());
+
 		Country update = new Country();
-		update.setId(3l);
+		update.setId(insertNew.getId());
 		update.setName("Japan");
 		update.setSize("Medium");
 		countryService.update(update);
 
-		countryService.delete(3l);
+		countryService.delete(insertNew.getId());
 	}
-	// @Test
-	// public void testInsert() {
-	// Country insertNew = new Country();
-	// insertNew.setId(3l);
-	// insertNew.setName("Singapore");
-	// insertNew.setSize("Tiny");
-	// countryService.insert(insertNew);
-	// }
-	//
-	// @Test
-	// public void testUpdate() {
-	// Country update = new Country();
-	// update.setId(3l);
-	// update.setName("Japan");
-	// update.setSize("Medium");
-	// countryService.update(update);
-	// }
-	//
-	// @Test
-	// public void testDelete() {
-	// countryService.delete(3l);
-	// }
 
 }
