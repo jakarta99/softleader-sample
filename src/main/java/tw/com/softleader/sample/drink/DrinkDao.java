@@ -8,8 +8,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.sql.DataSource;
+
 import org.apache.log4j.Logger;
 
+import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
 
 public class DrinkDao implements GenericDao<Drink> {
@@ -17,17 +20,16 @@ public class DrinkDao implements GenericDao<Drink> {
 	
 	private Logger log = Logger.getLogger(this.getClass());
 
-	private final String DB_DRIVER = "org.postgresql.Driver";
-	
-	private final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
 	
 	@Override
 	public Drink findOne(Long id) {
 		Drink entity = null;
 		
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL,"postgres", "postgres");
+			
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
+			
 			
 			Statement stmt = connection.createStatement();
 			
@@ -54,9 +56,7 @@ public class DrinkDao implements GenericDao<Drink> {
 			stmt.close();
 			
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -72,8 +72,8 @@ public class DrinkDao implements GenericDao<Drink> {
 		Collection<Drink> drinks = new ArrayList<Drink>();
 		
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL,"postgres", "postgres");
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
 			
 			Statement stmt = connection.createStatement();
 			
@@ -97,9 +97,7 @@ public class DrinkDao implements GenericDao<Drink> {
 			stmt.close();
 			
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -114,8 +112,8 @@ public class DrinkDao implements GenericDao<Drink> {
 		
 		
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL,"postgres", "postgres");
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
 			
 			Statement stmt = connection.createStatement();
 			
@@ -135,9 +133,7 @@ public class DrinkDao implements GenericDao<Drink> {
 			stmt.close();
 			
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,8 +144,8 @@ public class DrinkDao implements GenericDao<Drink> {
 	@Override
 	public void update(Drink entity) {
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL,"postgres", "postgres");
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
 			
 			Statement stmt = connection.createStatement();
 			
@@ -163,9 +159,7 @@ public class DrinkDao implements GenericDao<Drink> {
 			stmt.close();
 			
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -176,8 +170,8 @@ public class DrinkDao implements GenericDao<Drink> {
 	@Override
 	public void delete(Long id) {
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL,"postgres", "postgres");
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
 			
 			Statement stmt = connection.createStatement();
 			
@@ -188,9 +182,7 @@ public class DrinkDao implements GenericDao<Drink> {
 			stmt.close();
 			
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
