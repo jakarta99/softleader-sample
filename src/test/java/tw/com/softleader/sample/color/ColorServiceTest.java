@@ -1,14 +1,15 @@
 package tw.com.softleader.sample.color;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 public class ColorServiceTest {
+	private Logger log = Logger.getLogger(this.getClass());
+	
 	ColorService colorService = new ColorService();
 	
 	@Deprecated
@@ -23,7 +24,8 @@ public class ColorServiceTest {
 		Collection<Color> colors = colorService.getAll();
 		
 		for(Color color:colors) {
-			System.out.println(color);
+			//System.out.println(color);
+			log.debug(color);
 		}
 	}
 	
@@ -36,8 +38,10 @@ public class ColorServiceTest {
 		Color color2 = new Color();
 		color2 = colorService.getOne(2L);
 		
-		System.out.println("testGetOne(0L): " + color0);
-		System.out.println("testGetOne(2L): " + color2);
+		log.debug("testGetOne(0L): {}" + color0);
+		log.debug("testGetOne(2L): {}" + color2);
+		//System.out.println("testGetOne(0L): " + color0);
+		//System.out.println("testGetOne(2L): " + color2);
 
 	}
 	
