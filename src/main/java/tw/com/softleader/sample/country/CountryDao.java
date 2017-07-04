@@ -14,7 +14,7 @@ import tw.com.softleader.sample.commons.GenericDao;
 public class CountryDao implements GenericDao<Country> {
 
 	private final String DB_DRIVER = "org.postgresql.Driver";
-	private final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
+	private final String DB_URL = "jdbc:postgresql://localhost:5433/testdb";
 
 	@Override
 	public Country findOne(Long id) {
@@ -25,11 +25,11 @@ public class CountryDao implements GenericDao<Country> {
 			Statement stmt = connection.createStatement();
 			String sqlCmd = "select id,name,size from country where id=" + id;
 			ResultSet rs = stmt.executeQuery(sqlCmd);
-			if(rs.next()){
+			if (rs.next()) {
 				country.setId(rs.getLong("id"));
 				country.setName(rs.getString("name"));
 				country.setSize(rs.getString("size"));
-			}else{
+			} else {
 				return null;
 			}
 			rs.close();
@@ -73,14 +73,13 @@ public class CountryDao implements GenericDao<Country> {
 
 	@Override
 	public void insert(Country entity) {
-		String sqlCmd = "insert into country(id,name,size)values(?,?,?)";
+		String sqlCmd = "insert into country(name,size)values(?,?)";
 		try {
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
-
-			stmt.setString(2, entity.getName());
-			stmt.setString(3, entity.getSize());
+			stmt.setString(1, entity.getName());
+			stmt.setString(2, entity.getSize());
 			stmt.executeUpdate();
 			// System.out.println("Insert Completed");
 
@@ -96,7 +95,7 @@ public class CountryDao implements GenericDao<Country> {
 
 	@Override
 	public void update(Country entity) {
-		String sqlCmd = "update country set id=?,name=?,size=? where id=?";
+		String sqlCmd = "update country set name=?,size=? where id=?";
 		try {
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
