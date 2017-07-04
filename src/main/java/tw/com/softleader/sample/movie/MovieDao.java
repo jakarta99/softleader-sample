@@ -75,7 +75,7 @@ public class MovieDao implements GenericDao<Movie> {
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
-
+			stmt.setLong(1, entity.getId());
 			stmt.setString(2, entity.getName());
 			stmt.setString(3, entity.getPrice());
 			stmt.executeUpdate();
@@ -94,7 +94,7 @@ public class MovieDao implements GenericDao<Movie> {
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
-
+			stmt.setLong(1, entity.getId());
 			stmt.setString(2, entity.getName());
 			stmt.setString(3, entity.getPrice());
 			stmt.setLong(4, entity.getId());
@@ -114,7 +114,7 @@ public class MovieDao implements GenericDao<Movie> {
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
-			stmt.setLong(2, id);
+			stmt.setLong(1, id);;
 			stmt.executeUpdate();
 			stmt.close();
 			connection.close();
