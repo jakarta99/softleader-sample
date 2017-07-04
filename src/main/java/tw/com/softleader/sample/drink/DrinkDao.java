@@ -8,9 +8,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.log4j.Logger;
+
 import tw.com.softleader.sample.commons.GenericDao;
 
 public class DrinkDao implements GenericDao<Drink> {
+	
+	
+	private Logger log = Logger.getLogger(this.getClass());
 
 	private final String DB_DRIVER = "org.postgresql.Driver";
 	
@@ -28,7 +33,11 @@ public class DrinkDao implements GenericDao<Drink> {
 			
 			String sqlCmd = "SELECT * FROM drink WHERE ID = " + id;
 			
-			System.out.println(sqlCmd);
+			log.debug("1:"+sqlCmd);
+			log.info("2:"+sqlCmd);
+			log.warn("3:"+sqlCmd);
+			log.error("4:"+sqlCmd);
+			log.fatal("5:"+sqlCmd);
 			
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 			
