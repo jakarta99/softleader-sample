@@ -18,14 +18,43 @@ public class DrinkDao implements GenericDao<Drink> {
 	
 	@Override
 	public Drink findOne(Long id) {
+		Drink entity = null;
+		
+		try {
+			Class.forName(DB_DRIVER);
+			Connection connection = DriverManager.getConnection(DB_URL,"postgres", "postgres");
+			
+			Statement stmt = connection.createStatement();
+			
+			String sqlCmd = "SELECT * FROM drink WHERE ID = " + id;
+			
+			System.out.println(sqlCmd);
+			
+			ResultSet rs = stmt.executeQuery(sqlCmd);
+			
+			if(rs.next()) {
+				
+				entity = new Drink();
+				entity.setId(rs.getLong("id"));
+				entity.setName(rs.getString("name"));
+				entity.setColor(rs.getString("color"));
+			}
+			
+			rs.close();
+			
+			stmt.close();
+			
+			connection.close();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
-		
-
-		
-		
-		
-		return null;
+		return entity;
 	}
 
 	@Override
@@ -73,19 +102,90 @@ public class DrinkDao implements GenericDao<Drink> {
 
 	@Override
 	public void insert(Drink entity) {
-		// TODO Auto-generated method stub
+		
+		
+		try {
+			Class.forName(DB_DRIVER);
+			Connection connection = DriverManager.getConnection(DB_URL,"postgres", "postgres");
+			
+			Statement stmt = connection.createStatement();
+			
+			String sqlCmd = "INSERT INTO DRINK (name, color) VALUES ('"+entity.getName()+"','"+entity.getColor()+"');";
+			
+			stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
+			
+			ResultSet keySet = stmt.getGeneratedKeys();
+			
+			if(keySet.next()) {
+				Long generatedId = keySet.getLong("ID");
+				entity.setId(generatedId);
+			}
+			
+			keySet.close();
+			
+			stmt.close();
+			
+			connection.close();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
 	public void update(Drink entity) {
-		// TODO Auto-generated method stub
+		try {
+			Class.forName(DB_DRIVER);
+			Connection connection = DriverManager.getConnection(DB_URL,"postgres", "postgres");
+			
+			Statement stmt = connection.createStatement();
+			
+			String sqlCmd = "UPDATE DRINK SET "
+								+ "name = '" + entity.getName() + "', "
+								+ "color = '" + entity.getColor() + "'  "
+								+ "WHERE ID = " + entity.getId();
+			
+			stmt.executeUpdate(sqlCmd);
+			
+			stmt.close();
+			
+			connection.close();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
+		try {
+			Class.forName(DB_DRIVER);
+			Connection connection = DriverManager.getConnection(DB_URL,"postgres", "postgres");
+			
+			Statement stmt = connection.createStatement();
+			
+			String sqlCmd = "DELETE FROM DRINK WHERE ID = "+id;
+			
+			stmt.executeUpdate(sqlCmd);
+			
+			stmt.close();
+			
+			connection.close();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

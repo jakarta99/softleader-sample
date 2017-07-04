@@ -15,8 +15,8 @@ public class DrinkService implements GenericService<Drink> {
 
 	@Override
 	public Drink getOne(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		DrinkDao drinkDao = new DrinkDao();
+		return drinkDao.findOne(id);
 	}
 
 	@Override
@@ -29,19 +29,21 @@ public class DrinkService implements GenericService<Drink> {
 
 	@Override
 	public void insert(Drink entity) {
-		// TODO Auto-generated method stub
-		
+		DrinkDao drinkDao = new DrinkDao();
+		drinkDao.insert(entity);
 	}
 
 	@Override
 	public void update(Drink entity) {
-		// TODO Auto-generated method stub
+		DrinkDao drinkDao = new DrinkDao();
+		drinkDao.update(entity);
 		
 	}
 
 	@Override
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
+		DrinkDao drinkDao = new DrinkDao();
+		drinkDao.delete(id);
 		
 	}
 	
