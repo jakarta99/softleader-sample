@@ -9,23 +9,32 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.sql.DataSource;
+
+import org.apache.log4j.Logger;
+
+import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
 
 public class BookDao implements GenericDao<Book> {
 
-	private final String DB_DRIVER = "org.postgresql.Driver";
-	private final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
+	private Logger log = Logger.getLogger(this.getClass());
 
 	@Override
 	public Book findOne(Long id) {
 
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-
+			DataSource ds=DataSourceUtil.getInstance().getDataSource();
+			Connection connection=ds.getConnection();
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "select * from book where id=" + id;
+
+			log.debug("1:" + sqlCmd);
+			log.info("2:" + sqlCmd);
+			log.warn("3:" + sqlCmd);
+			log.error("4:" + sqlCmd);
+			log.fatal("5:" + sqlCmd);
 
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 
@@ -43,9 +52,7 @@ public class BookDao implements GenericDao<Book> {
 			stmt.close();
 
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		}  catch (SQLException e) {
 			e.printStackTrace();
 		}
 
@@ -57,10 +64,8 @@ public class BookDao implements GenericDao<Book> {
 		Collection<Book> books = new ArrayList<Book>();
 
 		try {
-			Class.forName(DB_DRIVER);
-
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-
+			DataSource ds=DataSourceUtil.getInstance().getDataSource();
+			Connection connection=ds.getConnection();
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "SELECT * FROM BOOK";
@@ -83,8 +88,6 @@ public class BookDao implements GenericDao<Book> {
 			stmt.close();
 
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -96,24 +99,27 @@ public class BookDao implements GenericDao<Book> {
 	@Override
 	public void insert(Book entity) {
 		try {
-			Class.forName(DB_DRIVER);
-
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+			DataSource ds=DataSourceUtil.getInstance().getDataSource();
+			Connection connection=ds.getConnection();
 			String sqlCmd = "insert into book(name,type) values (?,?)";
-
-			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
+			PreparedStatement pstmt = connection.prepareStatement(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 
 			pstmt.setString(1, entity.getName());
 			pstmt.setString(2, entity.getType());
 
 			pstmt.executeUpdate();
+			
+			ResultSet keySet = pstmt.getGeneratedKeys();
+			if (keySet.next()) {
+				Long generatedId = keySet.getLong("id");
+				entity.setId(generatedId);
+			}
+			keySet.close();
 
 			pstmt.close();
 
 			connection.close();
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -123,9 +129,8 @@ public class BookDao implements GenericDao<Book> {
 	@Override
 	public void update(Book entity) {
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-
+			DataSource ds=DataSourceUtil.getInstance().getDataSource();
+			Connection connection=ds.getConnection();
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "update book set name='" + entity.getName() + "',type='" + entity.getType() + "' where id='"
@@ -137,8 +142,6 @@ public class BookDao implements GenericDao<Book> {
 
 			connection.close();
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -148,9 +151,8 @@ public class BookDao implements GenericDao<Book> {
 	@Override
 	public void delete(Long id) {
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-
+			DataSource ds=DataSourceUtil.getInstance().getDataSource();
+			Connection connection=ds.getConnection();
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "delete from book where id=" + id;
@@ -160,8 +162,6 @@ public class BookDao implements GenericDao<Book> {
 			stmt.close();
 
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
