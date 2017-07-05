@@ -1,7 +1,6 @@
 package tw.com.softleader.sample.drink;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,7 +9,8 @@ import java.util.Collection;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
@@ -18,7 +18,7 @@ import tw.com.softleader.sample.commons.GenericDao;
 public class DrinkDao implements GenericDao<Drink> {
 	
 	
-	private Logger log = Logger.getLogger(this.getClass());
+	private Logger log = LoggerFactory.getLogger(DrinkDao.class);
 
 	
 	@Override
@@ -39,7 +39,7 @@ public class DrinkDao implements GenericDao<Drink> {
 			log.info("2:"+sqlCmd);
 			log.warn("3:"+sqlCmd);
 			log.error("4:"+sqlCmd);
-			log.fatal("5:"+sqlCmd);
+			
 			
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 			
