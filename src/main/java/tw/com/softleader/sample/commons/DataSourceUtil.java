@@ -30,7 +30,7 @@ public class DataSourceUtil {
 		// change to HikariCP. https://brettwooldridge.github.io/HikariCP/
 		
 		HikariConfig config = new HikariConfig();
-		config.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb");
+		config.setJdbcUrl("jdbc:postgresql://localhost:5433/testdb");
 		config.setUsername("postgres");
 		config.setPassword("postgres");
 		config.addDataSourceProperty("cachePrepStmts", "true");
