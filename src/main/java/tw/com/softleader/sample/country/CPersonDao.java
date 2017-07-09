@@ -17,31 +17,35 @@ import tw.com.softleader.sample.commons.GenericDao;
 public class CPersonDao implements GenericDao<CPerson> {
 
 	private Logger log = Logger.getLogger(this.getClass());
+	private CountryDao countryDao = new CountryDao();
+	private CPerson cPerson;
 
 	@Override
-	public CPerson findOne(Long personid) {
-		CPerson cPerson = new CPerson();
+	public CPerson findOne(Long id) {
+		Collection<Country> countries = new ArrayList<Country>();
+		cPerson = null;
+
 		try {
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 
 			Statement stmt = connection.createStatement();
-			String sqlCmd = "select p.id,c.countryid,c.name,c.size from cPerson p join country c on p.id=c.personid where p.id=1 AND c.countryid=111";
+			String sqlCmd = "SELECT p.id,p.name,p.idno,p.country,c.name,c.size FROM cPerson p JOIN country c ON p.country=c.id WHERE p.id="+id;
 			ResultSet rs = stmt.executeQuery(sqlCmd);
-			
+
 			if (rs.next()) {
+				cPerson = new CPerson();
 				cPerson.setId(rs.getLong("id"));
-				cPerson.setCountryid(rs.getLong("countryid"));
-				cPerson.setCountryName(rs.getString("name"));
-				cPerson.setSize(rs.getString("size"));
-			} else {
-				return null;
+				cPerson.setName(rs.getString("name"));
+				cPerson.setIdNo(rs.getString("idno"));
+
+				countries.add(countryDao.findOne(rs.getLong("country")));
+				log.info("2:findOne countries-->" + countries);
 			}
-			
 			rs.close();
 			stmt.close();
 			connection.close();
-			
+
 			log.info("2:findOne sqlCmd-->" + sqlCmd);
 
 		} catch (SQLException e) {
@@ -53,27 +57,28 @@ public class CPersonDao implements GenericDao<CPerson> {
 	@Override
 	public Collection<CPerson> findAll() {
 		Collection<CPerson> cPersons = new ArrayList<CPerson>();
+		Collection<Country> countries = new ArrayList<Country>();
 		try {
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 
 			Statement stmt = connection.createStatement();
-			String sqlCmd = "select p.id,c.countryid,c.name,c.size from cPerson p join country c on p.id=c.personid where p.id=1";
+			String sqlCmd = "SELECT p.id,p.name,p.idno,p.country,c.name,c.size FROM cPerson p JOIN country c ON p.country=c.id";
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 			while (rs.next()) {
 				CPerson cPerson = new CPerson();
-				 
-				cPerson.setId(rs.getLong("id"));
-				cPerson.setName(cPerson.getName());
-				cPerson.setIdNo(cPerson.getIdNo());
-				
-				cPerson.setCountryid(rs.getLong("countryid"));
-				cPerson.setCountryName(rs.getString("name"));
-				cPerson.setSize(rs.getString("size"));
-				
-				cPersons.add(cPerson);
-			}
 
+				cPerson.setId(rs.getLong("id"));
+				cPerson.setName(rs.getString("name"));
+				cPerson.setIdNo(rs.getString("idno"));
+
+				countries.add(countryDao.findOne(rs.getLong("country")));
+				cPerson.setCountries(countries);
+
+				cPersons.add(cPerson);
+
+			}
+			log.info("2:findAll countries--> " + countries);
 			log.info("2:findAll sqlCmd-->" + sqlCmd);
 
 			rs.close();
@@ -88,27 +93,42 @@ public class CPersonDao implements GenericDao<CPerson> {
 
 	@Override
 	public void insert(CPerson entity) {
-		String sqlCmd = "insert into country(countryid,name,size,personid)values(?,?,?,1)";
+		String sqlCmdPerson = "INSERT INTO cperson(name,idno,country) VALUES(?,?,?)";
+		String sqlCmdCountry = "INSERT INTO country(id,name,size)VALUES(?,?,?)";
 		try {
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 
-			PreparedStatement stmt = connection.prepareStatement(sqlCmd, Statement.RETURN_GENERATED_KEYS);
-			stmt.setLong(1, entity.getCountryid());
-			stmt.setString(2, entity.getCountryName());
-			stmt.setString(3, entity.getSize());
-			stmt.executeUpdate();
+			PreparedStatement stmt1 = connection.prepareStatement(sqlCmdPerson, Statement.RETURN_GENERATED_KEYS);
+			stmt1.setString(1, entity.getName());
+			stmt1.setString(2, entity.getIdNo());
+			stmt1.setLong(3, entity.getCountries().iterator().next().getId());
+			stmt1.executeUpdate();
+			ResultSet keySet1 = stmt1.getGeneratedKeys();
+			log.info("2:keySet1-->" + keySet1);
 
-			log.info("2:insert sqlCmd-->" + sqlCmd);
-			// ResultSet keySet = stmt.getGeneratedKeys();
-			// log.info("2:keySet-->"+keySet);
-			// if (keySet.next()) {
-			// Long generatedId = keySet.getLong("ID");
-			// entity.setId(generatedId);
-			// }
-			//
-			// keySet.close();
-			stmt.close();
+			if (keySet1.next()) {
+				Long generatedId1 = keySet1.getLong(1);
+				entity.setId(generatedId1);
+			}
+
+			log.info("2:insert sqlCmdPerson-->" + sqlCmdPerson);
+
+			PreparedStatement stmt2 = connection.prepareStatement(sqlCmdCountry, Statement.RETURN_GENERATED_KEYS);
+			stmt2.setLong(1, entity.getCountries().iterator().next().getId());
+			stmt2.setString(2, entity.getCountries().iterator().next().getName());
+			stmt2.setString(3, entity.getCountries().iterator().next().getSize());
+			stmt2.executeUpdate();
+			ResultSet keySet2 = stmt2.getGeneratedKeys();
+
+			log.info("2:keySet2-->" + keySet2);
+
+			log.info("2:insert sqlCmdCountry-->" + sqlCmdCountry);
+
+			keySet2.close();
+			keySet1.close();
+			stmt2.close();
+			stmt1.close();
 			connection.close();
 
 		} catch (SQLException e) {
@@ -119,21 +139,21 @@ public class CPersonDao implements GenericDao<CPerson> {
 
 	@Override
 	public void update(CPerson entity) {
-		String sqlCmd = "update country set countryid=?,name=?,size=?,personid=1 where countryid=?";
+		String sqlCmd = "UPDATE country SET name=?,size=? WHERE id=?";
 		try {
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
 
-			stmt.setLong(1, entity.getCountryid());
-			stmt.setString(2, entity.getCountryName());
-			stmt.setString(3, entity.getSize());
-			stmt.setLong(4, entity.getCountryid());
+			stmt.setString(1, entity.getCountries().iterator().next().getName());
+			stmt.setString(2,entity.getCountries().iterator().next().getSize());
+			stmt.setLong(3, entity.getCountries().iterator().next().getId());
+
 			stmt.executeUpdate();
-			
+
 			log.info("2:update sqlCmd-->" + sqlCmd);
-			
+
 			stmt.close();
 			connection.close();
 
@@ -144,18 +164,18 @@ public class CPersonDao implements GenericDao<CPerson> {
 	}
 
 	@Override
-	public void delete(Long countryid) {
-		String sqlCmd = "delete from country where countryid=?";
+	public void delete(Long id) {
+		String sqlCmd = "DELETE FROM cperson WHERE ID=?";
 		try {
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
-			stmt.setLong(1, countryid);
+			stmt.setLong(1, id);
 			stmt.executeUpdate();
-			
+
 			log.info("2:delete sqlCmd-->" + sqlCmd);
-			
+
 			stmt.close();
 			connection.close();
 
