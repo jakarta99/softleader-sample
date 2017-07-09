@@ -8,6 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.sql.DataSource;
+
+import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
 
 
@@ -23,9 +26,13 @@ public class ColorDao implements GenericDao<Color>{
 	public Color findOne(Long id) {
 		
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-
+			//Class.forName(DB_DRIVER);
+			//Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+			
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			
+			Connection connection = ds.getConnection();
+			
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "SELECT * FROM COLOR WHERE id=" + id + ";";
@@ -47,9 +54,6 @@ public class ColorDao implements GenericDao<Color>{
 
 			connection.close();
 
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,8 +66,12 @@ public class ColorDao implements GenericDao<Color>{
 		Collection<Color> colors = new ArrayList<Color>();
 		
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL,"postgres", "postgres");
+			//Class.forName(DB_DRIVER);
+			//Connection connection = DriverManager.getConnection(DB_URL,"postgres", "postgres");
+			
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			
+			Connection connection = ds.getConnection();
 			
 			Statement stmt = connection.createStatement();
 			
@@ -87,9 +95,6 @@ public class ColorDao implements GenericDao<Color>{
 			stmt.close();
 			
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -102,22 +107,31 @@ public class ColorDao implements GenericDao<Color>{
 	@Override
 	public void insert(Color entity) {
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+			//Class.forName(DB_DRIVER);
+			//Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+			
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			
+			Connection connection = ds.getConnection();
 
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "INSERT INTO COLOR(NAME,CODE) VALUES ('" + entity.getName() + "', '" + entity.getCode() + "');";
 
-			stmt.executeUpdate(sqlCmd);
+			//stmt.executeUpdate(sqlCmd);
+			stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
+			
+			ResultSet keySet = stmt.getGeneratedKeys();
+			
+			if(keySet.next()) {
+				Long generatedId = keySet.getLong("ID");
+				entity.setId(generatedId);
+			}
 
 			stmt.close();
 
 			connection.close();
 
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -128,8 +142,12 @@ public class ColorDao implements GenericDao<Color>{
 	@Override
 	public void update(Color entity) {
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+			//Class.forName(DB_DRIVER);
+			//Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+			
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			
+			Connection connection = ds.getConnection();
 
 			Statement stmt = connection.createStatement();
 
@@ -141,10 +159,7 @@ public class ColorDao implements GenericDao<Color>{
 
 			connection.close();
 
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
+		}  catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -154,8 +169,12 @@ public class ColorDao implements GenericDao<Color>{
 	@Override
 	public void delete(Long id) {
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+			//Class.forName(DB_DRIVER);
+			//Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+			
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			
+			Connection connection = ds.getConnection();
 
 			Statement stmt = connection.createStatement();
 
@@ -167,9 +186,6 @@ public class ColorDao implements GenericDao<Color>{
 
 			connection.close();
 
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
