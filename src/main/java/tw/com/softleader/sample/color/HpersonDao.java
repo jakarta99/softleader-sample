@@ -1,5 +1,7 @@
 package tw.com.softleader.sample.color;
 
+import static org.junit.Assert.assertEquals;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,10 +53,6 @@ public class HpersonDao  implements GenericDao<Hperson> {
 
 				hperson.setColors(colors);
 			}
-
-//			rs.close();
-//			stmt.close();
-//			connection.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -91,11 +89,6 @@ public class HpersonDao  implements GenericDao<Hperson> {
 				hpersons.add(hperson);
 				
 			}
-
-//			rs.close();
-//			stmt.close();
-//			connection.close();
-			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -112,8 +105,11 @@ public class HpersonDao  implements GenericDao<Hperson> {
 		try (Connection connection = ds.getConnection();
 			 Statement stmt = connection.createStatement();){
 
-			// TODO COLOR VALUE
-			String sqlCmd = "INSERT INTO HPERSON(NAME,IDNO,COLOR) VALUES ('" + entity.getName() + "', '" + entity.getIdNo() + "',3);";
+			Long colorsId = entity.getColors().iterator().next().getId();
+
+			String sqlCmd = "INSERT INTO HPERSON(NAME,IDNO,COLOR) VALUES ('" + entity.getName() + "', '" + entity.getIdNo() + "',"+ colorsId +");";
+			
+			log.debug("insert sql : " + sqlCmd);
 			
 			stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 			
@@ -135,22 +131,17 @@ public class HpersonDao  implements GenericDao<Hperson> {
 
 	@Override
 	public void update(Hperson entity) {
-		try {
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+		DataSource ds = DataSourceUtil.getInstance().getDataSource();
+		try (Connection connection = ds.getConnection();
+			 Statement stmt = connection.createStatement();) {
 			
-			Connection connection = ds.getConnection();
+			Long colorsId = entity.getColors().iterator().next().getId();
+
+			String sqlCmd = "UPDATE HPERSON SET COLOR='" +  colorsId + "' WHERE ID='" + entity.getId() + "';";
 			
-			String sqlCmd = "UPDATE Hperson SET COLOR =? WHERE ID=?";
+			log.debug("update sql: "+ sqlCmd);
 
-			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
-
-			
-
-			stmt.executeUpdate();
-
-			stmt.close();
-
-			connection.close();
+			stmt.executeUpdate(sqlCmd);
 
 		}  catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -168,9 +159,6 @@ public class HpersonDao  implements GenericDao<Hperson> {
 			String sqlCmd = "DELETE FROM HPERSON WHERE ID='" + id + "';";
 
 			stmt.executeUpdate(sqlCmd);
-
-//			stmt.close();
-//			connection.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
