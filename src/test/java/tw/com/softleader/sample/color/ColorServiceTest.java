@@ -40,9 +40,6 @@ public class ColorServiceTest {
 		
 		log.debug("testGetOne(0L): {}" + color0);
 		log.debug("testGetOne(2L): {}" + color2);
-		//System.out.println("testGetOne(0L): " + color0);
-		//System.out.println("testGetOne(2L): " + color2);
-
 	}
 	
 	@Test
@@ -53,27 +50,30 @@ public class ColorServiceTest {
 		/** testInsert */
 		System.out.println("--------------testInsert----------------");
 		Color newColor = new Color();
-		newColor.setId(4L);
+		//newColor.setId(4L);
 		newColor.setName("white");
 		newColor.setCode("#000000");
 
 		colorService.insert(newColor);
 		
+		Long generatedId = newColor.getId();
+		
 		testGetAll();
 		
 		/** testUpdate */
 		System.out.println("--------------testUpdate----------------");
-		Color updateColor = new Color();
-		updateColor.setId(4L);
-		updateColor.setName("Blue");
-		updateColor.setCode("#0000FF");
-		colorService.update(updateColor);
+//		Color updateColor = new Color();
+//		updateColor.setId(4L);
+		newColor.setName("Blue");
+		newColor.setCode("#0000FF");
+		colorService.update(newColor);
 		
 		testGetAll();
 
 		/** testDelete */
 		System.out.println("--------------testDelete----------------");
-		colorService.delete(4L);
+		//colorService.delete(4L);
+		colorService.delete(generatedId);
 
 		testGetAll();
 	}
