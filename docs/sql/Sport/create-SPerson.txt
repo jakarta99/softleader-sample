@@ -1,0 +1,14 @@
+CREATE TABLE sport( 
+	id     bigserial,
+	name   varchar(100),
+	poeple  varchar(100),
+	personid  bigserial,
+	
+    )
+    
+CREATE TABLE SPerson( 
+	id     bigserial,
+	name   varchar(100),
+	idnum  varchar(100),
+	
+    )
