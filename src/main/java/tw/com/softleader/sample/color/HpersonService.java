@@ -24,21 +24,19 @@ public class HpersonService implements GenericService<Hperson>{
 
 	@Override
 	public void insert(Hperson entity) {
-		// TODO Auto-generated method stub
-		
+		dao.insert(entity);
 	}
 
 	@Override
 	public void update(Hperson entity) {
-		// TODO Auto-generated method stub
+		dao.update(entity);
 		
 	}
 
 	@Override
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
+		dao.delete(id);
 		
 	}
-	
 
 }

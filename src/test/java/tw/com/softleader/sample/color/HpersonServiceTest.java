@@ -2,6 +2,7 @@ package tw.com.softleader.sample.color;
 
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
@@ -11,6 +12,8 @@ public class HpersonServiceTest {
 	private Logger log = Logger.getLogger(this.getClass());
 	
 	HpersonService hPersonService = new HpersonService();
+	
+	ColorService colorService = new ColorService();
 
 	@Deprecated
 	@Test
@@ -29,9 +32,34 @@ public class HpersonServiceTest {
 	@Test
 	public void testGetAll() {
 		Collection<Hperson> hpersons = hPersonService.getAll();
-
+		
 		log.debug(hpersons);
 		log.debug("hperson.size():" + hpersons.size());
 	}
+	
+	@Test
+	public void testInsertAndUpdate() {
+		
+		Hperson insertHperson = new Hperson();
+		Color color = new Color();
+		Collection<Color> colors = new ArrayList<Color>();
+		insertHperson.setName("Angle");
+		insertHperson.setIdNo("1");
+		
+		color = colorService.getOne(3L);  // INSERT COLOR GREEN
+		colors.add(color);
+		insertHperson.setColors(colors);
+		
+		hPersonService.insert(insertHperson);
+		
+		Long generatedId = insertHperson.getId();
+		log.debug("insert generatedId:" + generatedId);
+		
+		/** update*/
+		
+		
+		/** delete*/
+		hPersonService.delete(generatedId); //DELET JUST INSERT AND UPDATE
 
+	}
 }
