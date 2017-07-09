@@ -1,3 +1,3 @@
-insert into book(name,type) values('Harry Potter','magic');
-insert into book(name,type) values('The Da Vinci Code','mysterious');
-insert into book(name,type) values('Angels & Demons','religious');
+insert into book(bookname,booktype,p_id) values('Harry Potter','magic',1);
+insert into book(bookname,booktype,p_id) values('The Da Vinci Code','mysterious',1);
+insert into book(bookname,booktype,p_id) values('Angels & Demons','religious',2);
