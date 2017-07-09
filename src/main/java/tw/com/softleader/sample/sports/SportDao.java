@@ -9,13 +9,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.sql.DataSource;
+
+import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
 
 public class SportDao implements GenericDao<Sport> {
-
-	private final String DB_DRIVER = "org.postgresql.Driver";
-
-	private final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
 
 	@Override
 	public Sport findOne(Long id) {
@@ -23,8 +22,8 @@ public class SportDao implements GenericDao<Sport> {
 		Sport sport = new Sport();
 
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+			DataSource datasource = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = datasource.getConnection();
 
 			String sqlCmd = "SELECT * FROM sport WHERE id=?";
 
@@ -43,10 +42,7 @@ public class SportDao implements GenericDao<Sport> {
 			rs.close();
 			pstmt.close();
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
+		}  catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -60,9 +56,9 @@ public class SportDao implements GenericDao<Sport> {
 		Collection<Sport> sports = new ArrayList<Sport>();
 
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-
+			DataSource datasource = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = datasource.getConnection();
+			
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "SELECT * FROM sport";
@@ -80,10 +76,7 @@ public class SportDao implements GenericDao<Sport> {
 			rs.close();
 			stmt.close();
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
+		}  catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -95,23 +88,19 @@ public class SportDao implements GenericDao<Sport> {
 	public void insert(Sport entity) {
 
 		try {
-			Class.forName(DB_DRIVER);
-
-			Connection conn = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-
+			DataSource datasource = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = datasource.getConnection();
+			
 			String sqlCmd = "INSERT INTO sport(name,people) VALUES (?,?)";
 
-			PreparedStatement pstmt = conn.prepareStatement(sqlCmd);
+			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
 
 			pstmt.setString(1, entity.getName());
 			pstmt.setString(2, entity.getPeople());
 			pstmt.executeUpdate();
 
 			pstmt.close();
-			conn.close();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			connection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -122,13 +111,12 @@ public class SportDao implements GenericDao<Sport> {
 	@Override
 	public void update(Sport entity) {
 		try {
-			Class.forName(DB_DRIVER);
-
-			Connection conn = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-
+			DataSource datasource = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = datasource.getConnection();
+		
 			String sqlCmd = "UPDATE sport SET id = ? , name = ? ,people = ? WHERE id = ? ";
 
-			PreparedStatement pstmt = conn.prepareStatement(sqlCmd);
+			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
 
 			pstmt.setLong(1, entity.getId());
 			pstmt.setString(2, entity.getName());
@@ -138,11 +126,8 @@ public class SportDao implements GenericDao<Sport> {
 			pstmt.executeUpdate();
 
 			pstmt.close();
-			conn.close();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
+			connection.close();
+		}  catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -152,21 +137,17 @@ public class SportDao implements GenericDao<Sport> {
 	@Override
 	public void delete(Long id) {
 		try {
-			Class.forName(DB_DRIVER);
-
-			Connection conn = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-
+			DataSource datasource = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = datasource.getConnection();
+		
 			String sqlCmd = "DELETE FROM sport WHERE id = ?";
 
-			PreparedStatement pstmt = conn.prepareStatement(sqlCmd);
+			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
 
 			pstmt.setLong(1, id);
 			pstmt.executeUpdate();
 			pstmt.close();
-			conn.close();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			connection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

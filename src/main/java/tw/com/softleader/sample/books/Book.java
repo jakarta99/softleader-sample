@@ -6,11 +6,13 @@ public class Book {
 	private String name;
 
 	private String type;
+	
+	private Long p_id;
 
 	@Override
 	public String toString() {
 
-		return "Book [id=" + id + ", name=" + name + ", type=" + type + "]";
+		return "Book [id=" + id + ", name=" + name + ", type=" + type +", p_id=" + p_id + "]";
 
 	}
 
@@ -36,6 +38,14 @@ public class Book {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public Long getP_id() {
+		return p_id;
+	}
+
+	public void setP_id(Long p_id) {
+		this.p_id = p_id;
 	}
 
 }
