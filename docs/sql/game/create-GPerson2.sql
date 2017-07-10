@@ -1,6 +1,6 @@
 create table person(
-    p_id bigserial ,    
+    pid bigserial ,    
     name varchar(50),
-    type varchar(50),
+    idno varchar(50),
     )
 
