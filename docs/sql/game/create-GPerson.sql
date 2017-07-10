@@ -1,4 +1,4 @@
-create table game (
+create table person(
     id bigserial,
     name varchar(50),
     type varchar(50),
