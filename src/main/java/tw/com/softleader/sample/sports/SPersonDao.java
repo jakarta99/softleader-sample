@@ -4,17 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.sql.DataSource;
 
-import tw.com.softleader.sample.color.Color;
-import tw.com.softleader.sample.color.ColorDao;
 import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
-import tw.com.softleader.sample.country.CPerson;
 
 public class SPersonDao implements GenericDao<SPerson> {
 	
@@ -31,7 +27,7 @@ public class SPersonDao implements GenericDao<SPerson> {
 			
 			Connection connection = datasource.getConnection();
 
-			String sqlCmd = "select p.id,p.name,p.idnum,s.name,s.people,s.personid from SPerson p join sport s on p.id=s.personid where p.id=? ;";
+			String sqlCmd = "select p.id,p.name,p.idnum,p.sportid,s.name,s.people from SPerson p join sport s on p.sportid=s.id where p.id=? ;";
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
 
 			pstmt.setLong(1, id);
@@ -75,7 +71,7 @@ public class SPersonDao implements GenericDao<SPerson> {
 			
 			Connection connection = datasource.getConnection();
 
-			String sqlCmd = "select * from SPerson p join sport s on p.id=s.personid;";
+			String sqlCmd = "select * from SPerson p join sport s on p.sportid=s.id;";
 			
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
 			
@@ -109,11 +105,28 @@ public class SPersonDao implements GenericDao<SPerson> {
 
 	@Override
 	public void insert(SPerson entity) {
+		
+		Long tempsportid = entity.getSports().iterator().next().getId();
 
+
+		String sqlCmd = "INSERT INTO SPerson(name,idnum,sportid) VALUES (?,?,?);";
+		
 		DataSource datasource = DataSourceUtil.getInstance().getDataSource();
 
 		try {
 			Connection connection = datasource.getConnection();
+			
+			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
+			pstmt.setString(1, entity.getName() );
+			pstmt.setString(2, entity.getIdnum() );
+			pstmt.setLong(3, tempsportid );
+			
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+			connection.close();
+			
+
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -125,12 +138,25 @@ public class SPersonDao implements GenericDao<SPerson> {
 	@Override
 	public void update(SPerson entity) {
 		
-		String sqlCmd = "update sport set name=?,idnum=?,personid=? where personid=?";
+		Long tempsportid = entity.getSports().iterator().next().getId();
 
+
+		String sqlCmd = "UPDATE SPerson SET sportid=? WHERE id=? ;";		
+		
 		DataSource datasource = DataSourceUtil.getInstance().getDataSource();
 
 		try {
 			Connection connection = datasource.getConnection();
+			
+			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
+			pstmt.setLong(1, tempsportid );
+			pstmt.setLong(2, entity.getId() );
+			
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+			connection.close();
+
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
