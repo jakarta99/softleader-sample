@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import javax.sql.DataSource;
 
@@ -32,7 +33,8 @@ public class HPersonDao  implements GenericDao<HPerson> {
 		Collection<Color> colors = new ArrayList<Color>();
 		hperson = null;
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
-		String sqlCmd = "SELECT * FROM Hperson JOIN COLOR ON COLOR = COLOR.ID WHERE HPERSON.ID=" + id + ";";
+		//String sqlCmd = "SELECT * FROM Hperson JOIN COLOR ON COLOR = COLOR.ID WHERE HPERSON.ID=" + id + ";";
+		String sqlCmd = "SELECT * FROM Hperson WHERE IDNO='" + id + "';";
 		
 		log.debug(sqlCmd);
 		
@@ -102,13 +104,16 @@ public class HPersonDao  implements GenericDao<HPerson> {
 		try (Connection connection = ds.getConnection();
 			 Statement stmt = connection.createStatement();){
 
-			Long colorsId = entity.getColors().iterator().next().getId();
+			Long colorsId = null;
+			Iterator<Color> colorInsert = entity.getColors().iterator();
+			
+			while(colorInsert.hasNext()){
+				colorsId = colorInsert.next().getId();
+				String sqlCmd = "INSERT INTO HPERSON(NAME,IDNO,COLOR) VALUES ('" + entity.getName() + "', '" + entity.getIdNo() + "',"+ colorsId +");";
+				log.debug("insert sql : " + sqlCmd);
+				stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
+			}
 
-			String sqlCmd = "INSERT INTO HPERSON(NAME,IDNO,COLOR) VALUES ('" + entity.getName() + "', '" + entity.getIdNo() + "',"+ colorsId +");";
-			
-			log.debug("insert sql : " + sqlCmd);
-			
-			stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 			
 			ResultSet keySet = stmt.getGeneratedKeys();
 			
@@ -132,7 +137,8 @@ public class HPersonDao  implements GenericDao<HPerson> {
 		try (Connection connection = ds.getConnection();
 			 Statement stmt = connection.createStatement();) {
 			
-			Long colorsId = entity.getColors().iterator().next().getId();
+			Iterator<Color> colorInsert = entity.getColors().iterator();
+			Long colorsId = colorInsert.next().getId();
 
 			String sqlCmd = "UPDATE HPERSON SET COLOR='" +  colorsId + "' WHERE ID='" + entity.getId() + "';";
 			
