@@ -83,7 +83,7 @@ public class SPersonDao implements GenericDao<SPerson> {
 				temp.setName(rs.getString("name"));
 				temp.setIdnum(rs.getString("idnum"));
 				
-				sport.add(sportdao.findOne(rs.getLong("personid")));
+				sport.add(sportdao.findOne(rs.getLong("id")));
 				temp.setSports(sport);
 				
 				sperson.add(temp);
