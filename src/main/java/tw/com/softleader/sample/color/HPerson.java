@@ -2,7 +2,7 @@ package tw.com.softleader.sample.color;
 
 import java.util.Collection;
 
-public class Hperson {
+public class HPerson {
 	private Long id;
 	private String name;
 	private String idNo;

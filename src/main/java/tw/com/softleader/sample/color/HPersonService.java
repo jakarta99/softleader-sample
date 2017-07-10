@@ -6,29 +6,29 @@ import java.util.List;
 
 import tw.com.softleader.sample.commons.GenericService;
 
-public class HpersonService implements GenericService<Hperson>{
+public class HPersonService implements GenericService<HPerson>{
 	
-	private List<Hperson> hPersons = new ArrayList<Hperson>();
-	HpersonDao dao = new HpersonDao();
+	private List<HPerson> hPersons = new ArrayList<HPerson>();
+	HPersonDao dao = new HPersonDao();
 	
 
 	@Override
-	public Hperson getOne(Long id) {
+	public HPerson getOne(Long id) {
 		return dao.findOne(id);
 	}
 
 	@Override
-	public Collection<Hperson> getAll() {
+	public Collection<HPerson> getAll() {
 		return dao.findAll();
 	}
 
 	@Override
-	public void insert(Hperson entity) {
+	public void insert(HPerson entity) {
 		dao.insert(entity);
 	}
 
 	@Override
-	public void update(Hperson entity) {
+	public void update(HPerson entity) {
 		dao.update(entity);
 		
 	}

@@ -30,7 +30,7 @@ public class CPersonDao implements GenericDao<CPerson> {
 			Connection connection = ds.getConnection();
 
 			Statement stmt = connection.createStatement();
-			String sqlCmd = "SELECT p.id,p.name,p.idno,p.country,c.name,c.size FROM cPerson p JOIN country c ON p.country=c.id WHERE p.id="+id;
+			String sqlCmd = "SELECT * FROM cPerson WHERE id="+id;
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 
 			if (rs.next()) {
@@ -63,7 +63,7 @@ public class CPersonDao implements GenericDao<CPerson> {
 			Connection connection = ds.getConnection();
 
 			Statement stmt = connection.createStatement();
-			String sqlCmd = "SELECT p.id,p.name,p.idno,p.country,c.name,c.size FROM cPerson p JOIN country c ON p.country=c.id";
+			String sqlCmd = "SELECT * FROM cPerson";
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 			while (rs.next()) {
 				CPerson cPerson = new CPerson();
@@ -100,10 +100,13 @@ public class CPersonDao implements GenericDao<CPerson> {
 			Connection connection = ds.getConnection();
 
 			PreparedStatement stmt1 = connection.prepareStatement(sqlCmdPerson, Statement.RETURN_GENERATED_KEYS);
+			while(entity.getCountries().iterator().hasNext()){
 			stmt1.setString(1, entity.getName());
 			stmt1.setString(2, entity.getIdNo());
 			stmt1.setLong(3, entity.getCountries().iterator().next().getId());
 			stmt1.executeUpdate();
+			
+			}
 			ResultSet keySet1 = stmt1.getGeneratedKeys();
 			log.info("2:keySet1-->" + keySet1);
 

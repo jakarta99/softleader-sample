@@ -1,9 +1,6 @@
 package tw.com.softleader.sample.color;
 
-import static org.junit.Assert.assertEquals;
-
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,20 +14,20 @@ import org.apache.log4j.Logger;
 import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
 
-public class HpersonDao  implements GenericDao<Hperson> {
+public class HPersonDao  implements GenericDao<HPerson> {
 	
 	private Logger log = Logger.getLogger(this.getClass());
 
-	private final String DB_DRIVER = "org.postgresql.Driver";
+	//private final String DB_DRIVER = "org.postgresql.Driver";
 	
-	private final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
+	//private final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
 	
 	private ColorDao colorDao = new ColorDao();
 	
-	private Hperson hperson ; 
+	private HPerson hperson ; 
 	
 	@Override
-	public Hperson findOne(Long id) {
+	public HPerson findOne(Long id) {
 		
 		Collection<Color> colors = new ArrayList<Color>();
 		hperson = null;
@@ -44,7 +41,7 @@ public class HpersonDao  implements GenericDao<Hperson> {
 				ResultSet rs = stmt.executeQuery(sqlCmd);){
 
 			while (rs.next()) {
-				hperson = new Hperson();
+				hperson = new HPerson();
 				hperson.setId(rs.getLong("id"));
 				hperson.setName(rs.getString("name"));
 				hperson.setIdNo(rs.getString("idNo"));
@@ -63,8 +60,8 @@ public class HpersonDao  implements GenericDao<Hperson> {
 	}
 
 	@Override
-	public Collection<Hperson> findAll() {
-		Collection<Hperson> hpersons = new ArrayList<Hperson>();
+	public Collection<HPerson> findAll() {
+		Collection<HPerson> hpersons = new ArrayList<HPerson>();
 		Collection<Color> colors = new ArrayList<Color>();
 
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
@@ -78,7 +75,7 @@ public class HpersonDao  implements GenericDao<Hperson> {
 	
 			while(rs.next()) {
 				
-				Hperson hperson = new Hperson();
+				HPerson hperson = new HPerson();
 				hperson.setId(rs.getLong("id"));
 				hperson.setName(rs.getString("name"));
 				hperson.setIdNo(rs.getString("idno"));
@@ -99,7 +96,7 @@ public class HpersonDao  implements GenericDao<Hperson> {
 	}
 
 	@Override
-	public void insert(Hperson entity) {
+	public void insert(HPerson entity) {
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
 		
 		try (Connection connection = ds.getConnection();
@@ -130,7 +127,7 @@ public class HpersonDao  implements GenericDao<Hperson> {
 	}
 
 	@Override
-	public void update(Hperson entity) {
+	public void update(HPerson entity) {
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
 		try (Connection connection = ds.getConnection();
 			 Statement stmt = connection.createStatement();) {
