@@ -12,31 +12,32 @@ public class SPersonService implements GenericService<SPerson> {
 	@Override
 	public SPerson getOne(Long id) {
 		// TODO Auto-generated method stub
-		return null;
+		return SPersonD.findOne(id);
 	}
 
 	@Override
 	public Collection<SPerson> getAll() {
 		// TODO Auto-generated method stub
-		return null;
+		return SPersonD.findAll();
 	}
 
 	@Override
 	public void insert(SPerson entity) {
 		// TODO Auto-generated method stub
+		SPersonD.insert(entity);
 		
 	}
 
 	@Override
 	public void update(SPerson entity) {
 		// TODO Auto-generated method stub
-		
+		SPersonD.update(entity);
 	}
 
 	@Override
 	public void delete(Long id) {
 		// TODO Auto-generated method stub
-		
+		SPersonD.delete(id);
 	}
 	
 

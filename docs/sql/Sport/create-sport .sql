@@ -1,6 +1,6 @@
 CREATE TABLE sport( 
-  	id     bigserial,
+	id     bigserial,
 	name   varchar(100),
-	people  varchar(50)
+	poeple  varchar(100)
+	
     )
-    
