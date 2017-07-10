@@ -4,28 +4,28 @@ import java.util.Collection;
 
 import tw.com.softleader.sample.commons.GenericService;
 
-public class PersonService implements GenericService<Person>{
+public class BPersonService implements GenericService<BPerson>{
 	
-	PersonDao personDao = new PersonDao();
+	BPersonDao personDao = new BPersonDao();
 
 	@Override
-	public Person getOne(Long id) {
+	public BPerson getOne(Long id) {
 		return personDao.findOne(id);
 	}
 
 	@Override
-	public Collection<Person> getAll() {
+	public Collection<BPerson> getAll() {
 		return personDao.findAll();
 	}
 
 	@Override
-	public void insert(Person entity) {
+	public void insert(BPerson entity) {
 		personDao.insert(entity);
 		
 	}
 
 	@Override
-	public void update(Person entity) {
+	public void update(BPerson entity) {
 		personDao.update(entity);
 		
 	}
