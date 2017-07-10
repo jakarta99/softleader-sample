@@ -13,37 +13,35 @@ import org.apache.log4j.Logger;
 
 import tw.com.softleader.sample.commons.GenericDao;
 
-public class PersonDao implements GenericDao<Person> {
+public class BPersonDao implements GenericDao<BPerson> {
 
 	private Logger log = Logger.getLogger(this.getClass());
 	private final String URL = "jdbc:postgresql://localhost:5432/testdb";
 	private final String acc = "postgres";
 	private final String password = "postgres";
+	private BookDao bookDao = new BookDao();
 
 	@Override
-	public Person findOne(Long id) {
+	public BPerson findOne(Long id) {
 		try {
+
 			Connection connection = DriverManager.getConnection(URL, acc, password);
-			String sqlCmd = "select p.p_id,personname,idno,id,bookname,booktype from book b join person p on b.p_id = p.p_id where id=?";
+			String sqlCmd = "select * from bperson join book on book = book.id where book.id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
 			pstmt.setLong(1, id);
 
-			log.debug("1:" + sqlCmd);
-			log.info("2:" + sqlCmd);
-			log.warn("3:" + sqlCmd);
-			log.error("4:" + sqlCmd);
-			log.fatal("5:" + sqlCmd);
-
 			ResultSet rs = pstmt.executeQuery();
 
-			if (rs.next()) {
-				Person person = new Person();
-				person.setP_id(rs.getLong("p_id"));
-				person.setName(rs.getString("personname"));
-				person.setIdno(rs.getString("idno"));
+			while (rs.next()) {
+				BPerson person = new BPerson();
+				Collection<Book> books = new ArrayList<Book>();
 				person.setId(rs.getLong("id"));
-				person.setBookname(rs.getString("bookname"));
-				person.setBooktype(rs.getString("booktype"));
+				person.setName(rs.getString("name"));
+				person.setIdno(rs.getString("idno"));
+
+				books.add(bookDao.findOne(rs.getLong("book")));
+
+				person.setBooks(books);
 
 				return person;
 			}
@@ -61,22 +59,23 @@ public class PersonDao implements GenericDao<Person> {
 	}
 
 	@Override
-	public Collection<Person> findAll() {
-		Collection<Person> personS = new ArrayList<Person>();
+	public Collection<BPerson> findAll() {
+		Collection<BPerson> personS = new ArrayList<BPerson>();
+		Collection<Book> books = new ArrayList<Book>();
 		try {
 			Connection connection = DriverManager.getConnection(URL, acc, password);
-			String sqlCmd = "select p.p_id,personname,idno,id,bookname,booktype from book b join person p on b.p_id = p.p_id where p.p_id=1";
+			String sqlCmd = "select * from bperson join book on book = book.id";
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				Person person = new Person();
-				person.setP_id(rs.getLong("p_id"));
-				person.setName(rs.getString("personname"));
-				person.setIdno(rs.getString("idno"));
+				BPerson person = new BPerson();
 				person.setId(rs.getLong("id"));
-				person.setBookname(rs.getString("bookname"));
-				person.setBooktype(rs.getString("booktype"));
+				person.setName(rs.getString("name"));
+				person.setIdno(rs.getString("idno"));
+
+				books.add(bookDao.findOne(rs.getLong("book")));
+				person.setBooks(books);
 
 				personS.add(person);
 			}
@@ -93,16 +92,17 @@ public class PersonDao implements GenericDao<Person> {
 	}
 
 	@Override
-	public void insert(Person entity) {
+	public void insert(BPerson entity) {
 		try {
 			Connection connection = DriverManager.getConnection(URL, acc, password);
-			String sqlCmd = "insert into book(bookname,booktype,p_id) values(?,?,?);";
+			String sqlCmd = "insert into bperson(name,idno,book) values(?,?,?);";
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd, Statement.RETURN_GENERATED_KEYS);
-			pstmt.setString(1, entity.getBookname());
-			pstmt.setString(2, entity.getBooktype());
-			pstmt.setLong(3, entity.getP_id());
+			pstmt.setString(1, entity.getName());
+			pstmt.setString(2, entity.getIdno());
+			pstmt.setLong(3, entity.getBooks().iterator().next().getId());
 			pstmt.executeUpdate();
-
+			
+			log.debug("insert sql : " + sqlCmd);
 
 			ResultSet keySet = pstmt.getGeneratedKeys();
 			if (keySet.next()) {
@@ -121,15 +121,18 @@ public class PersonDao implements GenericDao<Person> {
 	}
 
 	@Override
-	public void update(Person entity) {
+	public void update(BPerson entity) {
 		try {
 			Connection connection = DriverManager.getConnection(URL, acc, password);
-			String sqlCmd = "update book set bookname=?,booktype=?,p_id=? where id=?";
+			String sqlCmd = "update bperson set book=? where id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
-			pstmt.setString(1, entity.getBookname());
-			pstmt.setString(2, entity.getBooktype());
-			pstmt.setLong(3, entity.getP_id());
-			pstmt.setLong(4, entity.getId());
+			pstmt.setLong(1, entity.getBooks().iterator().next().getId());
+			pstmt.setLong(2, entity.getId());
+			
+			log.debug("update book: "+ entity.getBooks().iterator().next().getId());
+			log.debug("update id: "+ entity.getId());
+			log.debug("update sql: "+ sqlCmd);
+
 			pstmt.executeUpdate();
 
 			pstmt.close();
@@ -145,7 +148,7 @@ public class PersonDao implements GenericDao<Person> {
 	public void delete(Long id) {
 		try {
 			Connection connection = DriverManager.getConnection(URL, acc, password);
-			String sqlCmd = "delete from book where id=?";
+			String sqlCmd = "delete from bperson where id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
 			pstmt.setLong(1, id);
 			pstmt.executeUpdate();

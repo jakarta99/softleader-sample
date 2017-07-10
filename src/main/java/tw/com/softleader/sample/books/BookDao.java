@@ -19,22 +19,19 @@ import tw.com.softleader.sample.commons.GenericDao;
 public class BookDao implements GenericDao<Book> {
 
 	private Logger log = Logger.getLogger(this.getClass());
+	private final String URL = "jdbc:postgresql://localhost:5432/testdb";
+	private final String acc = "postgres";
+	private final String password = "postgres";
 
 	@Override
 	public Book findOne(Long id) {
 
 		try {
-			DataSource ds=DataSourceUtil.getInstance().getDataSource();
-			Connection connection=ds.getConnection();
+			Connection connection = DriverManager.getConnection(URL, acc, password);
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "select * from book where id=" + id;
 
-			log.debug("1:" + sqlCmd);
-			log.info("2:" + sqlCmd);
-			log.warn("3:" + sqlCmd);
-			log.error("4:" + sqlCmd);
-			log.fatal("5:" + sqlCmd);
 
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 
@@ -64,8 +61,7 @@ public class BookDao implements GenericDao<Book> {
 		Collection<Book> books = new ArrayList<Book>();
 
 		try {
-			DataSource ds=DataSourceUtil.getInstance().getDataSource();
-			Connection connection=ds.getConnection();
+			Connection connection = DriverManager.getConnection(URL, acc, password);
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "SELECT * FROM BOOK";
@@ -99,8 +95,7 @@ public class BookDao implements GenericDao<Book> {
 	@Override
 	public void insert(Book entity) {
 		try {
-			DataSource ds=DataSourceUtil.getInstance().getDataSource();
-			Connection connection=ds.getConnection();
+			Connection connection = DriverManager.getConnection(URL, acc, password);
 			String sqlCmd = "insert into book(name,type) values (?,?)";
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 
@@ -129,8 +124,7 @@ public class BookDao implements GenericDao<Book> {
 	@Override
 	public void update(Book entity) {
 		try {
-			DataSource ds=DataSourceUtil.getInstance().getDataSource();
-			Connection connection=ds.getConnection();
+			Connection connection = DriverManager.getConnection(URL, acc, password);
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "update book set name='" + entity.getName() + "',type='" + entity.getType() + "' where id='"
@@ -151,8 +145,7 @@ public class BookDao implements GenericDao<Book> {
 	@Override
 	public void delete(Long id) {
 		try {
-			DataSource ds=DataSourceUtil.getInstance().getDataSource();
-			Connection connection=ds.getConnection();
+			Connection connection = DriverManager.getConnection(URL, acc, password);
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "delete from book where id=" + id;
