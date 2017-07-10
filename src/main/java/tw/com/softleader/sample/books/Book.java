@@ -6,6 +6,7 @@ public class Book {
 	private String name;
 
 	private String type;
+	
 
 	@Override
 	public String toString() {
@@ -37,5 +38,6 @@ public class Book {
 	public void setType(String type) {
 		this.type = type;
 	}
+
 
 }

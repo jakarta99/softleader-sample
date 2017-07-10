@@ -1,12 +1,10 @@
-/**
- * 
- */
 package tw.com.softleader.sample.game;
 
 public class Game {
 	private Long id;
 	private String name;
 	private String type;
+	private Long pId;
 
 	@Override
 	public String toString() {
@@ -35,6 +33,14 @@ public class Game {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public Long getpId() {
+		return pId;
+	}
+
+	public void setpId(Long pId) {
+		this.pId = pId;
 	}
 
 }

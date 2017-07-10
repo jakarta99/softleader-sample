@@ -1,10 +1,12 @@
 package tw.com.softleader.sample.movie;
 
 import java.util.Collection;
+
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 public class MovieServiceTest {
-
+	private Logger log = Logger.getLogger(this.getClass());
 	private MovieService movieService = new MovieService();
 
 	@Test
@@ -12,15 +14,14 @@ public class MovieServiceTest {
 		Collection<Movie> movies = movieService.getAll();
 
 		for (Movie movie : movies) {
-			System.out.println(movie);
+			log.info("Message:" + movie);
 		}
 
 	}
 
 	@Test
 	public void testGetOne() {
-		Movie movie = movieService.getOne(2L);
-		System.out.println(movie);
+		log.info("Message:" + movieService.getOne(2L));
 	}
 
 	@Test
@@ -32,15 +33,15 @@ public class MovieServiceTest {
 
 		movieService.insert(movie1);
 
+		log.info("Message:" + movie1.getId());
+
 		Movie movie2 = new Movie();
 		movie2.setId(6L);
 		movie2.setName("The Hunt");
 		movie2.setPrice("700");
-
 		movieService.update(movie2);
+		log.info("Message:" + movie2.getId());
 
 		movieService.delete(6L);
-
 	}
-
 }

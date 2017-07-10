@@ -10,10 +10,10 @@ import java.util.Collection;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-public class HpersonServiceTest {
+public class HPersonServiceTest {
 	private Logger log = Logger.getLogger(this.getClass());
 	
-	HpersonService hPersonService = new HpersonService();
+	HPersonService hPersonService = new HPersonService();
 	
 	ColorService colorService = new ColorService();
 
@@ -25,7 +25,7 @@ public class HpersonServiceTest {
 	
 	@Test
 	public void testGetOne() {
-		Hperson hperson = new Hperson();
+		HPerson hperson = new HPerson();
 		hperson = hPersonService.getOne(1L);
 
 		log.debug("testGetOne(1L): {}" + hperson);
@@ -33,7 +33,7 @@ public class HpersonServiceTest {
 	
 	@Test
 	public void testGetAll() {
-		Collection<Hperson> hpersons = hPersonService.getAll();
+		Collection<HPerson> hpersons = hPersonService.getAll();
 		
 		log.debug(hpersons);
 		log.debug("hperson.size():" + hpersons.size());
@@ -44,7 +44,7 @@ public class HpersonServiceTest {
 		
 		ColorDao colorDao = new ColorDao();
 		
-		Hperson insertHperson = new Hperson();
+		HPerson insertHperson = new HPerson();
 		Color color = new Color();
 		Collection<Color> colors = new ArrayList<Color>();
 		insertHperson.setName("Angle");
@@ -60,7 +60,7 @@ public class HpersonServiceTest {
 		log.debug("insert generatedId:" + generatedId);
 		
 		//檢查是否有新增
-		Hperson hperson = hPersonService.getOne(generatedId);
+		HPerson hperson = hPersonService.getOne(generatedId);
 		
 		log.debug("get color's id: " + hperson.getColors().iterator().next().getId());
 		

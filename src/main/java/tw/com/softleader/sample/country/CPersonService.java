@@ -7,8 +7,8 @@ public class CPersonService implements GenericService<CPerson> {
 	CPersonDao cPersonDao = new CPersonDao();
 
 	@Override
-	public CPerson getOne(Long personid) {
-		return cPersonDao.findOne(personid);
+	public CPerson getOne(Long id) {
+		return cPersonDao.findOne(id);
 	}
 
 	@Override
