@@ -1,18 +1,17 @@
 package tw.com.softleader.sample.movie;
 
+import java.util.Collection;
+
 public class MPerson {
 
 	private Long id;
 	private String name;
 	private String idno;
-	private String moviename1;
-	private String moviename2;
-	private String moviename3;
+	private Collection<Movie> movies;
 
 	@Override
 	public String toString() {
-		return "MPerson [id=" + id + ", name=" + name + ", idno=" + idno + ", moviename1="+moviename1+
-				", moviename2="+moviename2+", moviename3="+moviename3+"]";
+		return "MPerson [id=" + id + ", name=" + name + ", idno=" + idno + "]";
 	}
 
 	public Long getId() {
@@ -39,26 +38,11 @@ public class MPerson {
 		this.idno = idno;
 	}
 
-	public String getMoviename1() {
-		return moviename1;
+	public Collection<Movie> getMovies() {
+		return movies;
 	}
 
-	public void setMoviename1(String moviename1) {
-		this.moviename1 = moviename1;
+	public void setMovie(Collection<Movie> movies) {
+		this.movies = movies;
 	}
-	public String getMoviename2() {
-		return moviename2;
-	}
-
-	public void setMoviename2(String moviename2) {
-		this.moviename2 = moviename2;
-	}
-	public String getMoviename3() {
-		return moviename3;
-	}
-
-	public void setMoviename3(String moviename3) {
-		this.moviename3 = moviename3;
-	}
-	
 }

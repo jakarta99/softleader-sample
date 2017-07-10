@@ -10,7 +10,7 @@ public class MPersonService implements GenericService<MPerson> {
 
 	@Override
 	public MPerson getOne(Long id) {
-		
+
 		return mpersonDao.findOne(id);
 	}
 
