@@ -15,6 +15,7 @@ public class MovieDao implements GenericDao<Movie> {
 
 	private final String DB_DRIVER = "org.postgresql.Driver";
 	private final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
+
 	@Override
 	public Movie findOne(Long id) {
 		Movie movie = new Movie();
@@ -24,11 +25,11 @@ public class MovieDao implements GenericDao<Movie> {
 			Statement stmt = connection.createStatement();
 			String sqlCmd = "select id,name,price from movie where id=" + id;
 			ResultSet rs = stmt.executeQuery(sqlCmd);
-			if(rs.next()){
+			if (rs.next()) {
 				movie.setId(rs.getLong("id"));
 				movie.setName(rs.getString("name"));
 				movie.setPrice(rs.getString("price"));
-			}else{
+			} else {
 				return null;
 			}
 			rs.close();
@@ -42,6 +43,7 @@ public class MovieDao implements GenericDao<Movie> {
 		}
 		return movie;
 	}
+
 	@Override
 	public Collection<Movie> findAll() {
 		Collection<Movie> movies = new ArrayList<Movie>();
@@ -68,6 +70,7 @@ public class MovieDao implements GenericDao<Movie> {
 		}
 		return movies;
 	}
+
 	@Override
 	public void insert(Movie entity) {
 		String sqlCmd = "insert into movie(id,name,price)values(?,?,?)";
@@ -75,10 +78,16 @@ public class MovieDao implements GenericDao<Movie> {
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
+			stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 			stmt.setLong(1, entity.getId());
 			stmt.setString(2, entity.getName());
 			stmt.setString(3, entity.getPrice());
 			stmt.executeUpdate();
+			ResultSet keySet = stmt.getGeneratedKeys();
+			if (keySet.next()) {
+				Long generatedId = keySet.getLong("ID");
+				entity.setId(generatedId);
+			}
 			stmt.close();
 			connection.close();
 		} catch (ClassNotFoundException e) {
@@ -87,6 +96,7 @@ public class MovieDao implements GenericDao<Movie> {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public void update(Movie entity) {
 		String sqlCmd = "update movie set id=?,name=?,price=? where id=?";
@@ -107,6 +117,7 @@ public class MovieDao implements GenericDao<Movie> {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public void delete(Long id) {
 		String sqlCmd = "delete from movie where id=?";
@@ -114,7 +125,8 @@ public class MovieDao implements GenericDao<Movie> {
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
-			stmt.setLong(1, id);;
+			stmt.setLong(1, id);
+			;
 			stmt.executeUpdate();
 			stmt.close();
 			connection.close();

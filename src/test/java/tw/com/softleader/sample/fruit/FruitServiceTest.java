@@ -15,26 +15,25 @@ public class FruitServiceTest {
 
 	}
 
-	@Test
-	public void testgetOne() {
-		System.out.println(fruitservice.getOne(2L));
-	}
+//	@Test
+//	public void testgetOne() {
+//		System.out.println(fruitservice.getOne(3L));
+//	}
 
 	@Test
 	public void testinsertupdatadelete() {
 		Fruit insert = new Fruit();
-		insert.setId(4L);
 		insert.setName("Apple");
 		insert.setColor("Red");
 		fruitservice.insert(insert);
 
 		Fruit update = new Fruit();
-		update.setId(4L);
+		update.setId(2L);
 		update.setName("coconut");
 		update.setColor("White");
 		fruitservice.update(update);
 
-		fruitservice.delete(4L);
+		fruitservice.delete(5L);
 	}
 
 }

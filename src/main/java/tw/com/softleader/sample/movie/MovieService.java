@@ -9,32 +9,26 @@ public class MovieService implements GenericService<Movie> {
 
 	@Override
 	public Movie getOne(Long id) {
-
 		return movieDao.findOne(id);
 	}
 
 	@Override
 	public Collection<Movie> getAll() {
-
 		return movieDao.findAll();
 	}
 
 	@Override
 	public void insert(Movie entity) {
 		movieDao.insert(entity);
-
 	}
 
 	@Override
 	public void update(Movie entity) {
 		movieDao.update(entity);
-
 	}
 
 	@Override
 	public void delete(Long id) {
 		movieDao.delete(id);
-
 	}
-
 }

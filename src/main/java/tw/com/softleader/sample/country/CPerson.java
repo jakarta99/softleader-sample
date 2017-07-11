@@ -1,18 +1,17 @@
 package tw.com.softleader.sample.country;
 
+import java.util.Collection;
+
 public class CPerson {
 	private Long id;
 	private String name;
 	private String idno;
-	private Long countryid;
-	private String countryName;
-	private String size;
 	
+	private Collection<Country> countries;
 
 	@Override
 	public String toString() {
-		return "Person[id= " + id + ",name= " + name + ",idno= " + idno + "]" + "Country[countryid= " + countryid
-				+ ",country name= " + countryName + ",size= " + size + "]";
+		return "Person: id= " + id + ",name= " + name + ",idno= " + idno;
 	}
 
 	public Long getId() {
@@ -39,27 +38,11 @@ public class CPerson {
 		this.idno = idno;
 	}
 
-	public Long getCountryid() {
-		return countryid;
+	public Collection<Country> getCountries() {
+		return countries;
 	}
 
-	public void setCountryid(Long countryid) {
-		this.countryid = countryid;
-	}
-
-	public String getCountryName() {
-		return countryName;
-	}
-
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
-	}
-
-	public String getSize() {
-		return size;
-	}
-
-	public void setSize(String size) {
-		this.size = size;
+	public void setCountries(Collection<Country> countries) {
+		this.countries = countries;
 	}
 }
