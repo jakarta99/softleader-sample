@@ -10,11 +10,13 @@ import java.util.Collection;
 
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
+
 import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
 
 public class SPersonDao implements GenericDao<SPerson> {
-
+	private Logger log = Logger.getLogger(SPersonDao.class);
 	private SportDao sportdao = new SportDao();
 
 	@Override
@@ -40,7 +42,7 @@ public class SPersonDao implements GenericDao<SPerson> {
 				sperson.setName(rs.getString("name"));
 				sperson.setIdnum(rs.getString("idnum"));
 
-				sport.add(sportdao.findOne(rs.getLong("personid")));
+				sport.add(sportdao.findOne(rs.getLong("id")));
 				sperson.setSports(sport);
 
 			} else {
@@ -119,11 +121,12 @@ public class SPersonDao implements GenericDao<SPerson> {
 			pstmt.executeUpdate();
 
 			ResultSet keySet = pstmt.getGeneratedKeys();
+			
 			if (keySet.next()) {
 				Long generatedId = keySet.getLong("id");
 				entity.setId(generatedId);
 			}
-
+			log.debug("2: insertDao -->"+keySet.getLong(1) );
 			keySet.close();
 			pstmt.close();
 			connection.close();
@@ -140,7 +143,7 @@ public class SPersonDao implements GenericDao<SPerson> {
 
 		Long tempsportid = entity.getSports().iterator().next().getId();
 
-		String sqlCmd = "UPDATE SPerson SET sportid=? WHERE id=? ;";
+		String sqlCmd = "UPDATE SPerson SET sportid=? WHERE id=? ";
 
 		DataSource datasource = DataSourceUtil.getInstance().getDataSource();
 
@@ -155,7 +158,7 @@ public class SPersonDao implements GenericDao<SPerson> {
 
 			pstmt.close();
 			connection.close();
-
+log.debug("Dao tempsportid-->"+tempsportid);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
