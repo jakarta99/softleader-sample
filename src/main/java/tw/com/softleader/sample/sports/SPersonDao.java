@@ -30,12 +30,14 @@ public class SPersonDao implements GenericDao<SPerson> {
 
 			Connection connection = datasource.getConnection();
 
-			String sqlCmd = "select p.id,p.name,p.idnum,p.sportid,s.name,s.people from SPerson p join sport s on p.sportid=s.id where p.id=? ;";
-			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
+			String sqlCmd = "select id,name,idnum from sperson where id = ?";
+			String sqlCmdsport = "select id,name,people,personid from sport where personid = ?";
+			PreparedStatement pstmt = connection.prepareStatement(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 
 			pstmt.setLong(1, id);
 
 			ResultSet rs = pstmt.executeQuery();
+			ResultSet keySet = pstmt.getGeneratedKeys();
 
 			if (rs.next()) {
 				sperson.setId(rs.getLong("id"));
@@ -44,11 +46,25 @@ public class SPersonDao implements GenericDao<SPerson> {
 
 				sport.add(sportdao.findOne(rs.getLong("id")));
 				sperson.setSports(sport);
-
-			} else {
-				return sperson;
 			}
 
+			if (keySet.next()) {
+				Long generatedId = keySet.getLong("id");
+				pstmt = connection.prepareStatement(sqlCmdsport);
+				pstmt.setLong(1, generatedId);
+				ResultSet rssport = pstmt.executeQuery();
+				Sport temp = new Sport();
+
+				temp.setId(rssport.getLong("id"));
+				temp.setName(rssport.getString("name"));
+				temp.setPeople(rssport.getString("people"));
+
+				Collection<Sport> tempsports = new ArrayList<Sport>();
+				tempsports.add(temp);
+				sperson.setSports(tempsports);
+			}
+			rs.close();
+			keySet.close();
 			pstmt.close();
 			connection.close();
 
@@ -57,7 +73,7 @@ public class SPersonDao implements GenericDao<SPerson> {
 			e.printStackTrace();
 		}
 
-		return null;
+		return sperson;
 	}
 
 	@Override
@@ -67,16 +83,19 @@ public class SPersonDao implements GenericDao<SPerson> {
 
 		Collection<SPerson> sperson = new ArrayList<SPerson>();
 
-		Collection<Sport> sport = new ArrayList<Sport>();
+		Collection<Sport> tempsports = new ArrayList<Sport>();
+
+		String sqlCmd = "select * from SPerson ;";
+		String sqlCmdsport = "select * from sport where personid = ?";
+
 		try {
 
 			Connection connection = datasource.getConnection();
 
-			String sqlCmd = "select * from SPerson p join sport s on p.sportid=s.id;";
-
-			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
+			PreparedStatement pstmt = connection.prepareStatement(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 
 			ResultSet rs = pstmt.executeQuery();
+			ResultSet keySet = pstmt.getGeneratedKeys();
 
 			while (rs.next()) {
 				SPerson temp = new SPerson();
@@ -84,12 +103,33 @@ public class SPersonDao implements GenericDao<SPerson> {
 				temp.setName(rs.getString("name"));
 				temp.setIdnum(rs.getString("idnum"));
 
-				sport.add(sportdao.findOne(rs.getLong("id")));
-				temp.setSports(sport);
+				pstmt = connection.prepareStatement(sqlCmdsport);
+				
+				while(keySet.next()){
+										
+				pstmt.setLong(1, keySet.getLong("id"));
+				ResultSet rs1 = pstmt.executeQuery();
 
-				sperson.add(temp);
+				while (rs1.next()) {
+
+					Sport psport = new Sport();
+
+					psport.setId(rs.getLong("id"));
+					psport.setName(rs.getString("name"));
+					psport.setPeople(rs.getString("people"));
+
+					tempsports.add(psport);
+
+					SPerson tempspersons = new SPerson();
+					tempspersons.setSports(tempsports);
+					sperson.add(tempspersons);
+					rs1.close();
+					}
+				}
 			}
 
+			rs.close();
+			keySet.close();
 			pstmt.close();
 			connection.close();
 
@@ -104,29 +144,37 @@ public class SPersonDao implements GenericDao<SPerson> {
 	@Override
 	public void insert(SPerson entity) {
 
-		Long tempsportid = entity.getSports().iterator().next().getId();
-
-		String sqlCmd = "INSERT INTO SPerson(name,idnum,sportid) VALUES (?,?,?);";
-
+		String sqlCmd = "INSERT INTO SPerson(name,idnum) VALUES (?,?);";
+		String sqlCmdsport = "INSERT INTO sport(name,people,psrsonid) VALUES (?,?,?);";
+		
 		DataSource datasource = DataSourceUtil.getInstance().getDataSource();
 
 		try {
 			Connection connection = datasource.getConnection();
 
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd, Statement.RETURN_GENERATED_KEYS);
+			
 			pstmt.setString(1, entity.getName());
-			pstmt.setString(2, entity.getIdnum());
-			pstmt.setLong(3, tempsportid);
+			pstmt.setString(2, entity.getIdnum());			
 
 			pstmt.executeUpdate();
 
 			ResultSet keySet = pstmt.getGeneratedKeys();
-			
-			if (keySet.next()) {
+
+			while (keySet.next()) {
+				while(entity.getSports().iterator().hasNext()){
 				Long generatedId = keySet.getLong("id");
-				entity.setId(generatedId);
+				pstmt = connection.prepareStatement(sqlCmdsport);
+				
+				pstmt.setString(1, entity.getSports().iterator().next().getName());
+				pstmt.setString(2, entity.getSports().iterator().next().getPeople());		
+				pstmt.setLong(3, generatedId);
+				pstmt.executeUpdate();
+				}
+				
+//				entity.setId(generatedId);
 			}
-			log.debug("2: insertDao -->"+keySet.getLong(1) );
+			
 			keySet.close();
 			pstmt.close();
 			connection.close();
@@ -141,9 +189,11 @@ public class SPersonDao implements GenericDao<SPerson> {
 	@Override
 	public void update(SPerson entity) {
 
-		Long tempsportid = entity.getSports().iterator().next().getId();
+		String sqlCmd = "UPDATE SPerson SET name=?, idnum=? WHERE id=? ;";  
+		String sqlCmddelsport = "DELETE FROM sport WHERE personid=? ;";  
+		String sqlCmdinssport = "INSERT INTO sport(name,people,psrsonid) VALUES (?,?,?);";   
 
-		String sqlCmd = "UPDATE SPerson SET sportid=? WHERE id=? ";
+
 
 		DataSource datasource = DataSourceUtil.getInstance().getDataSource();
 
@@ -151,14 +201,30 @@ public class SPersonDao implements GenericDao<SPerson> {
 			Connection connection = datasource.getConnection();
 
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
-			pstmt.setLong(1, tempsportid);
-			pstmt.setLong(2, entity.getId());
+			pstmt.setString(1, entity.getName());
+			pstmt.setString(2, entity.getIdnum());
+			pstmt.setLong(3, entity.getId());
 
 			pstmt.executeUpdate();
+			
+			pstmt = connection.prepareStatement(sqlCmddelsport);
+			pstmt.setLong(1, entity.getId());
 
+			pstmt.executeUpdate();
+			
+			while(entity.getSports().iterator().hasNext()){
+				
+			pstmt = connection.prepareStatement(sqlCmdinssport);
+			pstmt.setString(1, entity.getSports().iterator().next().getName());
+			pstmt.setString(2, entity.getSports().iterator().next().getPeople());
+			pstmt.setLong(1, entity.getId());
+			
+			}
+			
+			
 			pstmt.close();
 			connection.close();
-log.debug("Dao tempsportid-->"+tempsportid);
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -169,18 +235,25 @@ log.debug("Dao tempsportid-->"+tempsportid);
 	@Override
 	public void delete(Long id) {
 
+		String sqlCmddelsport = "DELETE FROM sport WHERE personid=? ;";  
 		String sqlCmd = "delete from SPerson where id=?";
+
 		DataSource datasource = DataSourceUtil.getInstance().getDataSource();
 
 		try {
 			Connection connection = datasource.getConnection();
 
-			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
+			PreparedStatement pstmt = connection.prepareStatement(sqlCmddelsport);
 			pstmt.setLong(1, id);
 			pstmt.executeUpdate();
 
+			pstmt = connection.prepareStatement(sqlCmd);
+			pstmt.setLong(1, id);
+			pstmt.executeUpdate();
+			
 			pstmt.close();
 			connection.close();
+			
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
