@@ -44,17 +44,17 @@ public class DPersonDao implements GenericDao<DPerson> {
 				entity.setIdno(rs.getString("idno"));
 				
 				// find drinks by p_id =:id
-				String drinksSqlCmd = "SELECT * FROM drinks WHERE P_ID = "+id;
-				log.info(sqlCmd);
+				String drinksSqlCmd = "SELECT * FROM DRINK WHERE P_ID = "+id;
+				log.info(drinksSqlCmd);
 				Statement drinksStmt = connection.createStatement();
 				ResultSet drinksRs = drinksStmt.executeQuery(drinksSqlCmd);
 				
 				Collection<Drink> drinks = new ArrayList<Drink>();
 				while(drinksRs.next()) {
 					Drink drink = new Drink();
-					drink.setId(rs.getLong("id"));
-					drink.setName(rs.getString("name"));
-					drink.setColor(rs.getString("color"));
+					drink.setId(drinksRs.getLong("id"));
+					drink.setName(drinksRs.getString("name"));
+					drink.setColor(drinksRs.getString("color"));
 					
 					drinks.add(drink);
 				}
@@ -102,17 +102,17 @@ public class DPersonDao implements GenericDao<DPerson> {
 				person.setIdno(rs.getString("idno"));
 				
 				// find drinks by p_id =:id
-				String drinksSqlCmd = "SELECT * FROM drinks WHERE P_ID = "+person.getId();
-				log.info(sqlCmd);
+				String drinksSqlCmd = "SELECT * FROM DRINK WHERE P_ID = "+person.getId();
+				log.info(drinksSqlCmd);
 				Statement drinksStmt = connection.createStatement();
 				ResultSet drinksRs = drinksStmt.executeQuery(drinksSqlCmd);
 				
 				Collection<Drink> drinks = new ArrayList<Drink>();
 				while(drinksRs.next()) {
 					Drink drink = new Drink();
-					drink.setId(rs.getLong("id"));
-					drink.setName(rs.getString("name"));
-					drink.setColor(rs.getString("color"));
+					drink.setId(drinksRs.getLong("id"));
+					drink.setName(drinksRs.getString("name"));
+					drink.setColor(drinksRs.getString("color"));
 					
 					drinks.add(drink);
 				}
