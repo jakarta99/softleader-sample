@@ -6,6 +6,7 @@ public class CPerson {
 	private Long id;
 	private String name;
 	private String idno;
+	private Long c_id;
 	
 	private Collection<Country> countries;
 
@@ -44,5 +45,12 @@ public class CPerson {
 
 	public void setCountries(Collection<Country> countries) {
 		this.countries = countries;
+	}
+	public Long getD_ID() {
+		return c_id;
+	}
+
+	public void setC_ID(Long c_id) {
+		this.c_id = c_id;
 	}
 }

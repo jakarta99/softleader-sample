@@ -4,10 +4,11 @@ public class Country {
 	private Long id;
 	private String name;
 	private String size;
+	private Long p_id;
 
 	@Override
 	public String toString() {
-		return "Country[id="+id+",name="+name+",size="+size+"]";
+		return "Country[id="+id+",name="+name+",size="+size+",p_id"+p_id+"]";
 	}
 
 	public Long getId(){
@@ -32,6 +33,13 @@ public class Country {
 
 	public void setSize(String size) {
 		this.size = size;
+	}
+	public Long getPID(){
+		return p_id;
+	}
+	
+	public void setPID(Long p_id) {
+		this.p_id = p_id;
 	}
 
 }
