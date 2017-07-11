@@ -1,6 +1,7 @@
 package tw.com.softleader.sample.color;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -30,9 +31,14 @@ public class HPersonServiceTest {
 	@Test
 	public void testGetOne() {
 		HPerson hperson = new HPerson();
-		hperson = hPersonService.getOne(2L);
+		hperson = hPersonService.getOne(3L);
 
-		log.debug("testGetOne(1L): {}" + hperson);
+		log.debug("testGetOne(3L): {}" + hperson);
+		assertEquals(2,hperson.getColors().size());
+		
+		hperson = hPersonService.getByIdNo(hperson.getIdNo());
+		log.debug("testGetByColor(3L): {}" + hperson);
+		assertEquals(2,hperson.getColors().size());
 	}
 	
 	@Test
@@ -40,7 +46,7 @@ public class HPersonServiceTest {
 		Collection<HPerson> hpersons = hPersonService.getAll();
 		
 		log.debug(hpersons);
-		log.debug("hperson.size():" + hpersons.size());
+		assertEquals(3,hpersons.size());
 	}
 	
 	
@@ -68,42 +74,39 @@ public class HPersonServiceTest {
 		Long generatedId = insertHperson.getId();
 		log.debug("insert generatedId:" + generatedId);
 		
-		//TODO　檢查是否有新增
-//		HPerson hperson = hPersonService.getOne(generatedId);
-//		Iterator<Color> colorInsert = hperson.getColors().iterator();
-//		Color checkInsert1 = colorService.getOne(colorInsert.next().getId());
-//		Color checkInsert2 = colorService.getOne(colorInsert.next().getId());
-//		
-//		assertEquals("Coco", hperson.getName());
-//		assertEquals("Green", checkInsert1.getName());
-//		assertEquals("Red", checkInsert2.getName());
-		
+		//檢查是否有新增
+		HPerson hperson = hPersonService.getOne(generatedId);
+	
+		assertEquals("Coco", hperson.getName());
+		assertEquals(2, hperson.getColors().size());
 		
 		/** update*/
 		colors.clear();
 		Color colorBlack = new Color();
-		colorBlack = colorService.getOne(2L);  // INSERT COLOR BLACK
+		colorBlack = colorService.getOne(2L);  
 		colors.add(colorBlack);
-
+		insertHperson.setId(generatedId); // UPDATE THE LESS ONE ID
 		insertHperson.setColors(colors); //UPDATE COLOR FROM GREEN TO BLACK
 		
 		hPersonService.update(insertHperson);
 
 		//檢查是否有修改
-//		hperson = hPersonService.getOne(generatedId);
-//		insertColors = colorDao.findOne(hperson.getColors().iterator().next().getId());
-//		
-//		assertEquals("Black", insertColors.getName());
+		hperson = hPersonService.getOne(generatedId);
+		log.debug("generatedID: " + generatedId);
+		log.debug("after update : " + hperson);
+		Iterator<Color> updateHPersonColors = hperson.getColors().iterator();
 		
+		assertEquals("Coco", hperson.getName());
+		assertEquals("Green", updateHPersonColors.next().getName());
+		assertEquals("Black", updateHPersonColors.next().getName());
+
 		/** delete*/
 		hPersonService.delete(generatedId); //DELET JUST INSERT AND UPDATE
-//		
-//		//檢查是否有刪除
-//		hperson = hPersonService.getOne(generatedId);
-//		
-//		assertNull(hperson);
-
+		
+		//檢查是否有刪除
+		assertNull(hPersonService.getOne(generatedId));
 	}
+	
 	
 	@Test
 	public void testIterator(){

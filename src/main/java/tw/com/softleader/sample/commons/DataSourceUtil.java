@@ -30,7 +30,11 @@ public class DataSourceUtil {
 		// change to HikariCP. https://brettwooldridge.github.io/HikariCP/
 		
 		HikariConfig config = new HikariConfig();
+<<<<<<< HEAD
 		//config.setJdbcUrl("jdbc:postgresql://localhost:5433/testdb");
+=======
+//		config.setJdbcUrl("jdbc:postgresql://localhost:5433/testdb");
+>>>>>>> 85118a87f1f0cb41fc410cf2d85b69fda12c2f0f
 		config.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb");
 		config.setUsername("postgres");
 		config.setPassword("postgres");
