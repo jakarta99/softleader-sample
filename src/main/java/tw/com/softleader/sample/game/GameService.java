@@ -5,37 +5,36 @@ import java.util.Collection;
 import tw.com.softleader.sample.commons.GenericService;
 
 public class GameService implements GenericService<Game> {
-	GameDao gameD = new GameDao();
 
 	@Override
 	public Game getOne(Long id) {
-
-		return gameD.findOne(id);
+		GameDao gameDao = new GameDao();
+		return gameDao.findOne(id);
 	}
 
 	@Override
 	public Collection<Game> getAll() {
-
-		return gameD.findAll();
+		GameDao gameDao = new GameDao();
+		return gameDao.findAll();
 	}
 
 	@Override
 	public void insert(Game entity) {
-
-		gameD.insert(entity);
+		GameDao gameDao = new GameDao();
+		gameDao.insert(entity);
 
 	}
 
 	@Override
 	public void update(Game entity) {
-
-		gameD.insert(entity);
+		GameDao gameDao = new GameDao();
+		gameDao.insert(entity);
 	}
 
 	@Override
 	public void delete(Long id) {
-
-		gameD.delete(id);
+		GameDao gameDao = new GameDao();
+		gameDao.delete(id);
 	}
 
 }

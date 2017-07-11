@@ -1,71 +1,79 @@
 package tw.com.softleader.sample.game;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-//import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.sql.DataSource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
-//import tw.com.softleader.sample.commons.GenericService;
-import tw.com.softleader.sample.game.Game;
 
 public class GameDao implements GenericDao<Game> {
 
-	private final String DB_DRIVER = "org.postgresql.Driver";
+	private Logger log = LoggerFactory.getLogger(GameDao.class);
 
-	private final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
-
-	//@SuppressWarnings("unused")
+	@Override
 	public Game findOne(Long id) {
-		Game games = new Game();
+		Game entity = null;
+
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
 
 			Statement stmt = connection.createStatement();
-			String Stmt1 = "Select * from game where id =" + id;
-			ResultSet rs = stmt.executeQuery(Stmt1);
+
+			String sqlCmd = "SELECT * FROM game WHERE ID = " + id;
+
+			//log.debug("1:" + sqlCmd);
+			log.info("2:" + sqlCmd);
+			//log.warn("3:" + sqlCmd);
+			//log.error("4:" + sqlCmd);
+
+			ResultSet rs = stmt.executeQuery(sqlCmd);
 
 			if (rs.next()) {
 
-				games.setId(rs.getLong("id"));
-				games.setName(rs.getString("name"));
-				games.setType(rs.getString("type"));
-			 
-				return games;
+				entity = new Game();
+				entity.setId(rs.getLong("id"));
+				entity.setName(rs.getString("name"));
+				entity.setType(rs.getString("type"));
 			}
+
 			rs.close();
 
 			stmt.close();
 
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return null;
-
+		return entity;
 	}
 
+	@Override
 	public Collection<Game> findAll() {
 
 		Collection<Game> games = new ArrayList<Game>();
 
 		try {
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
 
 			Statement stmt = connection.createStatement();
 
-			String sqlCmd = "Select * from game";
-
+			String sqlCmd = "SELECT * FROM game";
+            
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 
 			while (rs.next()) {
@@ -78,15 +86,13 @@ public class GameDao implements GenericDao<Game> {
 				games.add(game);
 
 			}
-
+            
 			rs.close();
 
 			stmt.close();
 
 			connection.close();
-		} catch (ClassNotFoundException e) {
 
-			e.printStackTrace();
 		} catch (SQLException e) {
 
 			e.printStackTrace();
@@ -97,25 +103,33 @@ public class GameDao implements GenericDao<Game> {
 
 	@Override
 	public void insert(Game entity) {
-		// GameDao games = new GameDao();
 
 		try {
-			String StmlInsert = "insert into game values id,name,type";
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-			// Statement stmt = connection.createStatement();
-			PreparedStatement pst = connection.prepareStatement(StmlInsert);
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
 
-			//pst.setLong(1, entity.getId());
-			pst.setString(2, entity.getName());
-			pst.setString(3, entity.getType());
-			pst.executeUpdate();
+			Statement stmt = connection.createStatement();
 
-			pst.close();
+			String sqlCmd = "INSERT INTO game (name, type) VALUES ('" + entity.getName() + "','" + entity.getType()
+					+ "');";
+
+			stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
+
+			ResultSet keySet = stmt.getGeneratedKeys();
+
+			if (keySet.next()) {
+				Long generatedId = keySet.getLong("ID");
+				entity.setId(generatedId);
+			}
+
+			keySet.close();
+
+			stmt.close();
+
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+
 		} catch (SQLException e) {
+			
 			e.printStackTrace();
 		}
 
@@ -124,23 +138,22 @@ public class GameDao implements GenericDao<Game> {
 	@Override
 	public void update(Game entity) {
 		try {
-			String StmlUpdate = "Update game set id=?,name=?,type=?where id =?";
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
 
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-			PreparedStatement pst = connection.prepareStatement(StmlUpdate);
+			Statement stmt = connection.createStatement();
 
-			//pst.setLong(1, entity.getId());
-			pst.setString(2, entity.getName());
-			pst.setString(3, entity.getType());
-			pst.setLong(4, entity.getId());
-			pst.executeUpdate();
+			String sqlCmd = "UPDATE DRINK SET " + "name = '" + entity.getName() + "', " + "type = '" + entity.getType()
+					+ "'  " + "WHERE ID = " + entity.getId();
 
-			pst.close();
+			stmt.executeUpdate(sqlCmd);
+
+			stmt.close();
+
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+
 		} catch (SQLException e) {
+		
 			e.printStackTrace();
 		}
 
@@ -149,22 +162,24 @@ public class GameDao implements GenericDao<Game> {
 	@Override
 	public void delete(Long id) {
 		try {
-			String StmlDelete = "Delete from game where id=?";
-			Class.forName(DB_DRIVER);
-			Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
-			PreparedStatement pst = connection.prepareStatement(StmlDelete);
-			pst.setLong(1, id);
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
 
-			pst.executeUpdate();
-			pst.close();
+			Statement stmt = connection.createStatement();
+
+			String sqlCmd = "DELETE FROM game WHERE ID = " + id;
+
+			stmt.executeUpdate(sqlCmd);
+
+			stmt.close();
+
 			connection.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+
 		} catch (SQLException e) {
+			
 			e.printStackTrace();
 		}
+
 	}
 
 }
-
-// }
