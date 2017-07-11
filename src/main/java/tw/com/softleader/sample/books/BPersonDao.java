@@ -23,9 +23,10 @@ public class BPersonDao implements GenericDao<BPerson> {
 
 	@Override
 	public BPerson findOne(Long id) {
+		Connection connection = null;
 		try {
 
-			Connection connection = DriverManager.getConnection(URL, acc, password);
+			connection = DriverManager.getConnection(URL, acc, password);
 			String sqlCmd = "select * from bperson join book on book = book.id where book.id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
 			pstmt.setLong(1, id);
@@ -45,14 +46,16 @@ public class BPersonDao implements GenericDao<BPerson> {
 
 				return person;
 			}
-
-			rs.close();
-			pstmt.close();
-			connection.close();
-
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 
 		return null;
@@ -62,8 +65,9 @@ public class BPersonDao implements GenericDao<BPerson> {
 	public Collection<BPerson> findAll() {
 		Collection<BPerson> personS = new ArrayList<BPerson>();
 		Collection<Book> books = new ArrayList<Book>();
+		Connection connection = null;
 		try {
-			Connection connection = DriverManager.getConnection(URL, acc, password);
+			connection = DriverManager.getConnection(URL, acc, password);
 			String sqlCmd = "select * from bperson join book on book = book.id";
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
 			ResultSet rs = pstmt.executeQuery();
@@ -79,13 +83,17 @@ public class BPersonDao implements GenericDao<BPerson> {
 
 				personS.add(person);
 			}
-			rs.close();
-			pstmt.close();
-			connection.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 
 		return personS;
@@ -93,15 +101,16 @@ public class BPersonDao implements GenericDao<BPerson> {
 
 	@Override
 	public void insert(BPerson entity) {
+		Connection connection = null;
 		try {
-			Connection connection = DriverManager.getConnection(URL, acc, password);
+			connection = DriverManager.getConnection(URL, acc, password);
 			String sqlCmd = "insert into bperson(name,idno,book) values(?,?,?);";
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, entity.getName());
 			pstmt.setString(2, entity.getIdno());
 			pstmt.setLong(3, entity.getBooks().iterator().next().getId());
 			pstmt.executeUpdate();
-			
+
 			log.debug("insert sql : " + sqlCmd);
 
 			ResultSet keySet = pstmt.getGeneratedKeys();
@@ -109,55 +118,70 @@ public class BPersonDao implements GenericDao<BPerson> {
 				Long generatedId = keySet.getLong("id");
 				entity.setId(generatedId);
 			}
-			keySet.close();
-			pstmt.close();
-			connection.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 
 	}
 
 	@Override
 	public void update(BPerson entity) {
+		Connection connection = null;
 		try {
-			Connection connection = DriverManager.getConnection(URL, acc, password);
+			connection = DriverManager.getConnection(URL, acc, password);
 			String sqlCmd = "update bperson set book=? where id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
 			pstmt.setLong(1, entity.getBooks().iterator().next().getId());
 			pstmt.setLong(2, entity.getId());
-			
-			log.debug("update book: "+ entity.getBooks().iterator().next().getId());
-			log.debug("update id: "+ entity.getId());
-			log.debug("update sql: "+ sqlCmd);
+
+			log.debug("update book: " + entity.getBooks().iterator().next().getId());
+			log.debug("update id: " + entity.getId());
+			log.debug("update sql: " + sqlCmd);
 
 			pstmt.executeUpdate();
-
-			pstmt.close();
-			connection.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 	}
 
 	@Override
 	public void delete(Long id) {
+		Connection connection = null;
 		try {
-			Connection connection = DriverManager.getConnection(URL, acc, password);
+			connection = DriverManager.getConnection(URL, acc, password);
 			String sqlCmd = "delete from bperson where id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd);
 			pstmt.setLong(1, id);
 			pstmt.executeUpdate();
 
-			pstmt.close();
-			connection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 
 	}
