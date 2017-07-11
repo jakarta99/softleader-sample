@@ -30,9 +30,14 @@ public class HPersonServiceTest {
 	@Test
 	public void testGetOne() {
 		HPerson hperson = new HPerson();
-		hperson = hPersonService.getOne(2L);
+		hperson = hPersonService.getOne(3L);
 
-		log.debug("testGetOne(1L): {}" + hperson);
+		log.debug("testGetOne(3L): {}" + hperson);
+		assertEquals(2,hperson.getColors().size());
+		
+		hperson = hPersonService.getByIdNo(hperson.getIdNo());
+		log.debug("testGetByColor(3L): {}" + hperson);
+		assertEquals(2,hperson.getColors().size());
 	}
 	
 	@Test
@@ -40,7 +45,7 @@ public class HPersonServiceTest {
 		Collection<HPerson> hpersons = hPersonService.getAll();
 		
 		log.debug(hpersons);
-		log.debug("hperson.size():" + hpersons.size());
+		assertEquals(3,hpersons.size());
 	}
 	
 	
@@ -68,16 +73,11 @@ public class HPersonServiceTest {
 		Long generatedId = insertHperson.getId();
 		log.debug("insert generatedId:" + generatedId);
 		
-		//TODO　檢查是否有新增
-//		HPerson hperson = hPersonService.getOne(generatedId);
-//		Iterator<Color> colorInsert = hperson.getColors().iterator();
-//		Color checkInsert1 = colorService.getOne(colorInsert.next().getId());
-//		Color checkInsert2 = colorService.getOne(colorInsert.next().getId());
-//		
-//		assertEquals("Coco", hperson.getName());
-//		assertEquals("Green", checkInsert1.getName());
-//		assertEquals("Red", checkInsert2.getName());
-		
+		//檢查是否有新增
+		HPerson hperson = hPersonService.getOne(generatedId);
+	
+		assertEquals("Coco", hperson.getName());
+		assertEquals(2, hperson.getColors().size());
 		
 		/** update*/
 		colors.clear();
@@ -90,20 +90,16 @@ public class HPersonServiceTest {
 		hPersonService.update(insertHperson);
 
 		//檢查是否有修改
-//		hperson = hPersonService.getOne(generatedId);
-//		insertColors = colorDao.findOne(hperson.getColors().iterator().next().getId());
-//		
-//		assertEquals("Black", insertColors.getName());
+
 		
 		/** delete*/
 		hPersonService.delete(generatedId); //DELET JUST INSERT AND UPDATE
-//		
-//		//檢查是否有刪除
-//		hperson = hPersonService.getOne(generatedId);
-//		
-//		assertNull(hperson);
+		
+		//檢查是否有刪除
+
 
 	}
+	
 	
 	@Test
 	public void testIterator(){
