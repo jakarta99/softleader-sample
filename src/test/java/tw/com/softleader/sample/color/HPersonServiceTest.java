@@ -1,6 +1,7 @@
 package tw.com.softleader.sample.color;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -82,22 +83,28 @@ public class HPersonServiceTest {
 		/** update*/
 		colors.clear();
 		Color colorBlack = new Color();
-		colorBlack = colorService.getOne(2L);  // INSERT COLOR BLACK
+		colorBlack = colorService.getOne(2L);  
 		colors.add(colorBlack);
-
+		insertHperson.setId(generatedId); // UPDATE THE LESS ONE ID
 		insertHperson.setColors(colors); //UPDATE COLOR FROM GREEN TO BLACK
 		
 		hPersonService.update(insertHperson);
 
 		//檢查是否有修改
-
+		hperson = hPersonService.getOne(generatedId);
+		log.debug("generatedID: " + generatedId);
+		log.debug("after update : " + hperson);
+		Iterator<Color> updateHPersonColors = hperson.getColors().iterator();
 		
+		assertEquals("Coco", hperson.getName());
+		assertEquals("Green", updateHPersonColors.next().getName());
+		assertEquals("Black", updateHPersonColors.next().getName());
+
 		/** delete*/
 		hPersonService.delete(generatedId); //DELET JUST INSERT AND UPDATE
 		
 		//檢查是否有刪除
-
-
+		assertNull(hPersonService.getOne(generatedId));
 	}
 	
 	

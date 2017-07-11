@@ -195,7 +195,6 @@ public class HPersonDao  implements GenericDao<HPerson> {
 		try (Connection connection = ds.getConnection();
 			 Statement stmt = connection.createStatement();){
 			
-			//Iterator<Color> color = findByIdNo(hperson.getIdNo()).getColors().iterator();
 			HPerson deleteColor = new HPerson();
 			deleteColor = findOne(id);
 			log.debug("deletecolor: "+ deleteColor);
