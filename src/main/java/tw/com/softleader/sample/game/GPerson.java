@@ -1,10 +1,13 @@
 package tw.com.softleader.sample.game;
 
-public class G_Person {
+import java.util.Collection;
+
+public class GPerson {
 	private Long pId;
 	private String pName;
 	private String pIdno;
 	private Long id;
+	private Collection<Game> games;
 	//private Long name;
 	//private Long type;
 	
@@ -36,6 +39,12 @@ public class G_Person {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public Collection<Game> getGames() {
+		return games;
+	}
+	public void setGames(Collection<Game> games) {
+		this.games = games;
 	}
 	
 }

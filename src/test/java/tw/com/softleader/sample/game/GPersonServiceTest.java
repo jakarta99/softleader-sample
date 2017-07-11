@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 
 import org.junit.Test;
 
-public class G_PersonServiceTest {
-	private G_PersonService personService = new G_PersonService();
+public class GPersonServiceTest {
+	private GPersonService personService = new GPersonService();
 	private Logger log = Logger.getLogger(personService.getClass());
 
 	@Test
@@ -21,22 +21,22 @@ public class G_PersonServiceTest {
 	@Test
 	public void testGetAll() {
 
-		Collection<G_Person> persons = personService.getAll();
+		Collection<GPerson> persons = personService.getAll();
 
-		for (G_Person person : persons) {
+		for (GPerson person : persons) {
 			log.info("2:" + person);
 		}
 	}
 
 	@Test
 	public void testInsertUpdateDelete() {
-		G_Person Input = new G_Person();
+		GPerson Input = new GPerson();
 		Input.setId((long) 3);
 		Input.setpName("Duke");
 		Input.setpIdno("987");
 		personService.insert(Input);
 
-		G_Person patch = new G_Person();
+		GPerson patch = new GPerson();
 
 		patch.setId((long) 4);
 		patch.setpName("Edward");

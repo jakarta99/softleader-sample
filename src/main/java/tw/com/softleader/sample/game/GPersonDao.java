@@ -16,38 +16,42 @@ import org.slf4j.LoggerFactory;
 
 import tw.com.softleader.sample.commons.DataSourceUtil;
 //import tw.com.softleader.sample.commons.GenericDao;
-import tw.com.softleader.sample.game.G_PersonGame;
+import tw.com.softleader.sample.game.GPersonGame;
 
-public class G_PersonDao implements G_PersonGame<G_Person> {
+public class GPersonDao implements GPersonGame<GPerson> {
 
-	private Logger log = LoggerFactory.getLogger(G_PersonDao.class);
+	@SuppressWarnings("unused")
+	private Logger log = LoggerFactory.getLogger(GPersonDao.class);
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public G_Person findOne(Long pId) {
-		G_Person entity = null;
+	public GPerson findOne(Long pId) {
+		GPerson entity = null;
 
 		try {
 
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
-
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "SELECT * FROM person WHERE pId = " + pId;
+			// String sqlCmd2 = "SELECT * FROM game Where id="+entity.getId();
 
-			// log.debug("1:" + sqlCmd);
-			log.info("2:" + sqlCmd);
-			// log.warn("3:" + sqlCmd);
-			// log.error("4:" + sqlCmd);
+			// log.info("2:" + sqlCmd);
 
 			ResultSet rs = stmt.executeQuery(sqlCmd);
-
+			// ResultSet rs2 = stmt.executeQuery(sqlCmd2);
+			
+			
+			
 			if (rs.next()) {
-
-				entity = new G_Person();
+				entity = new GPerson();
 				entity.setpId(rs.getLong("pId"));
 				entity.setpName(rs.getString("pName"));
 				entity.setpIdno(rs.getString("pIdno"));
+				entity.setGames((Collection<Game>) rs.getObject("id"));
+				entity.setGames((Collection<Game>) rs.getObject("name"));
+				entity.setGames((Collection<Game>) rs.getObject("type"));
 			}
 
 			rs.close();
@@ -57,35 +61,37 @@ public class G_PersonDao implements G_PersonGame<G_Person> {
 			connection.close();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
 		return entity;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Collection<G_Person> findAll() {
+	public Collection<GPerson> findAll() {
 
-		Collection<G_Person> persons = new ArrayList<G_Person>();
+		Collection<GPerson> persons = new ArrayList<GPerson>();
 
 		try {
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
-
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "SELECT * FROM person";
-			log.info("2:" + sqlCmd);
+			//log.info("2:" + sqlCmd);
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 
 			while (rs.next()) {
 
-				G_Person person = new G_Person();
+				GPerson person = new GPerson();
 				person.setpId(rs.getLong("pID"));
 				person.setpName(rs.getString("pName"));
 				person.setpIdno(rs.getString("pIdno"));
-
+				person.setGames((Collection<Game>) rs.getObject("id"));
+				person.setGames((Collection<Game>) rs.getObject("name"));
+				person.setGames((Collection<Game>) rs.getObject("type"));
 				persons.add(person);
 
 			}
@@ -97,7 +103,7 @@ public class G_PersonDao implements G_PersonGame<G_Person> {
 			connection.close();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
@@ -105,58 +111,77 @@ public class G_PersonDao implements G_PersonGame<G_Person> {
 	}
 
 	@Override
-	public void insert(G_Person entity) {
+	public void insert(GPerson entity) {
 
 		try {
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
-
 			Statement stmt = connection.createStatement();
-
-			String sqlCmd = "INSERT INTO person (pName, pIdno) VALUES ('" + entity.getpName() + "','"
-					+ entity.getpIdno() + "');";
-			log.info("2:" + sqlCmd);
+			Statement stmt2 = connection.createStatement();
+			String sqlCmd = "INSERT INTO person (pName, pIdno) VALUES (?,?);";
+			// log.info("2:" + sqlCmd);
+			String sqlCmd2 = "INSERT INTO game(name,type)VALUES(?,?);";
 			stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
-
-			ResultSet keySet = stmt.getGeneratedKeys();
-
-			if (keySet.next()) {
-				Long generatedId = keySet.getLong("pId");
+			stmt2.execute(sqlCmd2, Statement.RETURN_GENERATED_KEYS);
+			ResultSet keySet1 = stmt.getGeneratedKeys();
+			ResultSet keySet2 = stmt2.getGeneratedKeys();
+			if (keySet1.next()) {
+				Long generatedId = keySet1.getLong("pId");
 				entity.setpId(generatedId);
+
 			}
 
-			keySet.close();
+			keySet1.close();
 
 			stmt.close();
 
+			//connection.close();
+
+			if (keySet2.next()) {
+
+				@SuppressWarnings("unchecked")
+				Collection<Game> generatedName = (Collection<Game>) keySet2.getObject("name");
+				entity.setGames(generatedName);
+				@SuppressWarnings("unchecked")
+				Collection<Game> generatedType = (Collection<Game>) keySet2.getObject("type");
+				entity.setGames(generatedType);
+
+			}
+			keySet2.close();
+			stmt2.close();
 			connection.close();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
 	}
 
 	@Override
-	public void update(G_Person entity) {
+	public void update(GPerson entity) {
 		try {
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
-
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "UPDATE person SET " + "pName = '" + entity.getpName() + "', " + "pIdno = '"
 					+ entity.getpId() + "'  " + "WHERE pId = " + entity.getpId();
-			log.info("2:" + sqlCmd);
-			stmt.executeUpdate(sqlCmd);
 
+			// log.info("2:" + sqlCmd);
+
+			String sqlCmd2 = "UPDATE game SET (?,?)";
+			
+		
+			
+			stmt.executeUpdate(sqlCmd);
+			stmt.executeUpdate(sqlCmd2);
 			stmt.close();
 
 			connection.close();
-
+          
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
@@ -167,11 +192,11 @@ public class G_PersonDao implements G_PersonGame<G_Person> {
 		try {
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
-
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "DELETE FROM person WHERE pId = " + pId;
-			log.info("2:" + sqlCmd);
+			
+			//log.info("2:" + sqlCmd);
 			stmt.executeUpdate(sqlCmd);
 
 			stmt.close();
@@ -189,8 +214,8 @@ public class G_PersonDao implements G_PersonGame<G_Person> {
 		List<Game> list = new ArrayList<Game>();
 
 		try {
-			String sqlCmd = "select id,name,type from game where pId =? order by id";
-			log.info("2:" + sqlCmd);
+			String sqlCmd = "select id,name,type from game where pId =? ";
+			//log.info("2:" + sqlCmd);
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 			Statement stmt = connection.createStatement();

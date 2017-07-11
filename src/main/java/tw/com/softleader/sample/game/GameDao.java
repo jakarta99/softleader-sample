@@ -94,7 +94,7 @@ public class GameDao implements GenericDao<Game> {
 			connection.close();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
@@ -129,7 +129,7 @@ public class GameDao implements GenericDao<Game> {
 			connection.close();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
@@ -153,7 +153,7 @@ public class GameDao implements GenericDao<Game> {
 			connection.close();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
 
@@ -176,7 +176,7 @@ public class GameDao implements GenericDao<Game> {
 			connection.close();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 

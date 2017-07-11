@@ -5,9 +5,8 @@ import java.util.Collection;
 import tw.com.softleader.sample.commons.GenericService;
 
 public class SPersonService implements GenericService<SPerson> {
-	
-	SPersonDao SPersonD = new SPersonDao();
 
+	SPersonDao SPersonD = new SPersonDao();
 
 	@Override
 	public SPerson getOne(Long id) {
@@ -25,7 +24,7 @@ public class SPersonService implements GenericService<SPerson> {
 	public void insert(SPerson entity) {
 		// TODO Auto-generated method stub
 		SPersonD.insert(entity);
-		
+
 	}
 
 	@Override
@@ -39,6 +38,5 @@ public class SPersonService implements GenericService<SPerson> {
 		// TODO Auto-generated method stub
 		SPersonD.delete(id);
 	}
-	
 
 }

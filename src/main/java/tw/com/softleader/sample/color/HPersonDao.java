@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import javax.sql.DataSource;
 
@@ -19,7 +20,6 @@ public class HPersonDao  implements GenericDao<HPerson> {
 	private Logger log = Logger.getLogger(this.getClass());
 
 	//private final String DB_DRIVER = "org.postgresql.Driver";
-	
 	//private final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
 	
 	private ColorDao colorDao = new ColorDao();
@@ -32,7 +32,43 @@ public class HPersonDao  implements GenericDao<HPerson> {
 		Collection<Color> colors = new ArrayList<Color>();
 		hperson = null;
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
-		String sqlCmd = "SELECT * FROM Hperson JOIN COLOR ON COLOR = COLOR.ID WHERE HPERSON.ID=" + id + ";";
+		String sqlCmd = "SELECT * FROM Hperson WHERE ID='" + id + "';";
+		
+		log.debug(sqlCmd);
+		
+		try (Connection connection = ds.getConnection();
+				Statement stmt = connection.createStatement();
+				ResultSet rs = stmt.executeQuery(sqlCmd);){
+
+			if (rs.next()) {
+				hperson = new HPerson();
+				hperson.setId(rs.getLong("id"));
+				hperson.setName(rs.getString("name"));
+				hperson.setIdNo(rs.getString("idNo"));
+				
+				Iterator<Color> colorInsert = findByIdNo(hperson.getIdNo()).getColors().iterator();
+				while (colorInsert.hasNext()){
+					colors.add(colorInsert.next());
+				}
+				
+				hperson.setColors(colors);
+			
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return hperson;
+	}
+	
+	public HPerson findByIdNo(String idno) {
+
+		Collection<Color> colors = new ArrayList<Color>();
+		hperson = null;
+		DataSource ds = DataSourceUtil.getInstance().getDataSource();
+		String sqlCmd = "SELECT * FROM Hperson WHERE IDNO='" + idno + "';";
 		
 		log.debug(sqlCmd);
 		
@@ -62,10 +98,10 @@ public class HPersonDao  implements GenericDao<HPerson> {
 	@Override
 	public Collection<HPerson> findAll() {
 		Collection<HPerson> hpersons = new ArrayList<HPerson>();
-		Collection<Color> colors = new ArrayList<Color>();
+		
 
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
-		String sqlCmd = "SELECT * FROM HPERSON JOIN COLOR ON COLOR=COLOR.ID ORDER BY IDNO;";
+		String sqlCmd = "SELECT * FROM HPERSON;";
 		
 		log.debug(sqlCmd);
 		
@@ -74,6 +110,8 @@ public class HPersonDao  implements GenericDao<HPerson> {
 				ResultSet rs = stmt.executeQuery(sqlCmd);){
 	
 			while(rs.next()) {
+				
+				Collection<Color> colors = new ArrayList<Color>();
 				
 				HPerson hperson = new HPerson();
 				hperson.setId(rs.getLong("id"));
@@ -102,13 +140,16 @@ public class HPersonDao  implements GenericDao<HPerson> {
 		try (Connection connection = ds.getConnection();
 			 Statement stmt = connection.createStatement();){
 
-			Long colorsId = entity.getColors().iterator().next().getId();
+			Long colorsId = null;
+			Iterator<Color> colorInsert = entity.getColors().iterator();
+			
+			while(colorInsert.hasNext()){
+				colorsId = colorInsert.next().getId();
+				String sqlCmd = "INSERT INTO HPERSON(NAME,IDNO,COLOR) VALUES ('" + entity.getName() + "', '" + entity.getIdNo() + "',"+ colorsId +");";
+				log.debug("insert sql : " + sqlCmd);
+				stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
+			}
 
-			String sqlCmd = "INSERT INTO HPERSON(NAME,IDNO,COLOR) VALUES ('" + entity.getName() + "', '" + entity.getIdNo() + "',"+ colorsId +");";
-			
-			log.debug("insert sql : " + sqlCmd);
-			
-			stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 			
 			ResultSet keySet = stmt.getGeneratedKeys();
 			
@@ -132,7 +173,8 @@ public class HPersonDao  implements GenericDao<HPerson> {
 		try (Connection connection = ds.getConnection();
 			 Statement stmt = connection.createStatement();) {
 			
-			Long colorsId = entity.getColors().iterator().next().getId();
+			Iterator<Color> colorInsert = entity.getColors().iterator();
+			Long colorsId = colorInsert.next().getId();
 
 			String sqlCmd = "UPDATE HPERSON SET COLOR='" +  colorsId + "' WHERE ID='" + entity.getId() + "';";
 			
@@ -152,8 +194,12 @@ public class HPersonDao  implements GenericDao<HPerson> {
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
 		try (Connection connection = ds.getConnection();
 			 Statement stmt = connection.createStatement();){
+			
+			HPerson deleteColor = new HPerson();
+			deleteColor = findOne(id);
+			log.debug("deletecolor: "+ deleteColor);
 
-			String sqlCmd = "DELETE FROM HPERSON WHERE ID='" + id + "';";
+			String sqlCmd = "DELETE FROM HPERSON WHERE IDNO='" + deleteColor.getIdNo() + "';";
 
 			stmt.executeUpdate(sqlCmd);
 
