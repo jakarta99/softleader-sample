@@ -59,6 +59,9 @@ public class DPersonDaoTest {
 		aliceDrink4.setColor("Orange");
 		aliceFromDB.getDrinks().add(aliceDrink4);
 		
+		log.debug("{}", aliceFromDB);
+		dPersonDao.update(aliceFromDB);
+		
 		
 		// To delete the drink that you construct before
 		dPersonDao.delete(alicePersonId);
