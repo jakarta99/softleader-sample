@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public class WPerson {
 
-	private Long id;
+	private Long id;  
 	
 	/** 姓名 */
 	private String name;
