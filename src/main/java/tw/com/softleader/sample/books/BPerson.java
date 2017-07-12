@@ -10,6 +10,8 @@ public class BPerson {
 	private String idno;
 
 	private Collection<Book> books;
+	
+	private Long c_id;
 	@Override
 	public String toString() {
 
@@ -48,6 +50,14 @@ public class BPerson {
 
 	public void setBooks(Collection<Book> books) {
 		this.books = books;
+	}
+
+	public Long getC_id() {
+		return c_id;
+	}
+
+	public void setC_id(Long c_id) {
+		this.c_id = c_id;
 	}
 
 }
