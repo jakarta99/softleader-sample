@@ -1,5 +1,6 @@
 package tw.com.softleader.sample.books;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
@@ -8,63 +9,65 @@ import java.util.Collection;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import tw.com.softleader.sample.drink.DPerson;
+import tw.com.softleader.sample.drink.Drink;
+
 public class BPersonServiceTest {
 
-	private Logger log = Logger.getLogger(this.getClass());
-	private BPersonService bpersonService = new BPersonService();
-	private BookService bookService = new BookService();
+	private BPersonDao bpersonDao = new BPersonDao();
 
 	@Test
-	public void testGetAll() {
-		Collection<BPerson> personS = bpersonService.getAll();
+	public void testCrud() {
+		Collection<BPerson> persons = bpersonDao.findAll();
+		int originalSize = persons.size();
 
-		for (BPerson person : personS) {
-			log.info("testGetAll:" + person);
-		}
+		// To construct a new object(drink) and insert into database
+		BPerson mike = new BPerson();
+		mike.setIdno("A000000001");
+		mike.setName("mike");
 
-	}
-
-	@Test
-	public void testGetOne() {
-		log.info("testGetOne:" + bpersonService.getOne(2L));
-	}
-
-	@Test
-	public void testInsertUpdateDelete() {
-		BPerson insertbperson = new BPerson();
-		BookDao bookDao = new BookDao();
-		Book book = new Book();
 		Collection<Book> books = new ArrayList<Book>();
-		insertbperson.setName("Mike");
-		insertbperson.setIdno("A123456788");
+		Book book1 = new Book();
+		book1.setName("The Da Venci's Code");
+		book1.setType("Perfect");
+		books.add(book1);
 
-		book = bookService.getOne(3L);
-		books.add(book);
-		insertbperson.setBooks(books); // 把id=3的書放進書堆再丟給mike
+		Book book2 = new Book();
+		book2.setName("The Monalisa's Smile");
+		book2.setType("scared");
+		books.add(book2);
 
-		bpersonService.insert(insertbperson);
-		Long generatedId = insertbperson.getId();
-		log.debug("testInsert book:" + bookDao.findOne(3L));
-		log.debug("testInsert id:" + generatedId);
+		Book book3 = new Book();
+		book3.setName("Micky Mouse");
+		book3.setType("Happy");
+		books.add(book3);
 
-		BPerson bperson = bpersonService.getOne(generatedId);
-	
-		//update
-		books.clear();
-		book = bookService.getOne(2L);
-		books.add(book);
-		insertbperson.setBooks(books);     //把id=2的書丟進bperson裡
-		bpersonService.update(insertbperson);
-		//檢查是否修改
-		bperson = bpersonService.getOne(generatedId);
+		mike.setBooks(books);
 
-		log.info("testUpdate id:" + generatedId);
-		
-		//delete
-		bpersonService.delete(generatedId);
-		bperson = bpersonService.getOne(generatedId);
+		bpersonDao.insert(mike);
+		// log.debug("{}", Mike);
 
-		assertNull(bperson);
+		Long mikePersonId = mike.getId();
+
+		// Try to modify the data
+		BPerson mikeFromDB = bpersonDao.findOne(mikePersonId);
+
+		Book Book4 = new Book();
+		Book4.setName("java 1.8");
+		Book4.setType("education");
+		mikeFromDB.getBooks().add(Book4);
+		bpersonDao.update(mikeFromDB);
+
+		// To delete the drink that you construct before
+		bpersonDao.delete(mikePersonId);
+		assertNull(bpersonDao.findOne(mikePersonId));
+
+		// check the final size should equals to original size
+		persons = bpersonDao.findAll();
+		System.out.println(persons);
+		int finalSize = persons.size();
+
+		assertEquals(originalSize, finalSize);
 
 	}
 
