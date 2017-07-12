@@ -46,7 +46,7 @@ public class CPerson {
 	public void setCountries(Collection<Country> countries) {
 		this.countries = countries;
 	}
-	public Long getD_ID() {
+	public Long getC_ID() {
 		return c_id;
 	}
 

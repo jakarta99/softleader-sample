@@ -34,11 +34,11 @@ public class Country {
 	public void setSize(String size) {
 		this.size = size;
 	}
-	public Long getPID(){
+	public Long getP_ID(){
 		return p_id;
 	}
 	
-	public void setPID(Long p_id) {
+	public void setP_ID(Long p_id) {
 		this.p_id = p_id;
 	}
 
