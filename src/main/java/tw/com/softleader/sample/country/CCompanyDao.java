@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.logging.Log;
 import org.apache.log4j.Logger;
 
 import tw.com.softleader.sample.commons.DataSourceUtil;
@@ -33,60 +33,59 @@ public class CCompanyDao implements GenericDao<CCompany> {
 
 		try {
 			conn = ds.getConnection();
-			String CompanyOneCmd = "SELECT * FROM CCOMPANY WHERE ID=?";
-			PreparedStatement stmt1 = conn.prepareStatement(CompanyOneCmd);
+			String CompanyOneCmd = "SELECT * FROM CCOMPANY WHERE ID=" + id;
+			Statement stmt1 = conn.createStatement();
 
-			stmt1.setLong(1, id);
-			ResultSet rs1 = stmt1.getResultSet();
+			ResultSet rs1 = stmt1.executeQuery(CompanyOneCmd);
 
 			if (rs1.next()) {
 				cCompany = new CCompany();
 				cCompany.setName(rs1.getString("NAME"));
+				cCompany.setId(rs1.getLong("ID"));
+			}
+			String PersonOneCmd = "SELECT * FROM CPERSON WHERE C_ID=" + id;
+			Statement stmt2 = conn.createStatement();
 
-				String PersonOneCmd = "SELECT * FROM CPERSON WHERE C_ID=?";
-				PreparedStatement stmt2 = conn.prepareStatement(PersonOneCmd);
+			ResultSet rs2 = stmt2.executeQuery(PersonOneCmd);
 
-				stmt2.setLong(1, id);
-				ResultSet rs2 = stmt2.getResultSet();
+			while (rs2.next()) {
+				cPerson = new CPerson();
+				cPerson.setC_ID(rs1.getLong("ID"));
+				cPerson.setId(rs2.getLong("ID"));
+				cPerson.setName(rs2.getString("NAME"));
+				cPerson.setIdNo(rs2.getString("IDNO"));
 
-				while (rs2.next()) {
-					cPerson = new CPerson();
-					cPerson.setC_ID(id);
-					cPerson.setId(rs2.getLong("ID"));
-					cPerson.setName(rs2.getString("NAME"));
-					cPerson.setIdNo(rs2.getString("IDNO"));
+				String CountryOneCmd = "SELECT * FROM COUNTRY WHERE P_ID=" + rs2.getLong("ID");
+				Statement stmt3 = conn.createStatement();
 
-					String CountryOneCmd = "SELECT * FROM COUNTRY WHERE P_ID=?";
-					PreparedStatement stmt3 = conn.prepareStatement(CountryOneCmd);
+				ResultSet rs3 = stmt3.executeQuery(CountryOneCmd);
 
-					stmt3.setLong(1, rs2.getLong("ID"));
-					ResultSet rs3 = stmt3.getResultSet();
+				while (rs3.next()) {
+					country = new Country();
+					country.setP_ID(rs2.getLong("ID"));
+					country.setName(rs3.getString("NAME"));
+					country.setSize(rs3.getString("SIZE"));
+					country.setId(rs3.getLong("ID"));
 
-					while (rs3.next()) {
-						country = new Country();
-						country.setP_ID(rs3.getLong("ID"));
-						country.setName(rs3.getString("NAME"));
-						country.setSize(rs3.getString("SIZE"));
-						
-						log.debug("DAO: findOne countryName-->"+rs3.getString("NAME"));
-						
-						countryList.add(country);
-					}
+					log.debug("DAO: findOne countryName-->" + rs3.getString("NAME"));
 
-					rs3.close();
-					stmt3.close();
-					
-					log.debug("DAO: findOne cpersonName-->"+rs2.getString("NAME"));
-					
-					cPerson.setCountries(countryList);
-					cpersonList.add(cPerson);
+					countryList.add(country);
 				}
 
-				rs2.close();
-				stmt2.close();
+				rs3.close();
+				stmt3.close();
 
-				cCompany.setCPersons(cpersonList);
+				log.debug("DAO: findOne cpersonName-->" + rs2.getString("NAME"));
+
+				cPerson.setCountries(countryList);
+				cpersonList.add(cPerson);
 			}
+
+			rs2.close();
+			stmt2.close();
+
+			cCompany.setCPersons(cpersonList);
+
 			rs1.close();
 			stmt1.close();
 
@@ -111,18 +110,18 @@ public class CCompanyDao implements GenericDao<CCompany> {
 		try {
 			conn = ds.getConnection();
 			String CompanyAllCmd = "SELECT * FROM CCOMPANY";
-			PreparedStatement stmt1 = conn.prepareStatement(CompanyAllCmd);
-			ResultSet rs1 = stmt1.getResultSet();
+			Statement stmt1 = conn.createStatement();
+			ResultSet rs1 = stmt1.executeQuery(CompanyAllCmd);
 
 			while (rs1.next()) {
 				cCompany = new CCompany();
 				cCompany.setId(rs1.getLong("ID"));
 				cCompany.setName(rs1.getString("NAME"));
 
-				String PersonAllCmd = "SELECT * FROM CPERSON WHERE C_ID=?";
-				PreparedStatement stmt2 = conn.prepareStatement(PersonAllCmd);
+				String PersonAllCmd = "SELECT * FROM CPERSON WHERE C_ID=" + rs1.getString("ID");
+				Statement stmt2 = conn.createStatement();
 
-				ResultSet rs2 = stmt2.getResultSet();
+				ResultSet rs2 = stmt2.executeQuery(PersonAllCmd);
 
 				while (rs2.next()) {
 					cPerson = new CPerson();
@@ -131,11 +130,10 @@ public class CCompanyDao implements GenericDao<CCompany> {
 					cPerson.setName(rs2.getString("NAME"));
 					cPerson.setIdNo(rs2.getString("IDNO"));
 
-					String CountryAllCmd = "SELECT * FROM COUNTRY WHERE P_ID=?";
-					PreparedStatement stmt3 = conn.prepareStatement(CountryAllCmd);
+					String CountryAllCmd = "SELECT * FROM COUNTRY WHERE P_ID=" + rs2.getString("ID");
+					Statement stmt3 = conn.createStatement();
 
-					stmt3.setLong(1, rs2.getLong("ID"));
-					ResultSet rs3 = stmt3.getResultSet();
+					ResultSet rs3 = stmt3.executeQuery(CountryAllCmd);
 
 					while (rs3.next()) {
 						country = new Country();
@@ -143,25 +141,25 @@ public class CCompanyDao implements GenericDao<CCompany> {
 						country.setName(rs3.getString("NAME"));
 						country.setSize(rs3.getString("SIZE"));
 
-						log.debug("DAO: findAll countryName-->"+rs3.getString("NAME"));
-						
+						log.debug("DAO: findAll countryName-->" + rs3.getString("NAME"));
+
 						countryList.add(country);
 					}
 
 					rs3.close();
 					stmt3.close();
-					
-					log.debug("DAO: findAll cpersonName-->"+rs2.getString("NAME"));
-					
+
+					log.debug("DAO: findAll cpersonName-->" + rs2.getString("NAME"));
+
 					cPerson.setCountries(countryList);
 					cpersonList.add(cPerson);
 				}
 
 				rs2.close();
 				stmt2.close();
-				
-				log.debug("DAO: findAll companyName-->"+rs1.getString("NAME"));
-				
+
+				log.debug("DAO: findAll companyName-->" + rs1.getString("NAME"));
+
 				cCompany.setCPersons(cpersonList);
 			}
 			ccompanyList.add(cCompany);
@@ -190,45 +188,76 @@ public class CCompanyDao implements GenericDao<CCompany> {
 			conn = ds.getConnection();
 			String CompanyInsertCmd = "INSERT INTO CCOMPANY (NAME) VALUES(?)";
 			PreparedStatement stmt1 = conn.prepareStatement(CompanyInsertCmd, Statement.RETURN_GENERATED_KEYS);
-
 			stmt1.setString(1, entity.getName());
+			stmt1.executeUpdate();
 
-			Long generatedCc_Id = stmt1.getGeneratedKeys().getLong(1);
-			log.debug("DAO: insert generatedCc_Id-->"+generatedCc_Id);
-
-			while (entity.getCPersons().iterator().hasNext()) {
-				cPerson = entity.getCPersons().iterator().next();
-
+			ResultSet keySet1 = stmt1.getGeneratedKeys();
+			Long generatedCc_Id = null;
+			if (keySet1.next()) {
+				generatedCc_Id = keySet1.getLong(1);
+				cCompany.setId(generatedCc_Id);
+				entity.setId(generatedCc_Id);
+				log.debug("DAO: insert generatedCc_Id-->" + generatedCc_Id);
+			}
+			Iterator<CPerson> cPersonInsert = entity.getCPersons().iterator();
+			while (cPersonInsert.hasNext()) {
+				cPerson = cPersonInsert.next();
 				String PersonInsertCmd = "INSERT INTO CPERSON (NAME,IDNO,C_ID) VALUES(?,?,?) ";
 				PreparedStatement stmt2 = conn.prepareStatement(PersonInsertCmd, Statement.RETURN_GENERATED_KEYS);
 
 				stmt2.setString(1, cPerson.getName());
-				stmt2.setString(1, cPerson.getIdNo());
-				stmt2.setLong(3, generatedCc_Id);
+				stmt2.setString(2, cPerson.getIdNo());
+				stmt2.setLong(3, cCompany.getId());
+				stmt2.executeUpdate();
 
-				Long generatedP_Id = stmt2.getGeneratedKeys().getLong(1);
-				log.debug("DAO: insert generatedP_Id-->"+generatedP_Id);
-				
-				while (cPerson.getCountries().iterator().hasNext()) {
-					country = cPerson.getCountries().iterator().next();
+				ResultSet keySet2 = stmt2.getGeneratedKeys();
+				Long generatedP_Id = null;
+				if (keySet2.next()) {
+					generatedP_Id = keySet2.getLong(1);
+					cPerson.setId(generatedP_Id);
+					cPerson.setC_ID(generatedCc_Id);
+					entity.getCPersons().iterator().next().setId(generatedP_Id);
+					entity.getCPersons().iterator().next().setC_ID(generatedCc_Id);
+					log.debug("DAO: insert generatedP_Id-->" + generatedP_Id);
+				}
+
+				Iterator<Country> countryInsert = cPerson.getCountries().iterator();
+				while (countryInsert.hasNext()) {
+					country = countryInsert.next();
 
 					String CountryInsertCmd = "INSERT INTO COUNTRY (NAME,SIZE,P_ID) VALUES(?,?,?)";
 					PreparedStatement stmt3 = conn.prepareStatement(CountryInsertCmd, Statement.RETURN_GENERATED_KEYS);
 
-					stmt3.setString(1, "NAME");
-					stmt3.setString(2, "SIZE");
-					stmt3.setLong(3, generatedP_Id);
+					stmt3.setString(1, country.getName());
+					stmt3.setString(2, country.getSize());
+					stmt3.setLong(3, cPerson.getId());
+					stmt3.executeUpdate();
 
-					 Long generatedCo_Id =stmt3.getGeneratedKeys().getLong(1);
-					 log.debug("DAO: insert generatedCo_Id-->"+generatedCo_Id);
+					country.setP_ID(generatedP_Id);
 
+					ResultSet keySet3 = stmt3.getGeneratedKeys();
+					Long generatedCo_Id = null;
+					if (keySet3.next()) {
+						generatedCo_Id = keySet3.getLong(1);
+						country.setId(generatedCo_Id);
+						country.setP_ID(generatedP_Id);
+						entity.getCPersons().iterator().next().getCountries().iterator().next().setP_ID(generatedP_Id);
+						entity.getCPersons().iterator().next().getCountries().iterator().next().setId(generatedCo_Id);
+						;
+						log.debug("DAO: insert generatedCo_Id-->" + generatedCo_Id);
+					}
+					keySet3.close();
 					stmt3.close();
 				}
+				keySet2.close();
 				stmt2.close();
 			}
+			keySet1.close();
 			stmt1.close();
 
-		} catch (SQLException e) {
+		} catch (
+
+		SQLException e) {
 			e.printStackTrace();
 		} finally {
 			if (conn != null)
@@ -243,71 +272,102 @@ public class CCompanyDao implements GenericDao<CCompany> {
 	@Override
 	public void update(CCompany entity) {
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
-
-		// String CompanyInsertCmd = "UPDATE CCOMPANY SET NAME=? WHERE ID=?";
-		// String PersonInsertCmd = "UPDATE CPERSON SET NAME=?,IDNO=?,C_ID=?
-		// WHERE ID=? ";
-		// String CountryInsertCmd = "UPDATE COUNTRY SET NAME=?,IDNO=?,P_ID=?
-		// WHERE ID=?";
 		Connection conn = null;
 
 		try {
 			conn = ds.getConnection();
-			String CountryDeleteCmd = "DELETE FROM COUNTRY WHERE ID=?";
-			PreparedStatement stmt1 = conn.prepareStatement(CountryDeleteCmd);
+			String CountryUpdateDel = "DELETE FROM COUNTRY WHERE P_ID=?";
+			PreparedStatement stmt1 = conn.prepareStatement(CountryUpdateDel);
 			stmt1.setLong(1, entity.getCPersons().iterator().next().getCountries().iterator().next().getP_ID());
+			log.debug("DAO: update Del P_ID-->"
+					+ entity.getCPersons().iterator().next().getCountries().iterator().next().getP_ID());
+			stmt1.executeUpdate();
 			stmt1.close();
 
-			String PersonDeleteCmd = "DELETE FROM CPERSON WHERE ID=?";
-			PreparedStatement stmt2 = conn.prepareStatement(PersonDeleteCmd);
-			stmt2.setLong(1, entity.getCPersons().iterator().next().getC_ID());
+			String PersonUpdateDel = "DELETE FROM CPERSON WHERE C_ID=?";
+			PreparedStatement stmt2 = conn.prepareStatement(PersonUpdateDel);
+			stmt2.setLong(1, entity.getId());
+			stmt2.executeUpdate();
 			stmt2.close();
 
-			String CompanyDeleteCmd = "DELETE FROM CCOMPANY WHERE ID=?";
-			PreparedStatement stmt3 = conn.prepareStatement(CompanyDeleteCmd);
+			String CompanyUpdateDel = "DELETE FROM CCOMPANY WHERE ID=?";
+			PreparedStatement stmt3 = conn.prepareStatement(CompanyUpdateDel);
 			stmt3.setLong(1, entity.getId());
+			stmt3.executeUpdate();
 			stmt3.close();
-			
-			log.debug("DAO: update companyList.Size-->"+ccompanyList.size());
-			
-			String CompanyInsertCmd = "INSERT INTO CCOMPANY (NAME) VALUES(?)";
-			PreparedStatement stmt4 = conn.prepareStatement(CompanyInsertCmd, Statement.RETURN_GENERATED_KEYS);
+
+			String CompanyUpdateIns = "INSERT INTO CCOMPANY (NAME) VALUES(?)";
+			PreparedStatement stmt4 = conn.prepareStatement(CompanyUpdateIns, Statement.RETURN_GENERATED_KEYS);
 			stmt4.setString(1, entity.getName());
+			stmt4.executeUpdate();
 
-			Long generatedCc_Id = stmt4.getGeneratedKeys().getLong(1);
-			log.debug("DAO: update generatedCc_Id-->"+generatedCc_Id);
+			ResultSet keySet4 = stmt4.getGeneratedKeys();
+			Long generatedCc_Id = null;
+			if (keySet4.next()) {
+				generatedCc_Id = keySet4.getLong(1);
+				cCompany.setId(generatedCc_Id);
+				entity.setId(generatedCc_Id);
+				log.debug("DAO: update Ins generatedCc_Id-->" + generatedCc_Id);
+			}
+			Iterator<CPerson> cPersonInsert = entity.getCPersons().iterator();
+			while (cPersonInsert.hasNext()) {
+				CPerson cPerson = new CPerson();
+				cPerson = cPersonInsert.next();
 
-			while (entity.getCPersons().iterator().hasNext()) {
-				cPerson = entity.getCPersons().iterator().next();
-
-				String PersonInsertCmd = "INSERT INTO CPERSON (NAME,IDNO,C_ID) VALUES(?,?,?) ";
-				PreparedStatement stmt5 = conn.prepareStatement(PersonInsertCmd, Statement.RETURN_GENERATED_KEYS);
+				String PersonUpdateIns = "INSERT INTO CPERSON (NAME,IDNO,C_ID) VALUES(?,?,?) ";
+				PreparedStatement stmt5 = conn.prepareStatement(PersonUpdateIns, Statement.RETURN_GENERATED_KEYS);
 
 				stmt5.setString(1, cPerson.getName());
-				stmt5.setString(1, cPerson.getIdNo());
-				stmt5.setLong(3, generatedCc_Id);
+				stmt5.setString(2, cPerson.getIdNo());
+				stmt5.setLong(3, cCompany.getId());
+				stmt5.executeUpdate();
 
-				Long generatedP_Id = stmt2.getGeneratedKeys().getLong(1);
-				log.debug("DAO: update generatedP_Id-->"+generatedP_Id);
-
-				while (cPerson.getCountries().iterator().hasNext()) {
-					country = cPerson.getCountries().iterator().next();
-
-					String CountryInsertCmd = "INSERT INTO COUNTRY (NAME,SIZE,P_ID) VALUES(?,?,?)";
-					PreparedStatement stmt6 = conn.prepareStatement(CountryInsertCmd, Statement.RETURN_GENERATED_KEYS);
-
-					stmt6.setString(1, "NAME");
-					stmt6.setString(2, "SIZE");
-					stmt6.setLong(3, generatedP_Id);
-
-					Long generatedCo_Id =stmt3.getGeneratedKeys().getLong(1);
-					log.debug("DAO: insert generatedCo_Id-->"+generatedCo_Id);
-
-					stmt6.close();
+				ResultSet keySet5 = stmt5.getGeneratedKeys();
+				this.cPerson = cPerson;
+				Long generatedP_Id = null;
+				if (keySet5.next()) {
+					generatedP_Id = keySet5.getLong(1);
+					cPerson.setId(generatedP_Id);
+					cPerson.setC_ID(generatedCc_Id);
+					entity.getCPersons().iterator().next().setId(generatedP_Id);
+					entity.getCPersons().iterator().next().setC_ID(generatedCc_Id);
+					log.debug("DAO: update Ins generatedP_Id-->" + generatedP_Id);
 				}
-				stmt5.close();
+
+				Iterator<Country> countryInsert = entity.getCPersons().iterator().next().getCountries().iterator();
+				while (countryInsert.hasNext()) {
+					Country country = new Country();
+					country = countryInsert.next();
+
+					String CountryUpdateIns = "INSERT INTO COUNTRY (NAME,SIZE,P_ID) VALUES(?,?,?)";
+					PreparedStatement stmt6 = conn.prepareStatement(CountryUpdateIns, Statement.RETURN_GENERATED_KEYS);
+
+					stmt6.setString(1, country.getName());
+					stmt6.setString(2, country.getSize());
+					stmt6.setLong(3, cPerson.getId());
+					stmt6.executeUpdate();
+
+					country.setP_ID(generatedP_Id);
+
+					ResultSet keySet6 = stmt6.getGeneratedKeys();
+					Long generatedCo_Id = null;
+					if (keySet6.next()) {
+						generatedCo_Id = keySet6.getLong(1);
+						country.setId(generatedCo_Id);
+						country.setP_ID(generatedP_Id);
+						entity.getCPersons().iterator().next().getCountries().iterator().next().setP_ID(generatedP_Id);
+						entity.getCPersons().iterator().next().getCountries().iterator().next().setId(generatedCo_Id);
+						;
+						log.debug("DAO: update Ins generatedCo_Id-->" + generatedCo_Id);
+					}
+					keySet6.close();
+					stmt3.close();
+				}
+				keySet5.close();
+				stmt2.close();
 			}
-			stmt4.close();
+			keySet4.close();
+			stmt1.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -323,24 +383,27 @@ public class CCompanyDao implements GenericDao<CCompany> {
 
 	@Override
 	public void delete(Long id) {
+
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
-			String CountryDeleteCmd = "TRUNCATE TABLE COUNTRY";
+			String CountryDeleteCmd = "DROP TABLE COUNTRY";
 			PreparedStatement stmt1 = conn.prepareStatement(CountryDeleteCmd);
+			stmt1.executeUpdate();
 			stmt1.close();
 
-			String PersonDeleteCmd = "TRUNCATE TABLE CPERSON";
+			String PersonDeleteCmd = "DROP TABLE CPERSON";
 			PreparedStatement stmt2 = conn.prepareStatement(PersonDeleteCmd);
+			stmt2.executeUpdate();
 			stmt2.close();
 
 			String CompanyDeleteCmd = "DELETE FROM CCOMPANY WHERE ID=?";
 			PreparedStatement stmt3 = conn.prepareStatement(CompanyDeleteCmd);
+			log.debug("DAO: delete Delta ID" + id);
 			stmt3.setLong(1, id);
+			stmt3.executeUpdate();
 			stmt3.close();
-			
-			log.debug("DAO: delete companyList.Size"+ccompanyList.size());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
