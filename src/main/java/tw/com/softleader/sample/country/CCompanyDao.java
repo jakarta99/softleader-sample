@@ -19,9 +19,9 @@ import tw.com.softleader.sample.commons.GenericDao;
 public class CCompanyDao implements GenericDao<CCompany> {
 	private Logger log = Logger.getLogger(this.getClass());
 
-	Collection<CCompany> ccompanyList = new ArrayList<CCompany>();
-	Collection<CPerson> cpersonList = new ArrayList<CPerson>();
-	Collection<Country> countryList = new ArrayList<Country>();
+	Collection<CCompany> ccompanyList = null;
+	Collection<CPerson> cpersonList = null;
+	Collection<Country> countryList = null;
 	CCompany cCompany = null;
 	CPerson cPerson = null;
 	Country country = null;
@@ -30,6 +30,8 @@ public class CCompanyDao implements GenericDao<CCompany> {
 	public CCompany findOne(Long id) {
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
 		Connection conn = null;
+		countryList=new ArrayList<Country>();
+		cpersonList=new ArrayList<CPerson>();
 
 		try {
 			conn = ds.getConnection();
@@ -106,7 +108,7 @@ public class CCompanyDao implements GenericDao<CCompany> {
 	public Collection<CCompany> findAll() {
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
 		Connection conn = null;
-		ccompanyList.clear();
+		ccompanyList=new ArrayList<CCompany>();
 		try {
 			conn = ds.getConnection();
 			String findAllCmd = "SELECT ID FROM CCOMPANY";
@@ -199,7 +201,7 @@ public class CCompanyDao implements GenericDao<CCompany> {
 						country.setP_ID(generatedP_Id);
 						entity.getCPersons().iterator().next().getCountries().iterator().next().setP_ID(generatedP_Id);
 						entity.getCPersons().iterator().next().getCountries().iterator().next().setId(generatedCo_Id);
-						;
+						
 						log.debug("DAO: insert generatedCo_Id-->" + generatedCo_Id);
 					}
 					keySet3.close();
