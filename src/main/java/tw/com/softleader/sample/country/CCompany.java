@@ -10,7 +10,7 @@ public class CCompany {
 
 	@Override
 	public String toString() {
-		return "Person: id= " + id + ",name= " + name;
+		return "Company: id= " + id + ",name= " + name;
 	}
 
 	public Long getId() {
