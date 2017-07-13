@@ -5,6 +5,7 @@ public class Sport {
 	private Long id;
 	private String name;
 	private String people;
+	private Long personid;
 
 	@Override
 	public String toString() {
@@ -33,6 +34,14 @@ public class Sport {
 
 	public void setPeople(String people) {
 		this.people = people;
+	}
+
+	public Long getPersonid() {
+		return personid;
+	}
+
+	public void setPersonid(Long personid) {
+		this.personid = personid;
 	}
 
 }

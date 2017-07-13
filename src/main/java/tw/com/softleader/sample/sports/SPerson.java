@@ -6,6 +6,7 @@ public class SPerson {
 	private Long id;
 	private String name;
 	private String idnum;
+	private Long comid;
 	private Collection<Sport> sports;
 
 	@Override
@@ -44,6 +45,14 @@ public class SPerson {
 
 	public void setSports(Collection<Sport> sports) {
 		this.sports = sports;
+	}
+
+	public Long getComid() {
+		return comid;
+	}
+
+	public void setComid(Long comid) {
+		this.comid = comid;
 	}
 
 }
