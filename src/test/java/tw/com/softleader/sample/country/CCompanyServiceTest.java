@@ -1,6 +1,6 @@
 package tw.com.softleader.sample.country;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,29 +9,16 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tw.com.softleader.sample.color.HPerson;
-
 public class CCompanyServiceTest {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 
-	private CCompanyService cCompanyService = new CCompanyService();
 	private CCompanyDao cCompanyDao = new CCompanyDao();
-
-	// @Test
-	// public void testGetOne(){
-	// CCompany cCompany = new CCompany();
-	// cCompany = cCompanyService.getOne(1L);
-	//
-	// log.debug("testGetOne(1L): {}" + cCompany);
-	// assertEquals(3,cCompany.getCPersons().size());
-	//
-	// }
 
 	@Test
 	public void testCrud() {
-
-		log.debug("test findAll ccompany.Size-->" + cCompanyDao.findAll().iterator().next().getId());
+		int originalSize = cCompanyDao.findAll().size();
+		log.debug("test findAll originalSize-->" + originalSize);
 
 		CCompany Delta = new CCompany();
 		Collection<CPerson> DeltaPeople = new ArrayList<CPerson>();
@@ -61,7 +48,7 @@ public class CCompanyServiceTest {
 		Long DeltaID = Delta.getId();
 		log.debug("test insert delta id-->" + DeltaID);
 
-		CCompany DeltaOut = cCompanyDao.findOne(DeltaID);
+		cCompanyDao.findOne(DeltaID);
 
 		Collection<CPerson> DeltaPeople2 = new ArrayList<CPerson>();
 		Collection<Country> updateCountryList = new ArrayList<Country>();
@@ -84,7 +71,14 @@ public class CCompanyServiceTest {
 
 		cCompanyDao.update(Delta2);
 
+		log.debug("test Delete Delta2.getId-->" + Delta2.getId());
 		cCompanyDao.delete(Delta2.getId());
+		log.debug("test after delete Delta2.getId-->" + Delta2.getId());
+
+		int finalSize = cCompanyDao.findAll().size();
+		log.debug("test findAll finalSize-->" + cCompanyDao.findAll().size());
+		
+		assertEquals(finalSize, originalSize);
 
 	}
 
