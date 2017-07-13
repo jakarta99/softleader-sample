@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -175,7 +176,7 @@ public class SComDao implements GenericDao<SCom> {
 
 			Connection connection = datasource.getConnection();
 
-			PreparedStatement pstmt = connection.prepareStatement(sqlCmdcom, pstmt.RETURN_GENERATED_KEYS);
+			PreparedStatement pstmt = connection.prepareStatement(sqlCmdcom, Statement.RETURN_GENERATED_KEYS);
 
 			pstmt.setString(1, entity.getName());
 
@@ -185,7 +186,7 @@ public class SComDao implements GenericDao<SCom> {
 			Iterator<SPerson> spersonindex = entity.getSperson().iterator();
 			while (spersonindex.hasNext()) {
 				sperson = spersonindex.next();
-				pstmt = connection.prepareStatement(sqlCmdperson, pstmt.RETURN_GENERATED_KEYS);
+				pstmt = connection.prepareStatement(sqlCmdperson, Statement.RETURN_GENERATED_KEYS);
 
 				pstmt.setString(1, sperson.getName());
 				pstmt.setString(2, sperson.getIdnum());
@@ -204,7 +205,7 @@ public class SComDao implements GenericDao<SCom> {
 					while (sportindex.hasNext()) {
 						sport = sportindex.next();
 
-						pstmt = connection.prepareStatement(sqlCmdsport, pstmt.RETURN_GENERATED_KEYS);
+						pstmt = connection.prepareStatement(sqlCmdsport, Statement.RETURN_GENERATED_KEYS);
 						pstmt.setString(1, sport.getName());
 						pstmt.setString(2, sport.getPeople());
 						pstmt.setLong(3, keySetPerson.getLong("id"));
@@ -276,7 +277,7 @@ public class SComDao implements GenericDao<SCom> {
 					pstmt.setLong(1, id);
 					pstmt.executeUpdate();
 					persondeleteflag = true;
-					if (sportdeleteflag) {
+					if (persondeleteflag) {
 						pstmt = connection.prepareStatement(sqlCmdcom);
 
 						pstmt.setLong(1, id);
