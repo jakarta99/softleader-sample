@@ -75,11 +75,11 @@ public class SComDao implements GenericDao<SCom> {
 						spersonlist.add(sperson);
 						scom.setSperson(spersonlist);
 
-						rsSport.close();
-						rsPerson.close();
+						
+						
 
-					}
-				}
+					}rsSport.close();
+				}rsPerson.close();
 			}
 
 			rsCom.close();
@@ -146,11 +146,13 @@ public class SComDao implements GenericDao<SCom> {
 						scom.setSperson(spersonlist);
 						scomlist.add(scom);
 
-						rsSport.close();
-						rsPerson.close();
+						
 
 					}
+					rsSport.close();
+						
 				}
+				rsPerson.close();
 			}
 
 			rsCom.close();
@@ -223,11 +225,11 @@ public class SComDao implements GenericDao<SCom> {
 						sport.setPersonid(keySetPerson.getLong("id"));
 						// entity.getSperson().iterator().next().getSports().iterator().next().setId(keySetSport.getLong("id"));
 						// entity.getSperson().iterator().next().getSports().iterator().next().setPersonid(keySetPerson.getLong("id"));
-						keySetSport.close();
-						keySetPerson.close();
-
+						
+keySetSport.close();
 					}
-				}
+						
+				}keySetPerson.close();
 			}
 
 			keySetCom.close();
