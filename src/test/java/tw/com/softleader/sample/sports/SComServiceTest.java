@@ -13,21 +13,18 @@ public class SComServiceTest {
 
 	SComService scomSv = new SComService();
 
-	Collection<Sport> sportlist = null; // new ArrayList<Sport>();
-	Collection<SPerson> spersonlist = null; // new ArrayList<SPerson>();
-	Collection<SCom> scomlist = null; // new ArrayList<SCom>();
-	SCom scom = null;
-	SPerson sperson = null;
-	Sport sport = null;
-
 	@Test
 	public void getAllTest() {
 		log.info("getall: " + scomSv.getAll());
+
 	}
 
 	@Test
 	public void getOneTest() {
 		log.info("GetOne: " + scomSv.getOne(1L));
+		log.info("Jack : " + scomSv.getOne(1L).getSperson().iterator().next());
+		log.info("Jack's sport : " + scomSv.getOne(1L).getSperson().iterator().next().getSports());
+
 	}
 
 	@Test
@@ -35,60 +32,85 @@ public class SComServiceTest {
 		int originalSize = scomSv.getAll().size();
 		log.debug("test findAll originalSize-->" + originalSize);
 
-		sportlist = new ArrayList<Sport>();
-		spersonlist = new ArrayList<SPerson>();
-		scomlist = new ArrayList<SCom>();
+		Collection<SPerson> insertSpersonlist = new ArrayList<SPerson>();
+		Collection<Sport> insertSportlist = new ArrayList<Sport>();
 
-		sport.setName("Tennis");
-		sport.setPeople("2or4");
-		sportlist.add(sport);
+		SCom insertScom = new SCom();
+		SPerson insertSperson = new SPerson();
+		Sport insertSport1 = new Sport();
+		Sport insertSport2 = new Sport();
 
-		sport.setName("Boxing");
-		sport.setPeople("2");
-		sportlist.add(sport);
+		insertSport1.setName("Tennis");
+		insertSport1.setPeople("2or4");
+		insertSportlist.add(insertSport1);
 
-		sperson.setIdnum("5");
-		sperson.setName("Kevin");
-		sperson.setSports(sportlist);
-		spersonlist.add(sperson);
+		insertSport2.setName("Boxing");
+		insertSport2.setPeople("2");
+		insertSportlist.add(insertSport2);
 
-		scom.setName("soft-leader");
-		scom.setSperson(spersonlist);
+		insertSperson.setIdnum("5");
+		insertSperson.setName("Kevin");
+		insertSperson.setSports(insertSportlist);
+		insertSpersonlist.add(insertSperson);
+
+		insertScom.setName("soft-leader");
+		insertScom.setSperson(insertSpersonlist);
 		// ↑↑↑ insert 的假資料 ↑↑↑
 
-		scomSv.insert(scom);
-		log.debug("test insert (find kevin's id)" + scom.getId());
+		scomSv.insert(insertScom);
+		Long tempInsertId = insertScom.getId();
+		log.debug("test insert (find insertScom id)" + insertScom.getId());
+		log.debug("test insert (find kevin)" + scomSv.getOne(tempInsertId).getSperson().iterator().next().getName());
+		log.debug("test insert (find kevin's sport)"
+				+ scomSv.getOne(tempInsertId).getSperson().iterator().next().getSports().iterator().next().getName());
+		log.debug("test insert (find kevin's sport)"
+				+ scomSv.getOne(tempInsertId).getSperson().iterator().next().getSports().iterator());
 
 		// ↑↑↑ insert test ↑↑↑
 
-		sport.setName("Golf");
-		sport.setPeople("1");
-		sportlist.add(sport);
+		Collection<SPerson> updateSpersonlist = new ArrayList<SPerson>();
+		Collection<Sport> updateSportlist = new ArrayList<Sport>();
 
-		sport.setName("Boxing");
-		sport.setPeople("2");
-		sportlist.add(sport);
+		SCom updateScom = new SCom();
+		SPerson updateSperson = new SPerson();
+		Sport updateSport1 = new Sport();
+		Sport updateSport2 = new Sport();
 
-		sperson.setIdnum("6");
-		sperson.setName("Kevin");
-		sperson.setSports(sportlist);
-		spersonlist.add(sperson);
+		updateSport1.setName("Golf");
+		updateSport1.setPeople("1");
+		updateSportlist.add(updateSport1);
 
-		scom.setName("soft-leader");
-		scom.setSperson(spersonlist);
+		updateSport2.setName("Boxing");
+		updateSport2.setPeople("2");
+		updateSportlist.add(updateSport2);
+
+		updateSperson.setIdnum("6");
+		updateSperson.setName("Kevin");
+		updateSperson.setSports(updateSportlist);
+		updateSpersonlist.add(updateSperson);
+
+		updateScom.setName("soft-leader");
+		updateScom.setId(tempInsertId);
+		updateScom.setSperson(updateSpersonlist);
 		// ↑↑↑ update 的假資料 ↑↑↑
 
-		scomSv.update(scom);
-		log.debug("test insert (find kevin's id)" + scom.getId());
-
+		scomSv.update(updateScom);
+		log.debug("test update (find Scom id)" + updateScom.getId());
+		Long tempUpdateId = updateScom.getId();
+		log.debug("test update (find kevin's id)" + updateScom.getId());
+		log.debug("test update (find kevin)" + scomSv.getOne(tempUpdateId).getSperson().iterator().next().getName());
+		log.debug("test update (find kevin's sport)"
+				+ scomSv.getOne(tempUpdateId).getSperson().iterator().next().getSports().iterator().next().getName());
+		log.debug("test update (find kevin's sport)"
+				+ scomSv.getOne(tempUpdateId).getSperson().iterator().next().getSports().iterator());
 		// ↑↑↑ update test ↑↑↑
 
-		log.debug("test insert (find kevin's id)" + scom.getId());
+		log.debug("delete start");
 		// ↑↑↑ delete info ↑↑↑
-		scomSv.delete(scom.getId());
+		scomSv.delete(tempUpdateId);
 		// ↑↑↑ delete test ↑↑↑
 
-		log.debug("test insert (find kevin's id)" + scom.getId());
+		log.debug("test delete (find kevin's id)" + updateScom.getId());
 		// ↑↑↑ afterdelete info ↑↑↑
 
 		assertEquals(scomSv.getAll().size(), originalSize);
