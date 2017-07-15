@@ -89,7 +89,7 @@ public class FruitDao implements GenericDao<Fruit> {
 	@Override
 	public void insert(Fruit entity) {
 
-		String sqlCmd = "insert into fruit(name,color)values(?,?)";
+		String sqlCmd = "insert into fruit(name,color,pid)values(?,?,?)";
 		try {
 			Class.forName(DB_DRIVER);
 			Connection connection = DriverManager.getConnection(DB_URL,"postgres","postgres");
@@ -97,6 +97,7 @@ public class FruitDao implements GenericDao<Fruit> {
 			
 			pstmt.setString(1, entity.getName());
 			pstmt.setString(2, entity.getColor());
+			pstmt.setLong(3, entity.getPid());
 			pstmt.executeUpdate();
 			
 			pstmt.close();

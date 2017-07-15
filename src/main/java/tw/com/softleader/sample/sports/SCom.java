@@ -10,7 +10,7 @@ public class SCom {
 
 	@Override
 	public String toString() {
-		return "Person: id = " + id + ", name = " + name;
+		return "SCompany: id = " + id + ", name = " + name + ", sperson = " + sperson;
 	}
 
 	public Long getId() {

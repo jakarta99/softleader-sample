@@ -90,6 +90,7 @@ public class BCompanyServiceTest {
 		bcompanyDao.update(msi);//把hebe多加一本書"javascript"
 		
 		Long msiCompanyId1 = msi.getId();
+		log.debug(msiCompanyId1);
 		
 		Collection<BCompany> bcompanies = bcompanyDao.findAll();
 		log.debug(bcompanies);

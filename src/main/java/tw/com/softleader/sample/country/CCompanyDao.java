@@ -30,8 +30,8 @@ public class CCompanyDao implements GenericDao<CCompany> {
 	public CCompany findOne(Long id) {
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
 		Connection conn = null;
-		countryList=new ArrayList<Country>();
-		cpersonList=new ArrayList<CPerson>();
+		countryList = new ArrayList<Country>();
+		cpersonList = new ArrayList<CPerson>();
 
 		try {
 			conn = ds.getConnection();
@@ -44,53 +44,54 @@ public class CCompanyDao implements GenericDao<CCompany> {
 				cCompany = new CCompany();
 				cCompany.setName(rs1.getString("NAME"));
 				cCompany.setId(rs1.getLong("ID"));
-			}
-			String PersonOneCmd = "SELECT * FROM CPERSON WHERE C_ID=" + id;
-			Statement stmt2 = conn.createStatement();
+				
+				log.debug("DAO: findOne companyName-->" + rs1.getString("NAME"));
+				
+				String PersonOneCmd = "SELECT * FROM CPERSON WHERE C_ID=" + id;
+				Statement stmt2 = conn.createStatement();
 
-			ResultSet rs2 = stmt2.executeQuery(PersonOneCmd);
+				ResultSet rs2 = stmt2.executeQuery(PersonOneCmd);
+				while (rs2.next()) {
+					cPerson = new CPerson();
+					cPerson.setC_ID(rs1.getLong("ID"));
+					cPerson.setId(rs2.getLong("ID"));
+					cPerson.setName(rs2.getString("NAME"));
+					cPerson.setIdNo(rs2.getString("IDNO"));
 
-			while (rs2.next()) {
-				cPerson = new CPerson();
-				cPerson.setC_ID(rs1.getLong("ID"));
-				cPerson.setId(rs2.getLong("ID"));
-				cPerson.setName(rs2.getString("NAME"));
-				cPerson.setIdNo(rs2.getString("IDNO"));
+					String CountryOneCmd = "SELECT * FROM COUNTRY WHERE P_ID=" + rs2.getLong("ID");
+					Statement stmt3 = conn.createStatement();
 
-				String CountryOneCmd = "SELECT * FROM COUNTRY WHERE P_ID=" + rs2.getLong("ID");
-				Statement stmt3 = conn.createStatement();
+					ResultSet rs3 = stmt3.executeQuery(CountryOneCmd);
 
-				ResultSet rs3 = stmt3.executeQuery(CountryOneCmd);
+					while (rs3.next()) {
+						country = new Country();
+						country.setP_ID(rs2.getLong("ID"));
+						country.setName(rs3.getString("NAME"));
+						country.setSize(rs3.getString("SIZE"));
+						country.setId(rs3.getLong("ID"));
 
-				while (rs3.next()) {
-					country = new Country();
-					country.setP_ID(rs2.getLong("ID"));
-					country.setName(rs3.getString("NAME"));
-					country.setSize(rs3.getString("SIZE"));
-					country.setId(rs3.getLong("ID"));
+						log.debug("DAO: findOne countryName-->" + rs3.getString("NAME"));
 
-					log.debug("DAO: findOne countryName-->" + rs3.getString("NAME"));
+						countryList.add(country);
+					}
 
-					countryList.add(country);
+					rs3.close();
+					stmt3.close();
+
+					log.debug("DAO: findOne cpersonName-->" + rs2.getString("NAME"));
+
+					cPerson.setCountries(countryList);
+					cpersonList.add(cPerson);
 				}
 
-				rs3.close();
-				stmt3.close();
+				rs2.close();
+				stmt2.close();
 
-				log.debug("DAO: findOne cpersonName-->" + rs2.getString("NAME"));
+				cCompany.setCPersons(cpersonList);
 
-				cPerson.setCountries(countryList);
-				cpersonList.add(cPerson);
+				rs1.close();
+				stmt1.close();
 			}
-
-			rs2.close();
-			stmt2.close();
-
-			cCompany.setCPersons(cpersonList);
-
-			rs1.close();
-			stmt1.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -108,19 +109,21 @@ public class CCompanyDao implements GenericDao<CCompany> {
 	public Collection<CCompany> findAll() {
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
 		Connection conn = null;
-		ccompanyList=new ArrayList<CCompany>();
+		ccompanyList = new ArrayList<CCompany>();
+		
+		log.debug("DAO: findAll begins---");
 		try {
 			conn = ds.getConnection();
 			String findAllCmd = "SELECT ID FROM CCOMPANY";
 			Statement stmt1 = conn.createStatement();
 			ResultSet rs1 = stmt1.executeQuery(findAllCmd);
-		CCompany cCompanyOne=null;
+			CCompany cCompanyOne = null;
 			while (rs1.next()) {
 				Long Cc_Id = rs1.getLong("ID");
 				cCompanyOne = CCompanyDao.this.findOne(Cc_Id);
 				ccompanyList.add(cCompanyOne);
 			}
-			
+
 			stmt1.close();
 			rs1.close();
 		} catch (SQLException e) {
@@ -134,6 +137,7 @@ public class CCompanyDao implements GenericDao<CCompany> {
 				}
 			}
 		}
+		log.debug("DAO: findAll ends---");
 		return ccompanyList;
 	}
 
@@ -141,7 +145,7 @@ public class CCompanyDao implements GenericDao<CCompany> {
 	public void insert(CCompany entity) {
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
 		Connection conn = null;
-
+		cPerson = new CPerson();
 		try {
 			conn = ds.getConnection();
 			String CompanyInsertCmd = "INSERT INTO CCOMPANY (NAME) VALUES(?)";
@@ -174,8 +178,6 @@ public class CCompanyDao implements GenericDao<CCompany> {
 					generatedP_Id = keySet2.getLong(1);
 					cPerson.setId(generatedP_Id);
 					cPerson.setC_ID(generatedCc_Id);
-					entity.getCPersons().iterator().next().setId(generatedP_Id);
-					entity.getCPersons().iterator().next().setC_ID(generatedCc_Id);
 					log.debug("DAO: insert generatedP_Id-->" + generatedP_Id);
 				}
 
@@ -199,9 +201,6 @@ public class CCompanyDao implements GenericDao<CCompany> {
 						generatedCo_Id = keySet3.getLong(1);
 						country.setId(generatedCo_Id);
 						country.setP_ID(generatedP_Id);
-						entity.getCPersons().iterator().next().getCountries().iterator().next().setP_ID(generatedP_Id);
-						entity.getCPersons().iterator().next().getCountries().iterator().next().setId(generatedCo_Id);
-						
 						log.debug("DAO: insert generatedCo_Id-->" + generatedCo_Id);
 					}
 					keySet3.close();
@@ -229,11 +228,12 @@ public class CCompanyDao implements GenericDao<CCompany> {
 
 	@Override
 	public void update(CCompany entity) {
-
+		
+		log.debug("DAO: update begins---");
 		CCompanyDao.this.delete(entity.getId());
 		log.debug("DAO: update Del entity.Id-->" + entity.getId());
 		CCompanyDao.this.insert(entity);
-
+		log.debug("DAO: update ends---");
 	}
 
 	@Override
