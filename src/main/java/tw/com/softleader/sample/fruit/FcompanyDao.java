@@ -230,12 +230,11 @@ public class FcompanyDao implements GenericDao<Fcompany> {
 			Statement stmt = connection.createStatement();
 			Statement stmt2 = connection.createStatement();
 
-			Collection<Fcompany> fcompanies = fcompanyDao.findAll();
+			Fcompany fcompanies = fcompanyDao.findOne(id);
 
-			for (Fcompany fcompany : fcompanies) {
-				if (fcompany.getFmans() != null) {
-
-					for (Fman fman : fcompany.getFmans()) {
+			if(fcompanies != null){
+				if (fcompanies.getFmans() != null) {
+					for (Fman fman : fcompanies.getFmans()) {
 						String sqlcmdf = "delete from Fruit where pid =" + fman.getId();
 						Statement stmt3 = connection.createStatement();
 						stmt3.executeUpdate(sqlcmdf);
