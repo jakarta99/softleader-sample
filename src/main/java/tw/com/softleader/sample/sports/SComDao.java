@@ -75,11 +75,11 @@ public class SComDao implements GenericDao<SCom> {
 						spersonlist.add(sperson);
 						scom.setSperson(spersonlist);
 
-						rsSport.close();
-						rsPerson.close();
+						
+						
 
-					}
-				}
+					}rsSport.close();
+				}rsPerson.close();
 			}
 
 			rsCom.close();
@@ -146,11 +146,13 @@ public class SComDao implements GenericDao<SCom> {
 						scom.setSperson(spersonlist);
 						scomlist.add(scom);
 
-						rsSport.close();
-						rsPerson.close();
+						
 
 					}
+					rsSport.close();
+						
 				}
+				rsPerson.close();
 			}
 
 			rsCom.close();
@@ -183,6 +185,10 @@ public class SComDao implements GenericDao<SCom> {
 			pstmt.executeUpdate();
 			ResultSet keySetCom = pstmt.getGeneratedKeys();
 
+			if (keySetCom.next()) {
+				entity.setId(keySetCom.getLong("id"));
+			}
+
 			Iterator<SPerson> spersonindex = entity.getSperson().iterator();
 			while (spersonindex.hasNext()) {
 				sperson = spersonindex.next();
@@ -197,6 +203,8 @@ public class SComDao implements GenericDao<SCom> {
 
 				sperson.setId(keySetPerson.getLong("id"));
 				sperson.setComid(keySetCom.getLong("id"));
+				// entity.getSperson().iterator().next().setId(keySetPerson.getLong("id"));
+				// entity.getSperson().iterator().next().setComid(keySetCom.getLong("id"));
 
 				if (keySetPerson.next()) {
 
@@ -215,11 +223,13 @@ public class SComDao implements GenericDao<SCom> {
 
 						sport.setId(keySetSport.getLong("id"));
 						sport.setPersonid(keySetPerson.getLong("id"));
-						keySetSport.close();
-						keySetPerson.close();
-
+						// entity.getSperson().iterator().next().getSports().iterator().next().setId(keySetSport.getLong("id"));
+						// entity.getSperson().iterator().next().getSports().iterator().next().setPersonid(keySetPerson.getLong("id"));
+						
+keySetSport.close();
 					}
-				}
+						
+				}keySetPerson.close();
 			}
 
 			keySetCom.close();

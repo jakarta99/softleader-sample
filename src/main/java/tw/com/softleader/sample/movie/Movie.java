@@ -5,10 +5,11 @@ public class Movie {
 	private Long id;
 	private String name;
 	private String price;
+	private Long mId;
 
 	@Override
 	public String toString() {
-		return "Movie [id=" + id + ", name=" + name + ", price=" + price + "]";
+		return "Movie : id= " + id + ",name= " + name + "price" + price + "mId" + mId;
 	}
 
 	public Long getId() {
@@ -35,4 +36,11 @@ public class Movie {
 		this.price = price;
 	}
 
+	public Long getmId() {
+		return mId;
+	}
+
+	public void setmId(Long mId) {
+		this.mId = mId;
+	}
 }
