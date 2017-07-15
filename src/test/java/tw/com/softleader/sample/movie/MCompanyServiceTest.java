@@ -39,13 +39,12 @@ public class MCompanyServiceTest {
 		mPersons.add(mPersonNew);//新人加入人List
 
 		MCompany mCompanyNew = new MCompany();
-		mCompanyNew.setName("iii");
-		
+		mCompanyNew.setName("iii");		
 		mCompanyNew.setMperson(mPersons);
 		mCompanyDao.insert(mCompanyNew);
+		Long idmn = mCompanyNew.getId();
+		log.debug(""+mCompanyDao.findOne(idmn));
 		log.debug(""+mCompanyNew);
-		
-		log.debug("insert company:" + mCompanyNew.getId());//看看是不是新的ID
 
 		Movie movieModify = new Movie();//修改喜歡的電影
 		movieModify.setName("Despicable Me3");
@@ -54,15 +53,16 @@ public class MCompanyServiceTest {
 		moviesNew.add(movieModify);//修改過的電影加入List
 
 		MPerson mPersonModify = new MPerson();//修改人名
-		mPersonModify.setMovies(moviesNew);
+		//mPersonModify.setMovies(moviesNew);
 		mPersonModify.setName("Diana");
-		mPersonModify.setcId(mCompanyNew.getId());//找出想修改人的cId
+		mPersonModify.setId(mPersonNew.getId());//找出想修改人的cId
+		log.debug(""+mPersonNew.getId());
 		
-		MCompany mCompanyModify = new MCompany();
-		mCompanyDao.update(mCompanyModify);
-		log.debug("update company:" + mCompanyModify);
+		
+		mCompanyDao.update(mCompanyNew);
+		Long idcn = mCompanyNew.getId();
 
-		mCompanyDao.delete(mPersonNew.getcId());
+		mCompanyDao.delete(idcn);
 
 		int companySize1 = mCompanyDao.findAll().size();
 		log.debug("Company size:" + companySize1);
