@@ -33,4 +33,4 @@ public class GcompanyService implements GenericService<Gcompany> {
 	public void delete(Long id) {
 		companyDao.delete(id);
 	}
-}//
+}///

@@ -70,7 +70,7 @@ public class GcompanyDao implements GenericDao<Gcompany> {
 				games.add(game);
 
 			}
-			 //persons1.setGames(games);
+			 ///persons1.setGames(games);
 			//company1.setGames(games);
 
 			pstmt3.close();
