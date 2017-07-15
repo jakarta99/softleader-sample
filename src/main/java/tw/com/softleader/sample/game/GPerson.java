@@ -8,14 +8,6 @@ public class GPerson {
 	private String pIdno;
 	private Long id;
 	private Collection<Game> games;
-	//private Long name;
-	//private Long type;
-	
-	
-	@Override
-	public String toString() {
-		return "G_Person [pId=" + pId + ", pName=" + pName + ", pIdno=" + pIdno + ", id=" + id + "]";
-	}
 	public Long getpId() {
 		return pId;
 	}
@@ -34,6 +26,11 @@ public class GPerson {
 	public void setpIdno(String pIdno) {
 		this.pIdno = pIdno;
 	}
+	@Override
+	public String toString() {
+		return "GPerson [pId=" + pId + ", pName=" + pName + ", pIdno=" + pIdno + ", id=" + id + ", games=" + games
+				+ "]";
+	}
 	public Long getId() {
 		return id;
 	}
@@ -46,6 +43,10 @@ public class GPerson {
 	public void setGames(Collection<Game> games) {
 		this.games = games;
 	}
-	
 }
+	//private Long name;
+	//private Long type;
+	
+	
+	
 	
