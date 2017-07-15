@@ -7,11 +7,12 @@ public class MPerson {
 	private Long id;
 	private String name;
 	private String idno;
+	private Long cId;
 	private Collection<Movie> movies;
 
 	@Override
 	public String toString() {
-		return "MPerson [id=" + id + ", name=" + name + ", idno=" + idno + "]";
+		return "MPerson : id= " + id + ",name= " + name + "cId" + cId + "movies" + movies;
 	}
 
 	public Long getId() {
@@ -38,11 +39,20 @@ public class MPerson {
 		this.idno = idno;
 	}
 
+	public Long getcId() {
+		return cId;
+	}
+
+	public void setcId(Long cId) {
+		this.cId = cId;
+	}
+
 	public Collection<Movie> getMovies() {
 		return movies;
 	}
 
-	public void setMovie(Collection<Movie> movies) {
+	public void setMovies(Collection<Movie> movies) {
 		this.movies = movies;
 	}
+
 }
