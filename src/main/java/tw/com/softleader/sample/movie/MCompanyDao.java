@@ -18,13 +18,13 @@ public class MCompanyDao implements GenericDao<MCompany> {
 
 	Collection<MCompany> mCompanys = new ArrayList<MCompany>();// 準備好大家要用的東西
 	MCompany mCompany = new MCompany();
-	Long GeneratedIdc = null;
 	Collection<MPerson> mPersons = new ArrayList<MPerson>();
 	MPerson mPerson = new MPerson();
-	Long GeneratedIdp = null;
 	Collection<Movie> movies = new ArrayList<Movie>();
 	Movie movie = new Movie();
-
+	DataSource ds = DataSourceUtil.getInstance().getDataSource();// 連線
+	Connection connection = null;
+	
 	@Override
 	public MCompany findOne(Long id) {
 
@@ -32,10 +32,8 @@ public class MCompanyDao implements GenericDao<MCompany> {
 		String sqlcmdp = "select * from MPerson where cId = ?";
 		String sqlcmdm = "select * from Movie where mId = ?";
 
-		try {
-
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();// 連線
-			Connection connection = ds.getConnection();
+		try {			
+			connection = ds.getConnection();
 
 			PreparedStatement prstmtc = connection.prepareStatement(sqlcmdc);// 動態指令使用PreparedStatement
 			PreparedStatement prstmtp = connection.prepareStatement(sqlcmdp);
@@ -88,9 +86,7 @@ public class MCompanyDao implements GenericDao<MCompany> {
 		String sqlcmdm = "select * from Movie";
 
 		try {
-
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();// 連線
-			Connection connection = ds.getConnection();
+			connection = ds.getConnection();
 
 			PreparedStatement prstmtc = connection.prepareStatement(sqlcmdc);// 動態指令使用PreparedStatement
 			PreparedStatement prstmtp = connection.prepareStatement(sqlcmdp);
@@ -143,9 +139,7 @@ public class MCompanyDao implements GenericDao<MCompany> {
 		String sqlcmdm = "insert into Movie (mId,name,price) values=(?,?,?)";
 
 		try {
-
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();
-			Connection connection = ds.getConnection();
+			connection = ds.getConnection();
 
 			PreparedStatement prstmtc = connection.prepareStatement(sqlcmdc, Statement.RETURN_GENERATED_KEYS);
 			PreparedStatement prstmtp = connection.prepareStatement(sqlcmdp, Statement.RETURN_GENERATED_KEYS);
@@ -155,24 +149,33 @@ public class MCompanyDao implements GenericDao<MCompany> {
 			prstmtc.executeUpdate();
 			ResultSet keySetc = prstmtc.getGeneratedKeys();
 
-			if (keySetc.next()) {// 將Generated塞進entity
+			if (keySetc.next()) {
 				Long GeneratedIdc = keySetc.getLong("id");
-				entity.setId(GeneratedIdc);
-			}
-			ResultSet keySetp = prstmtp.getGeneratedKeys();
-			while (keySetp.next()) {
-				Long GeneratedIdp = keySetp.getLong("id");
+				entity.setId(GeneratedIdc);// 送entity GeneratedID
 
-				prstmtm.setLong(1, GeneratedIdp);
-				prstmtm.setString(2, entity.getMperson().iterator().next().getMovies().iterator().next().getName());
-				prstmtm.setString(3, entity.getMperson().iterator().next().getMovies().iterator().next().getPrice());
-				prstmtm.executeUpdate();
+				if (entity.getMperson() != null) {// 如果有insert人的話
+					for (MPerson mPerson : entity.getMperson()) {
+						prstmtp.setLong(1,GeneratedIdc);
+						prstmtp.setString(2, mPerson.getIdno());
+						prstmtp.setString(3, mPerson.getName());
+						prstmtp.executeUpdate();
 
-				for (Movie movie : movies) {
-					movie.setmId(GeneratedIdp);
-					movie.setName(entity.getMperson().iterator().next().getMovies().iterator().next().getName());
-					movie.setPrice(entity.getMperson().iterator().next().getMovies().iterator().next().getPrice());
-					log.debug("Insert - Movie(data):" + movie);
+						ResultSet keySetp = prstmtp.getGeneratedKeys();
+						if (keySetp.next()) {
+							Long GeneratedIdp = keySetp.getLong("id");
+							entity.getMperson().iterator().next().setId(GeneratedIdp);
+
+							if (entity.getMperson().iterator().next().getMovies() != null) {// 如果要insert movie的話
+								for (Movie movie : mPerson.getMovies()) {
+									prstmtm.setLong(1, GeneratedIdp);
+									prstmtm.setString(2, movie.getName());
+									prstmtm.setString(3, movie.getPrice());
+									prstmtm.executeUpdate();
+									log.debug("Insert - Movie(data):" + movie);
+								}
+							}
+						}
+					}
 				}
 			}
 			keySetc.close();
@@ -180,7 +183,9 @@ public class MCompanyDao implements GenericDao<MCompany> {
 			prstmtp.close();
 			prstmtc.close();
 			connection.close();
-		} catch (SQLException e) {
+		} catch (
+
+		SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -196,37 +201,32 @@ public class MCompanyDao implements GenericDao<MCompany> {
 		String sqlcmdc = "delete MCompany where id = ?";
 		String sqlcmdp = "delete MPerson where cId = ?";
 		String sqlcmdm = "delete Movie where mId = ?";
+		Long mId = null;
 
 		try {
+			connection = ds.getConnection();
 
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();
-			Connection connection = ds.getConnection();
+			String sqlcmd = "select Movie where mId = ?";// 找出全部的電影
+			PreparedStatement pstmt = connection.prepareStatement(sqlcmd);
+			ResultSet rs = pstmt.executeQuery();
 
-			PreparedStatement pstmtc = connection.prepareStatement(sqlcmdc);// 先找出有沒有這個公司id
-			ResultSet keySetc = pstmtc.getGeneratedKeys();
-
-			if (keySetc.next()) {// 有的話找出id設成cId
-				Long cId = keySetc.getLong(1);
-				log.debug(sqlcmdc);
-
-				PreparedStatement pstmtp = connection.prepareStatement(sqlcmdp);// 換找有沒有cId的人
-				ResultSet keySetp = pstmtp.getGeneratedKeys();// 找人的id
-				if (keySetp.next()) {// 有的話找出id設成mId
-					Long mId = keySetp.getLong(1);
-					log.debug(sqlcmdp);
-
-					PreparedStatement pstmtm = connection.prepareStatement(sqlcmdm);// 使用mId先刪掉movie
-					pstmtm.setLong(1, mId);
-					pstmtm.executeQuery();
-					pstmtm.close();
-				}
-				pstmtp.setLong(1, cId);// 使用cId刪掉人
-				pstmtp.close();
+			while (rs.next()) {
+				mId = rs.getLong(1);
 			}
+			PreparedStatement pstmtm = connection.prepareStatement(sqlcmdm);// 使用mId先刪掉movie
+			pstmtm.setLong(1, mId);
+			pstmtm.executeUpdate();
+			pstmtm.close();
+
+			PreparedStatement pstmtp = connection.prepareStatement(sqlcmdp);// 使用id刪掉人
+			pstmtp.setLong(1, id);
+			pstmtp.executeUpdate();
+
+			PreparedStatement pstmtc = connection.prepareStatement(sqlcmdc);
 			pstmtc.setLong(1, id);// 最後刪掉公司
 			pstmtc.executeUpdate();
 
-			keySetc.close();
+			pstmtp.close();
 			pstmtc.close();
 			connection.close();
 		} catch (SQLException e) {
