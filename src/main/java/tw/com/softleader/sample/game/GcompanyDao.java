@@ -83,7 +83,7 @@ public class GcompanyDao implements GenericDao<Gcompany> {
 
 			e.printStackTrace();
 		}
-		//return company1;
+		///return company1;
 		return null;
 
 	}
