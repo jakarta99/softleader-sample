@@ -8,12 +8,8 @@ public class Fruit {
 	
 	private String color;
 
+	private Long pid;
 
-	@Override
-	public String toString() {
-		return "Drink [id=" + id + ", name=" + name + ", color=" + color + "]";
-	}
-	
 	public Long getId() {
 		return id;
 	}
@@ -38,4 +34,13 @@ public class Fruit {
 		this.color = color;
 	}
 
+	public Long getPid() {
+		return pid;
+	}
+
+	public void setPid(Long pid) {
+		this.pid = pid;
+	}
+	
+	
 }

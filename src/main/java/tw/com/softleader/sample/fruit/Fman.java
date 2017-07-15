@@ -9,6 +9,8 @@ public class Fman {
 	
 	private String IDno;
 	
+	private Long cid;
+	
 	private Collection<Fruit> fruits;
 
 	public long getId() {
@@ -35,6 +37,14 @@ public class Fman {
 		IDno = iDno;
 	}
 
+	public Long getCid() {
+		return cid;
+	}
+
+	public void setCid(Long cid) {
+		this.cid = cid;
+	}
+
 	public Collection<Fruit> getFruits() {
 		return fruits;
 	}
@@ -43,6 +53,4 @@ public class Fman {
 		this.fruits = fruits;
 	}
 
-	
-	
 }
