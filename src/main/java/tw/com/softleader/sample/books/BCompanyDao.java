@@ -218,18 +218,14 @@ public class BCompanyDao implements GenericDao<BCompany> {
 			// 先殺Book
 			BCompanyDao bcompanydao = new BCompanyDao();
 			Iterator<BPerson> bperson = bcompanydao.findOne(id).getBpersons().iterator();
-			Iterator<Book> book = bperson.next().getBooks().iterator();
 
 			while (bperson.hasNext()) {
-				bperson.next();
-				while (book.hasNext()) {
-					Book booki = book.next();
-					Long b_id = booki.getP_id();
-					String sqlCmdb = "delete from book where p_id = ?";
-					PreparedStatement pstmtb = connection.prepareStatement(sqlCmdb);
-					pstmtb.setLong(1, b_id);
-					pstmtb.executeUpdate();
-				}
+				Long b_id = bperson.next().getBooks().iterator().next().getP_id();
+				log.debug(b_id);
+				String sqlCmdb = "delete from book where p_id = ?";
+				PreparedStatement pstmtb = connection.prepareStatement(sqlCmdb);
+				pstmtb.setLong(1, b_id);
+				pstmtb.executeUpdate();
 			}
 
 			// 再殺 BPerson
