@@ -47,6 +47,7 @@ public class BCompanyDao implements GenericDao<BCompany> {
 				bcompany.setName(rsc.getString("name"));
 				// 把員工丟回公司
 				while (rsp.next()) {
+					books = new ArrayList<Book>();
 					bperson = new BPerson();
 					bperson.setC_id(rsc.getLong("id"));
 					bperson.setName(rsp.getString("name"));

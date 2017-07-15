@@ -15,7 +15,7 @@ public class BPerson {
 	@Override
 	public String toString() {
 
-		return "Person [id=" + id + ", name=" + name + ", idno=" + idno + ", book=" + books + "]";
+		return "Person [id=" + id + ", name=" + name + ", idno=" + idno + ", c_id=" + c_id + ", book=" + books + "]";
 
 	}
 
