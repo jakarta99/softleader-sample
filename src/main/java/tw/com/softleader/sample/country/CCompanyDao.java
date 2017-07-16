@@ -250,16 +250,16 @@ public class CCompanyDao implements GenericDao<CCompany> {
 
 			log.debug("DAO: delete C_ID-->" + id);
 
-			if (ksS.next()) {
+			while (ksS.next()) {
 				P_ID = ksS.getLong(1);
-			}
-
+			
 			String CountryDeleteCmd = "DELETE FROM COUNTRY WHERE P_ID=?";
 			PreparedStatement stmt1 = conn.prepareStatement(CountryDeleteCmd);
 			stmt1.setLong(1, P_ID);
 			stmt1.executeUpdate();
 			stmt1.close();
-
+			}
+			
 			String PersonDeleteCmd = "DELETE FROM CPERSON WHERE C_ID=?";
 			PreparedStatement stmt2 = conn.prepareStatement(PersonDeleteCmd);
 
