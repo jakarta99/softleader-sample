@@ -32,11 +32,9 @@ public class GameDao implements GenericDao<Game> {
 
 			String sqlCmd = "SELECT * FROM game WHERE ID = " + id;
 
-			//log.debug("1:" + sqlCmd);
+			
 			log.info("2:" + sqlCmd);
-			//log.warn("3:" + sqlCmd);
-			//log.error("4:" + sqlCmd);
-
+		
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 
 			if (rs.next()) {
@@ -54,7 +52,7 @@ public class GameDao implements GenericDao<Game> {
 			connection.close();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
@@ -73,7 +71,7 @@ public class GameDao implements GenericDao<Game> {
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "SELECT * FROM game";
-            
+
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 
 			while (rs.next()) {
@@ -86,7 +84,7 @@ public class GameDao implements GenericDao<Game> {
 				games.add(game);
 
 			}
-            
+
 			rs.close();
 
 			stmt.close();
@@ -129,7 +127,7 @@ public class GameDao implements GenericDao<Game> {
 			connection.close();
 
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -153,7 +151,7 @@ public class GameDao implements GenericDao<Game> {
 			connection.close();
 
 		} catch (SQLException e) {
-		
+
 			e.printStackTrace();
 		}
 
@@ -176,7 +174,7 @@ public class GameDao implements GenericDao<Game> {
 			connection.close();
 
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 		}
 

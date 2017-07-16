@@ -5,6 +5,7 @@ public class Game {
 	private String name;
 	private String type;
 	private Long pId;
+	private Long gId;
 
 	@Override
 	public String toString() {
@@ -41,6 +42,14 @@ public class Game {
 
 	public void setpId(Long pId) {
 		this.pId = pId;
+	}
+
+	public Long getgId() {
+		return gId;
+	}
+
+	public void setgId(Long gId) {
+		this.gId = gId;
 	}
 
 }
