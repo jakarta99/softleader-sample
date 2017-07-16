@@ -15,7 +15,16 @@ public class JPerson {
     private String name;
     private Long idno;
     List<Work> works ;
+    private JCompany jCompany;
 
+    public void setjCompany(JCompany jCompany) {
+        this.jCompany = jCompany;
+    }
+
+    public JCompany getjCompany() {
+
+        return jCompany;
+    }
 
     public String getName() {
         return name;

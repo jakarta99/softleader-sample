@@ -98,9 +98,8 @@ public class JPersonDao implements GenericDao<JPerson>{
             Connection connection = dataSource.getConnection();
             Statement stmt = connection.createStatement();
 
-            Long workId = entity.getWorks().iterator().next().getId();
 
-            String sqlCmd = "INSERT INTO jperson(name,idno) VALUES ('" + entity.getName() + "', '" + entity.getIdno() + "');";
+            String sqlCmd = "INSERT INTO jperson(name,idno,jcompanyid) VALUES ('" + entity.getName() + "', '" + entity.getIdno() + "', '" + entity.getjCompany().getId() + "');";
 
             stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 
@@ -110,9 +109,11 @@ public class JPersonDao implements GenericDao<JPerson>{
                 Long generatedId = keySet.getLong("ID");
                 entity.setId(generatedId);
             }
-            for (Work work: entity.getWorks()) {
-                work.setjPerson(entity);
-                workDao.insert(work);
+            if (entity.getWorks() != null) {
+                for (Work work: entity.getWorks()) {
+                    work.setjPerson(entity);
+                    workDao.insert(work);
+                }
             }
             keySet.close();
 
@@ -178,6 +179,36 @@ public class JPersonDao implements GenericDao<JPerson>{
     }
 
 
+    public List<JPerson> findByJCompanyId(Long id){
+        JPerson entity = null;
+        ArrayList<JPerson> jPeople = new ArrayList<>();
+        try {
+            Connection connection = dataSource.getConnection();
+            Statement stmt = connection.createStatement();
 
+
+            String sqlCmd = "SELECT * FROM jperson where jcompanyid =" + id;
+
+            ResultSet rs = stmt.executeQuery(sqlCmd);
+
+            while(rs.next()) {
+
+                JPerson jPerson = new JPerson();
+                jPerson.setId(rs.getLong("ID"));
+                jPerson.setName(rs.getString("NAME"));
+                jPerson.setIdno(rs.getLong("IDNO"));
+                jPerson.setWorks(workDao.findByJPersonId(rs.getLong("ID")));
+                jPeople.add(jPerson);
+
+            }
+            rs.close();
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return jPeople;
+    }
 
 }
