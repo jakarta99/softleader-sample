@@ -96,7 +96,7 @@ public class WorkDao implements GenericDao<Work>{
             Statement stmt = connection.createStatement();
 
             String personId = entity.getjPerson() == null ? 0+"" : entity.getjPerson().getId().toString() ;
-            System.out.println();;
+            System.out.println();
 
             String sqlCmd = "INSERT INTO work (name,jpersonid) VALUES ('"+entity.getName()+ "', '"+ personId   +"');";
 
@@ -135,13 +135,13 @@ public class WorkDao implements GenericDao<Work>{
     @Override
     public void delete(Long id) {
         try {
-            Connection connection = dataSource.getConnection();
-            Statement stmt = connection.createStatement();
+            Connection connection2 = dataSource.getConnection();
+            Statement stmt = connection2.createStatement();
 
             String sqlCmd = "DELETE FROM work where ID = "+id;
             stmt.executeUpdate(sqlCmd);
             stmt.close();
-            connection.close();
+            connection2.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -149,33 +149,5 @@ public class WorkDao implements GenericDao<Work>{
 
     }
 
-    public List<Work> findByJPersonId(Long id){
-        Work entity = null;
-        ArrayList<Work> works = new ArrayList<>();
-        try {
-            Connection connection = dataSource.getConnection();
-            Statement stmt = connection.createStatement();
 
-
-            String sqlCmd = "SELECT * FROM work where jpersonid =" + id;
-
-            ResultSet rs = stmt.executeQuery(sqlCmd);
-
-            while(rs.next()) {
-
-                Work work = new Work();
-                work.setId(rs.getLong("ID"));
-                work.setName(rs.getString("NAME"));
-                works.add(work);
-
-            }
-            rs.close();
-            stmt.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return works;
-    }
 }

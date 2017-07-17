@@ -11,13 +11,22 @@ public class KPerson {
 	
 	private String name;
 	private String idNo;
+	private Long companyId;
+	
+
 	private Collection<Cloth> clothes;
 	@Override
 	public String toString(){
 		return " ID : " + id + " NAME : " + name + " IDNO :" + idNo + " CLOTHES :" + clothes ;
 		
 	}
-	
+	public Long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	}
 	public Long getId() {
 		return id;
 	}

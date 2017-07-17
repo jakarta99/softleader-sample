@@ -32,61 +32,40 @@ public class HPersonDao  implements GenericDao<HPerson> {
 		Collection<Color> colors = new ArrayList<Color>();
 		hperson = null;
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
-		String sqlCmd = "SELECT * FROM Hperson WHERE ID='" + id + "';";
-		
-		log.debug(sqlCmd);
-		
-		try (Connection connection = ds.getConnection();
-				Statement stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery(sqlCmd);){
-
+	
+		try {
+			Connection connection = ds.getConnection();
+			Statement stmt = connection.createStatement();
+			
+			String sqlCmd = "SELECT * FROM Hperson WHERE ID='" + id + "';";
+			
+			ResultSet rs = stmt.executeQuery(sqlCmd);
+			
 			if (rs.next()) {
 				hperson = new HPerson();
 				hperson.setId(rs.getLong("id"));
 				hperson.setName(rs.getString("name"));
 				hperson.setIdNo(rs.getString("idNo"));
-				
-				Iterator<Color> colorInsert = findByIdNo(hperson.getIdNo()).getColors().iterator();
-				while (colorInsert.hasNext()){
-					colors.add(colorInsert.next());
-				}
-				
-				hperson.setColors(colors);
-			
 			}
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return hperson;
-	}
-	
-	public HPerson findByIdNo(String idno) {
-
-		Collection<Color> colors = new ArrayList<Color>();
-		hperson = null;
-		DataSource ds = DataSourceUtil.getInstance().getDataSource();
-		String sqlCmd = "SELECT * FROM Hperson WHERE IDNO='" + idno + "';";
-		
-		log.debug(sqlCmd);
-		
-		try (Connection connection = ds.getConnection();
-				Statement stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery(sqlCmd);){
-
-			while (rs.next()) {
-				hperson = new HPerson();
-				hperson.setId(rs.getLong("id"));
-				hperson.setName(rs.getString("name"));
-				hperson.setIdNo(rs.getString("idNo"));
-
-				colors.add(colorDao.findOne(rs.getLong("color")));
-
-				hperson.setColors(colors);
-			}
+			String sqlCmd2 = "SELECT * FROM COLOR WHERE PID='" + hperson.getId() + "';";
+			rs = stmt.executeQuery(sqlCmd2);
 			
+			while(rs.next()){
+				Color color = new Color();
+				color.setName(rs.getString("name"));
+				color.setCode(rs.getString("code"));
+				color.setPid(rs.getLong("pid"));
+				colors.add(color);
+			}
+			hperson.setColors(colors);
+					
+			rs.close();
+
+			stmt.close();
+
+			connection.close();
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -98,32 +77,44 @@ public class HPersonDao  implements GenericDao<HPerson> {
 	@Override
 	public Collection<HPerson> findAll() {
 		Collection<HPerson> hpersons = new ArrayList<HPerson>();
-		
-
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
-		String sqlCmd = "SELECT * FROM HPERSON;";
 		
-		log.debug(sqlCmd);
-		
-		try (Connection connection = ds.getConnection();
-				Statement stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery(sqlCmd);){
-	
+		try {
+			
+			Connection connection = ds.getConnection();
+			Statement stmt = connection.createStatement();
+			String sqlCmd = "SELECT * FROM HPERSON;";
+			ResultSet rs = stmt.executeQuery(sqlCmd);
+			
 			while(rs.next()) {
-				
 				Collection<Color> colors = new ArrayList<Color>();
-				
 				HPerson hperson = new HPerson();
 				hperson.setId(rs.getLong("id"));
 				hperson.setName(rs.getString("name"));
 				hperson.setIdNo(rs.getString("idno"));
 				
-				colors.add(colorDao.findOne(rs.getLong("color")));
+				String sqlCmd2 = "SELECT * FROM COLOR WHERE PID='" + hperson.getId() + "';";
+				Statement stmt2 = connection.createStatement();
+				ResultSet rs2 = stmt2.executeQuery(sqlCmd2);
+				while (rs2.next()){
+					Color color = new Color();
+					color.setName(rs2.getString("name"));
+					color.setCode(rs2.getString("code"));
+					color.setPid(rs2.getLong("pid"));
+					colors.add(color);
+				}
 				hperson.setColors(colors);
-
+				rs2.close();
+				stmt2.close();
 				hpersons.add(hperson);
 				
 			}
+			
+			rs.close();
+			
+			stmt.close();
+			
+			connection.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -139,23 +130,27 @@ public class HPersonDao  implements GenericDao<HPerson> {
 		
 		try (Connection connection = ds.getConnection();
 			 Statement stmt = connection.createStatement();){
-
-			Long colorsId = null;
-			Iterator<Color> colorInsert = entity.getColors().iterator();
 			
-			while(colorInsert.hasNext()){
-				colorsId = colorInsert.next().getId();
-				String sqlCmd = "INSERT INTO HPERSON(NAME,IDNO,COLOR) VALUES ('" + entity.getName() + "', '" + entity.getIdNo() + "',"+ colorsId +");";
-				log.debug("insert sql : " + sqlCmd);
-				stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
-			}
+			String sqlCmd = "INSERT INTO HPERSON(NAME,IDNO) VALUES ('" + entity.getName() + "', '" + entity.getIdNo() + "');";
+			log.debug("insert sql(HPerson) : " + sqlCmd);
 
+			stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 			
 			ResultSet keySet = stmt.getGeneratedKeys();
 			
 			if(keySet.next()) {
 				Long generatedId = keySet.getLong("ID");
 				entity.setId(generatedId);
+			}
+			
+			Iterator<Color> colorInsert = entity.getColors().iterator();
+			
+			while(colorInsert.hasNext()){
+				Color color = new Color();
+				color = colorInsert.next();
+				String sqlCmd2 = "INSERT INTO COLOR(NAME,CODE,PID) VALUES ('" + color.getName() + "', '" + color.getCode()+  "', "+ entity.getId() + ");";
+				log.debug("insert sql(Color) : " + sqlCmd2);
+				stmt.executeUpdate(sqlCmd2);
 			}
 			
 			
@@ -170,17 +165,33 @@ public class HPersonDao  implements GenericDao<HPerson> {
 	@Override
 	public void update(HPerson entity) {
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
-		try (Connection connection = ds.getConnection();
-			 Statement stmt = connection.createStatement();) {
+		try {
+			Connection connection = ds.getConnection();
 			
-			Iterator<Color> colorInsert = entity.getColors().iterator();
-			Long colorsId = colorInsert.next().getId();
-
-			String sqlCmd = "UPDATE HPERSON SET COLOR='" +  colorsId + "' WHERE ID='" + entity.getId() + "';";
+			Statement stmt = connection.createStatement();
+			String sqlCmdHPERSON = "UPDATE HPERSON SET NAME='" +  entity.getName() + "', IDNO='" + entity.getIdNo()  + "' WHERE ID='" + entity.getId() + "';";
+			stmt.executeUpdate(sqlCmdHPERSON);
 			
-			log.debug("update sql: "+ sqlCmd);
+			Statement stmt2 = connection.createStatement();
+			String sqlCmdColorDelete = "DELETE FROM COLOR WHERE PID='" + entity.getId() + "';";
+			stmt2.executeUpdate(sqlCmdColorDelete);
+			
+			Iterator<Color> colorUpdate = entity.getColors().iterator();
+			while(colorUpdate.hasNext()){
+				Color color = new Color();
+				color = colorUpdate.next();
+				Statement stmt3 = connection.createStatement();
+				String sqlCmd3 = "INSERT INTO COLOR(NAME,CODE,PID) VALUES ('" + color.getName() + "', '" + color.getCode()+  "', "+ entity.getId() + ");";
+				log.debug("insert sql(Color) : " + sqlCmd3);
+				stmt3.executeUpdate(sqlCmd3);
+				stmt3.close();
+			}
 
-			stmt.executeUpdate(sqlCmd);
+			stmt2.close();
+
+			stmt.close();
+
+			connection.close();
 
 		}  catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -192,16 +203,21 @@ public class HPersonDao  implements GenericDao<HPerson> {
 	@Override
 	public void delete(Long id) {
 		DataSource ds = DataSourceUtil.getInstance().getDataSource();
-		try (Connection connection = ds.getConnection();
-			 Statement stmt = connection.createStatement();){
-			
-			HPerson deleteColor = new HPerson();
-			deleteColor = findOne(id);
-			log.debug("deletecolor: "+ deleteColor);
+		try {
+			Connection connection = ds.getConnection();
+			Statement stmt = connection.createStatement();
 
-			String sqlCmd = "DELETE FROM HPERSON WHERE IDNO='" + deleteColor.getIdNo() + "';";
-
+			String sqlCmd = "DELETE FROM COLOR WHERE PID='" + id + "';";
+			log.debug("delete sql(Hperson) : " + sqlCmd);
 			stmt.executeUpdate(sqlCmd);
+			
+			sqlCmd  = "DELETE FROM HPERSON WHERE ID='" + id + "';";
+			log.debug("delete sql(Color) : " + sqlCmd);
+			stmt.executeUpdate(sqlCmd);
+			
+			stmt.close();
+
+			connection.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

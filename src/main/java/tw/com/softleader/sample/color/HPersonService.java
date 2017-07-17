@@ -16,10 +16,6 @@ public class HPersonService implements GenericService<HPerson>{
 	public HPerson getOne(Long id) {
 		return dao.findOne(id);
 	}
-	
-	public HPerson getByIdNo(String idno) {
-		return dao.findByIdNo(idno);
-	}
 
 	@Override
 	public Collection<HPerson> getAll() {

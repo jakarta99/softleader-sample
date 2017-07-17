@@ -4,15 +4,15 @@ import java.util.Collection;
 
 public class MPerson {
 
-	private Long id;
-	private String name;
-	private String idno;
 	private Long cId;
+	private Long id;
+	private String idno;
+	private String name;
 	private Collection<Movie> movies;
 
 	@Override
 	public String toString() {
-		return "MPerson : id= " + id + ",name= " + name + "cId" + cId + "movies" + movies;
+		return "MPerson : cId= " + cId + ",id= " + id + "idno" + idno + "name" + name + "movies" + movies;
 	}
 
 	public Long getId() {
