@@ -12,28 +12,33 @@ import javax.sql.DataSource;
 
 import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
-import tw.com.softleader.sample.commons.GenericService;
 
 public class GcompanyDao implements GenericDao<Gcompany> {
+	Collection<GPerson> gpersons = new ArrayList<GPerson>();
+	Collection<Game> games = new ArrayList<Game>();
+	Collection<Gcompany> company = new ArrayList<Gcompany>();
 
+	// @SuppressWarnings("null")
 	@Override
 	public Gcompany findOne(Long id) {
 		try {
-			Collection<GPerson> persons = new ArrayList<GPerson>();
-			Collection<Game> games = new ArrayList<Game>();
-			Collection<Gcompany> company = new ArrayList<Gcompany>();
-			GPerson persons1 = null;
-			Gcompany company1 = null;
+
+			// GPerson persons1 = null;
+			// Gcompany company1 = null;
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
-			Connection conn = ds.getConnection();
-			String sqlCmd = "select * from company where id =?";
+			Connection conn = ds.getConnection(); // set connection
+			String sqlCmd = "select * from company where id =?"; // SQL
+																	// statements
 			String sqlCmd2 = "select * from person where pId =?";
 			String sqlCmd3 = "select * from ame where gId = ?";
-			PreparedStatement pstmt = conn.prepareStatement(sqlCmd);
-			ResultSet rs = pstmt.executeQuery();
-			pstmt.setLong(1, id);
+			PreparedStatement pstmt = conn.prepareStatement(sqlCmd); // declare
+																		// Prepared
+																		// Statements
+			ResultSet rs = pstmt.executeQuery(); // execute statement and
+													// instantiate variable rs
+			pstmt.setLong(1, id); // set dynamic variable
 
-			if (rs.next()) {
+			if (rs.next()) { // point to the next row
 				Gcompany entity = new Gcompany();
 				entity.setId(rs.getLong("id"));
 				entity.setGCname(rs.getString("gCname"));
@@ -51,11 +56,10 @@ public class GcompanyDao implements GenericDao<Gcompany> {
 				person.setpId(rs2.getLong("pId"));
 				person.setpIdno(rs2.getString("idno"));
 				person.setpName(rs2.getString("pName"));
-				persons.add(person);
-                   company1.setGpersons(persons);
-			}
-		
+				gpersons.add(person);
 
+			}
+			((Gcompany) company).setGpersons(gpersons);
 			rs2.close();
 			pstmt2.close();
 
@@ -70,8 +74,8 @@ public class GcompanyDao implements GenericDao<Gcompany> {
 				games.add(game);
 
 			}
-			 ///persons1.setGames(games);
-			//company1.setGames(games);
+			/// persons1.setGames(games);
+			((Gcompany) company).setGames(games);
 
 			pstmt3.close();
 			rs3.close();
@@ -83,8 +87,7 @@ public class GcompanyDao implements GenericDao<Gcompany> {
 
 			e.printStackTrace();
 		}
-		///return company1;
-		return null;
+		return (Gcompany) company;
 
 	}
 
@@ -92,12 +95,8 @@ public class GcompanyDao implements GenericDao<Gcompany> {
 	public Collection<Gcompany> findAll() {
 
 		try {
-			Collection<GPerson> persons = new ArrayList<GPerson>();
-			Collection<Gcompany> company = new ArrayList<Gcompany>();
-			Collection<Game> games = new ArrayList<Game>();
-			// Collection<Gcompany> com = new ArrayList<Gcompany>();
-			GPerson persons1 = null;
-			Gcompany company1 = null;
+			// GPerson persons1 = null;
+			// Gcompany company1 = null;
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection conn = ds.getConnection();
 			String sqlCmd = "select * from company ";
@@ -122,8 +121,8 @@ public class GcompanyDao implements GenericDao<Gcompany> {
 				person.setpName(rs2.getString("pName"));
 				person.setpIdno(rs2.getString("pIdno"));
 
-				persons.add(person);
-
+				gpersons.add(person);
+				((Gcompany) company).setGpersons(gpersons);
 			}
 
 			rs2.close();
@@ -139,6 +138,7 @@ public class GcompanyDao implements GenericDao<Gcompany> {
 				game.setType(rs3.getString("type"));
 				game.setgId(rs3.getLong("gId"));
 				games.add(game);
+				((Gcompany) company).setGames(games);
 			}
 
 			rs3.close();
@@ -150,36 +150,78 @@ public class GcompanyDao implements GenericDao<Gcompany> {
 
 			e.printStackTrace();
 		}
-		// return company1;
-		return null;
+		return company;
+
 	}
 
 	@Override
 	public void insert(Gcompany entity) {
-		
-		DataSource ds = DataSourceUtil.getInstance().getDataSource();
-		Connection conn;
-		try {
-			conn = ds.getConnection();
-			String sqlCmd = "insert into company values(?,?)";
-			Statement stmt = conn.createStatement();
-			stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 
-			ResultSet keySet = stmt.getGeneratedKeys();
+		DataSource ds = DataSourceUtil.getInstance().getDataSource();
+
+		try {
+			Connection conn = ds.getConnection();
+
+			String sqlCmd = "insert into company (id,gCname)values(?,?)";
+			String sqlCmd2 = "insert into person (pId,pName,pIdno)values(?,?,?)";
+			String sqlCmd3 = "insert into game (gId,gName,type)values(?,?,?)";
+			PreparedStatement pstmt = conn.prepareStatement(sqlCmd);
+
+			pstmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
+
+			ResultSet keySet = pstmt.getGeneratedKeys();
 
 			if (keySet.next()) {
 				Long generatedId = keySet.getLong("id");
+				String generatedName = keySet.getNString("gCname");
+
 				entity.setId(generatedId);
+				entity.setGCname(generatedName);
+
 			}
-			
-			
-			
+
+			PreparedStatement pstmt2 = conn.prepareStatement(sqlCmd2);
+			ResultSet keySet2 = pstmt2.getGeneratedKeys();
+			pstmt2.execute(sqlCmd2, Statement.RETURN_GENERATED_KEYS);
+
+			if (keySet2.next()) {
+
+				GPerson person = new GPerson();
+				Long generatedpId = keySet.getLong("pId");
+				String generatedpName = keySet.getString("pName");
+				String generatedIdno = keySet.getString("pIdno");
+				person.setpId(generatedpId);
+				person.setpName(generatedpName);
+				person.setpIdno(generatedIdno);
+				gpersons.add(person);
+				entity.setGpersons(gpersons);
+			}
+
+			PreparedStatement pstmt3 = conn.prepareStatement(sqlCmd3);
+			ResultSet keySet3 = pstmt3.getGeneratedKeys();
+			pstmt3.execute(sqlCmd3, Statement.RETURN_GENERATED_KEYS);
+
+			if (keySet3.next()) {
+
+				Game game = new Game();
+				Long generatedgId = keySet3.getLong("gId");
+				String generatedName = keySet3.getString("gName");
+				String generatedType = keySet3.getString("type");
+				game.setgId(generatedgId);
+				game.setName(generatedName);
+				game.setType(generatedType);
+				games.add(game);
+				entity.setGames(games);
+
+			}
+
+			conn.close();
 
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -187,21 +229,18 @@ public class GcompanyDao implements GenericDao<Gcompany> {
 
 		try {
 
-			String sqlCmdG = "delete * from game where id = ?";
-			String sqlCmdP = "delete * from person where id =?";
-			String sqlCmdC = "delete * from company whrere id =?";
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection conn = ds.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement(sqlCmdG);
-
-			String sqlCmd2 = "insert into game values(?,?,?)";
-			String sqlCmd3 = "insert into person values(?,?,?)";
-			String sqlCmd4 = "insert into company values(?,?)";
-
+            
+			GcompanyDao gcDao = new GcompanyDao();
+			gcDao.delete(entity.getId());
+			gcDao.insert(entity);
+			conn.close();
 		} catch (SQLException e) {
 
 			e.printStackTrace();
 		}
+		
 	}
 
 	@Override
