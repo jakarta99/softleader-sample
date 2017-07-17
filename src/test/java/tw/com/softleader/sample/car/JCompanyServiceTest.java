@@ -10,21 +10,29 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class JPersonServiceTest {
+public class JCompanyServiceTest {
 	
-	private Logger log = LoggerFactory.getLogger(JPersonServiceTest.class);
+	private Logger log = LoggerFactory.getLogger(JCompanyServiceTest.class);
 	
+	private JCompanyService jCompanyService = new JCompanyService();
 	private JPersonService jPersonService = new JPersonService();
 	private CarService carService = new CarService();
 
 	@Test
 	public void testCrud() {
+		Collection<JCompany> originJCompanies = jCompanyService.getAll();
 		Collection<JPerson> originJPeople = jPersonService.getAll();
 		Collection<Car> originCars = carService.getAll();
 		
 		log.info(" insert start"); 
+		JCompany jCompany = new JCompany();
+		jCompany.setName("SL");
+		jCompany.setEnglishName("Softleader");
+		jCompany.setUniformNumber("80230237");
+		
+		Collection<JPerson> jPeople = new ArrayList<>();
 		JPerson jPerson = new JPerson();
-		jPerson.setIdNo("J00001");
+		jPerson.setIdNo("ID000001");
 		jPerson.setName("Benny");
 		
 		Collection<Car> cars = new ArrayList<>();
@@ -41,38 +49,48 @@ public class JPersonServiceTest {
 		cars.add(car2);
 		
 		jPerson.setCars(cars);
-		jPersonService.insert(jPerson);
+		jCompany.setjPeople(jPeople);
+		jCompanyService.insert(jCompany);
 		log.info(" insert end"); 
 		
 		//update
 		log.info(" update start"); 
+		Long newJCompanyId = jCompany.getId();
 		Long newJPersonId = jPerson.getId();
-		Long updateCarId = car2.getId();
+		Long newCar2Id = car2.getId();
+		jCompany.setName("SoftLeader");
 		jPerson.setIdNo("J00002");
 		car2.setColor("Black");
 		
-		jPersonService.update(jPerson);
+		jCompanyService.update(jCompany);
 		
-		JPerson dbJPerson = jPersonService.getOne(newJPersonId);
+		JCompany dbJCompany = jCompanyService.getOne(newJCompanyId);
 		
-		assertEquals("J00002", dbJPerson.getIdNo());
+		assertEquals("SoftLeader", dbJCompany.getName());
 		
-		Collection<Car> dbCars = dbJPerson.getCars();
-		for (Car car : dbCars) {
-			if(updateCarId.equals(car.getId())){
-				assertEquals("Black", car.getColor());
-			}
-		}
+		Collection<JPerson> dbJPeople = dbJCompany.getjPeople();
+		dbJPeople.stream()
+		.filter(p -> newJPersonId.equals(p.getId()))
+		.forEach(p -> {
+			
+			assertEquals("J00002", p.getIdNo());
+			Collection<Car> dbCars = p.getCars();
+			
+			dbCars.stream().filter(c -> newCar2Id.equals(c.getId()))
+			.forEach(c -> assertEquals("Black", c.getColor()));
+		});
+		
 		log.info(" update end"); 
 		
 		//delete
 		log.info(" delete start"); 
-		jPersonService.delete(newJPersonId);
-		assertNull(jPersonService.getOne(newJPersonId));
-		
+		jCompanyService.delete(newJCompanyId);
+		assertNull(jCompanyService.getOne(newJCompanyId));
+		Collection<JCompany> finalJCompanies = jCompanyService.getAll();
 		Collection<JPerson> finalJPeople = jPersonService.getAll();
 		Collection<Car> finalCars = carService.getAll();
 		
+		assertEquals(originJCompanies.size(), finalJCompanies.size());
 		assertEquals(originJPeople.size(), finalJPeople.size());
 		assertEquals(originCars.size(), finalCars.size());
 		

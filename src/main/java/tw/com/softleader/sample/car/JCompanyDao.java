@@ -15,13 +15,13 @@ import org.slf4j.LoggerFactory;
 import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
 
-public class CarDao implements GenericDao<Car> {
+public class JCompanyDao implements GenericDao<JCompany> {
 	
-	private Logger log = LoggerFactory.getLogger(CarDao.class);
+	private Logger log = LoggerFactory.getLogger(JCompanyDao.class);
 
 	@Override
-	public Car findOne(Long id) {
-		Car entity = null;
+	public JCompany findOne(Long id) {
+		JCompany entity = null;
 		
 		try {
 			
@@ -29,7 +29,7 @@ public class CarDao implements GenericDao<Car> {
 			Connection connection = ds.getConnection();
 			Statement stmt = connection.createStatement();
 			
-			String sqlCmd = "SELECT * FROM car WHERE ID = " + id;
+			String sqlCmd = "SELECT * FROM J_Company WHERE ID = " + id;
 			
 			log.debug("1:"+sqlCmd);
 			log.info("2:"+sqlCmd);
@@ -40,7 +40,7 @@ public class CarDao implements GenericDao<Car> {
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 			
 			if(rs.next()) {
-				entity = resultSetToCar(rs);
+				entity = resultSetToJCompany(rs);
 			}
 			
 			rs.close();
@@ -59,9 +59,9 @@ public class CarDao implements GenericDao<Car> {
 	}
 
 	@Override
-	public Collection<Car> findAll() {
+	public Collection<JCompany> findAll() {
 		
-		Collection<Car> cars = new ArrayList<Car>();
+		Collection<JCompany> JCompanys = new ArrayList<JCompany>();
 		
 		try {
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
@@ -69,13 +69,13 @@ public class CarDao implements GenericDao<Car> {
 			
 			Statement stmt = connection.createStatement();
 			
-			String sqlCmd = "SELECT * FROM car";
+			String sqlCmd = "SELECT * FROM J_Company";
 			
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 			
 			while(rs.next()) {
-				Car car = resultSetToCar(rs);
-				cars.add(car);
+				JCompany JCompany = resultSetToJCompany(rs);
+				JCompanys.add(JCompany);
 			}
 			
 			rs.close();
@@ -89,12 +89,11 @@ public class CarDao implements GenericDao<Car> {
 			e.printStackTrace();
 		}
 		
-		
-		return cars;
+		return JCompanys;
 	}
 
 	@Override
-	public void insert(Car entity) {
+	public void insert(JCompany entity) {
 		
 		try {
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
@@ -102,7 +101,7 @@ public class CarDao implements GenericDao<Car> {
 			
 			Statement stmt = connection.createStatement();
 			
-			String sqlCmd = "INSERT INTO CAR (name, color, j_person_id) VALUES ('"+entity.getName()+"','"+entity.getColor()+"',"+entity.getjPersonId()+");";
+			String sqlCmd = "INSERT INTO J_Company (name, english_name, uniform_number) VALUES ('"+entity.getName()+"','"+entity.getEnglishName()+"',"+entity.getUniformNumber()+");";
 			
 			stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 			
@@ -127,16 +126,17 @@ public class CarDao implements GenericDao<Car> {
 	}
 
 	@Override
-	public void update(Car entity) {
+	public void update(JCompany entity) {
 		try {
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 			
 			Statement stmt = connection.createStatement();
 			
-			String sqlCmd = "UPDATE CAR SET "
+			String sqlCmd = "UPDATE J_Company SET "
 								+ "name = '" + entity.getName() + "', "
-								+ "color = '" + entity.getColor() + "'  "
+								+ "uniform_number = '" + entity.getUniformNumber() + "', "
+								+ "english_name = '" + entity.getEnglishName() + "'  "
 								+ "WHERE ID = " + entity.getId();
 			
 			stmt.executeUpdate(sqlCmd);
@@ -160,7 +160,7 @@ public class CarDao implements GenericDao<Car> {
 			
 			Statement stmt = connection.createStatement();
 			
-			String sqlCmd = "DELETE FROM CAR WHERE ID = "+id;
+			String sqlCmd = "DELETE FROM J_Company WHERE ID = "+id;
 			
 			stmt.executeUpdate(sqlCmd);
 			
@@ -175,78 +175,19 @@ public class CarDao implements GenericDao<Car> {
 		
 	}
 	
-	public Collection<Car> findByJPersonId(Long jPersonId) {
-		
-		Collection<Car> cars = new ArrayList<Car>();
-		
+	private JCompany resultSetToJCompany(ResultSet rs) throws SQLException{
+		JCompany JCompany = new JCompany();
 		try {
-			if (jPersonId != null) {
-				return cars;
-			}
-			
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();
-			Connection connection = ds.getConnection();
-			
-			Statement stmt = connection.createStatement();
-			
-			String sqlCmd = "SELECT * FROM car where j_perosn_id = "+jPersonId;
-			
-			ResultSet rs = stmt.executeQuery(sqlCmd);
-			
-			while(rs.next()) {
-				Car car = resultSetToCar(rs);
-				cars.add(car);
-			}
-			
-			rs.close();
-			
-			stmt.close();
-			
-			connection.close();
-		
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return cars;
-	}
-	
-	private Car resultSetToCar(ResultSet rs) throws SQLException{
-		Car car = new Car();
-		try {
-			car.setId(rs.getLong("id"));
-			car.setName(rs.getString("name"));
-			car.setColor(rs.getString("color"));
-			car.setjPersonId(rs.getLong("j_person_id"));
+			JCompany.setId(rs.getLong("id"));
+			JCompany.setName(rs.getString("name"));
+			JCompany.setEnglishName(rs.getString("english_name"));
+			JCompany.setUniformNumber(rs.getString("uniform_number"));
 			
 		} catch (SQLException e) {
 			throw e;
 		}
 		
-		return car;
+		return JCompany;
 	}
 	
-//	public void deleteByJPersonId(Long jPersonId) {
-//		try {
-//			DataSource ds = DataSourceUtil.getInstance().getDataSource();
-//			Connection connection = ds.getConnection();
-//			
-//			Statement stmt = connection.createStatement();
-//			
-//			String sqlCmd = "DELETE FROM CAR WHERE j_person_ID = "+jPersonId;
-//			
-//			stmt.executeUpdate(sqlCmd);
-//			
-//			stmt.close();
-//			
-//			connection.close();
-//
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//	}
-
 }

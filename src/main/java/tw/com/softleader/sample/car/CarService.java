@@ -47,14 +47,14 @@ public class CarService implements GenericService<Car> {
 		
 	}
 	
-	public Collection<Car> findByJPersonId(Long jPersonId) {
-		CarDao carDao = new CarDao();
-		return carDao.findByJPersonId(jPersonId);
-	}
+//	public Collection<Car> findByJPersonId(Long jPersonId) {
+//		CarDao carDao = new CarDao();
+//		return carDao.findByJPersonId(jPersonId);
+//	}
 	
-	public void deleteByJPersonId(Long jPersonId) {
-		CarDao carDao = new CarDao();
-		carDao.deleteByJPersonId(jPersonId);
-	}
+//	public void deleteByJPersonId(Long jPersonId) {
+//		CarDao carDao = new CarDao();
+//		carDao.deleteByJPersonId(jPersonId);
+//	}
 	
 }

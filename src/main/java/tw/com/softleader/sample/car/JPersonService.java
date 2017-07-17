@@ -7,7 +7,7 @@ import tw.com.softleader.sample.commons.GenericService;
 
 /**
  * 
- * 飲料的服務
+ * 人的服務
  * 
  * @author Gary Lee
  *
@@ -21,8 +21,8 @@ public class JPersonService implements GenericService<JPerson> {
 		Optional<JPerson> jPerson = Optional.ofNullable(jPersonDao.findOne(id));
 		
 		jPerson.ifPresent(p -> {
-			CarService carService = new CarService();
-			Collection<Car> cars = carService.findByJPersonId(id);
+			CarDao carDao = new CarDao();
+			Collection<Car> cars = carDao.findByJPersonId(id);
 			p.setCars(cars);
 		});
 		
@@ -32,7 +32,13 @@ public class JPersonService implements GenericService<JPerson> {
 	@Override
 	public Collection<JPerson> getAll() {
 		JPersonDao jPersonDao = new JPersonDao();
-		return jPersonDao.findAll();
+		Collection<JPerson> jPeople = jPersonDao.findAll();
+		if (jPeople != null && jPeople.size() > 0) {
+			CarDao carDao = new CarDao();
+			jPeople.forEach(p -> p.setCars(carDao.findByJPersonId(p.getId())));
+		}
+		
+		return jPeople;
 	}
 
 	@Override
@@ -71,12 +77,17 @@ public class JPersonService implements GenericService<JPerson> {
 
 	@Override
 	public void delete(Long id) {
-		CarService carService = new CarService();
-		carService.deleteByJPersonId(id);
+		Optional<JPerson> jPerson = Optional.ofNullable(getOne(id));
+		jPerson.ifPresent(p -> {
+			CarService carService = new CarService();
+			Collection<Car> cars = p.getCars();
+			if (cars != null && !cars.isEmpty()) {
+				cars.forEach(c -> carService.delete(c.getId()));
+			}
+		});
 		
 		JPersonDao jPersonDao = new JPersonDao();
 		jPersonDao.delete(id);
-		
 	}
 	
 	

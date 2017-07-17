@@ -31,9 +31,10 @@ public class DataSourceUtil {
 		
 		HikariConfig config = new HikariConfig();
 
-		config.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb");
+		config.setJdbcUrl("jdbc:postgresql://localhost:5432/bennychen");
 		config.setUsername("postgres");
-		config.setPassword("postgres");
+//		config.setPassword("postgres");
+		config.setPassword("");
 		config.addDataSourceProperty("cachePrepStmts", "true");
 		config.addDataSourceProperty("prepStmtCacheSize", "250");
 		config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");

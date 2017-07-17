@@ -18,7 +18,6 @@ import tw.com.softleader.sample.commons.GenericDao;
 public class JPersonDao implements GenericDao<JPerson> {
 	
 	private Logger log = LoggerFactory.getLogger(JPersonDao.class);
-
 	
 	@Override
 	public JPerson findOne(Long id) {
@@ -55,14 +54,13 @@ public class JPersonDao implements GenericDao<JPerson> {
 			e.printStackTrace();
 		}
 		
-		
 		return entity;
 	}
 
 	@Override
 	public Collection<JPerson> findAll() {
 		
-		Collection<JPerson> jPersons = new ArrayList<JPerson>();
+		Collection<JPerson> jPeople = new ArrayList<JPerson>();
 		
 		try {
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
@@ -75,13 +73,8 @@ public class JPersonDao implements GenericDao<JPerson> {
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 			
 			while(rs.next()) {
-				
-				JPerson jPerson = new JPerson();
-				jPerson.setId(rs.getLong("id"));
-				jPerson.setName(rs.getString("name"));
-				
-				jPersons.add(jPerson);
-				
+				JPerson jPerson = resultSetToJPerson(rs);
+				jPeople.add(jPerson);
 			}
 			
 			rs.close();
@@ -95,8 +88,7 @@ public class JPersonDao implements GenericDao<JPerson> {
 			e.printStackTrace();
 		}
 		
-		
-		return jPersons;
+		return jPeople;
 	}
 
 	@Override
@@ -108,7 +100,7 @@ public class JPersonDao implements GenericDao<JPerson> {
 			
 			Statement stmt = connection.createStatement();
 			
-			String sqlCmd = "INSERT INTO J_Person (name, id_no) VALUES ('"+entity.getName()+"','"+entity.getIdNo()+"');";
+			String sqlCmd = "INSERT INTO J_Person (name, id_no, j_company_id) VALUES ('"+entity.getName()+"','"+entity.getIdNo()+"',"+entity.getjCompanyId()+");";
 			
 			stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 			
@@ -142,7 +134,8 @@ public class JPersonDao implements GenericDao<JPerson> {
 			
 			String sqlCmd = "UPDATE J_Person SET "
 								+ "name = '" + entity.getName() + "', "
-								+ "id_no = '" + entity.getIdNo() + "'  "
+								+ "id_no = '" + entity.getIdNo() + "',  "
+								+ "j_company_id = " + entity.getjCompanyId()
 								+ "WHERE ID = " + entity.getId();
 			
 			stmt.executeUpdate(sqlCmd);
@@ -178,7 +171,59 @@ public class JPersonDao implements GenericDao<JPerson> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void deleteByJCompanyId(Long jCompanyId){
+		try {
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
+			
+			Statement stmt = connection.createStatement();
+			
+			String sqlCmd = "DELETE FROM J_Person WHERE j_company_id = "+jCompanyId;
+			
+			stmt.executeUpdate(sqlCmd);
+			
+			stmt.close();
+			
+			connection.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public Collection<JPerson> findByJCompanyId(Long companyId) {
+		Collection<JPerson> jPeople = new ArrayList<>();
+		try {
+			
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
+			
+			Statement stmt = connection.createStatement();
+			
+			String sqlCmd = "SELECT * FROM J_Person WHERE j_company_id = " + companyId;
+			
+			ResultSet rs = stmt.executeQuery(sqlCmd);
+			
+			while(rs.next()) {
+				JPerson jPerson = resultSetToJPerson(rs);
+				jPeople.add(jPerson);
+			}
+			
+			rs.close();
+			
+			stmt.close();
+			
+			connection.close();
 		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return jPeople;
 	}
 	
 	private JPerson resultSetToJPerson(ResultSet rs) throws SQLException{
@@ -186,6 +231,7 @@ public class JPersonDao implements GenericDao<JPerson> {
 		jPerson.setId(rs.getLong("id"));
 		jPerson.setName(rs.getString("name"));
 		jPerson.setIdNo(rs.getString("id_no"));
+		jPerson.setjCompanyId(rs.getLong("j_company_id"));
 		return jPerson;
 	}
 
