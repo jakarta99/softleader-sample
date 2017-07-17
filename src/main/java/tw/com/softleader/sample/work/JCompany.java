@@ -46,4 +46,14 @@ public class JCompany {
     public List<JPerson> getjPersonList() {
         return jPersonList;
     }
+
+    @Override
+    public String toString() {
+        return "JCompany{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", tel='" + tel + '\'' +
+                ", jPersonList=" + jPersonList +
+                '}';
+    }
 }

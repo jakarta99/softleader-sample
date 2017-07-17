@@ -27,6 +27,8 @@ public class JCompanyServiceTest {
         int originWorkSize = workService.findAll().size();
         int originPersonSize = jPersonService.findAll().size();
         int originCompanySize = service.findAll().size();
+        log.info(String.format("size:%d,%d,%d", originWorkSize, originPersonSize ,originCompanySize));
+
         Work work = new Work();
         work.setName("company work");
 
@@ -50,14 +52,17 @@ public class JCompanyServiceTest {
         Long generatedId = jCompany.getId();
 
         JCompany dbCompany = service.findOne(generatedId);
-
+        log.info(String.format("insert company=%s",dbCompany));
         assertEquals(1,dbCompany.getjPersonList().size());
         assertEquals(1,dbCompany.getjPersonList().get(0).getWorks().size());
         assertEquals("new company", dbCompany.getName());
+
+
+
         person = dbCompany.getjPersonList().get(0);
         work = person.getWorks().get(0);
         work.setName("update work name");
-        work.setjPerson(person);
+
         workList.clear();
         workList.add(work);
 
@@ -77,6 +82,9 @@ public class JCompanyServiceTest {
 
         person = dbCompany.getjPersonList().get(0);
         work = person.getWorks().get(0);
+
+        log.info(String.format("update company=%s",dbCompany));
+
         assertEquals("update perosn name",person.getName());
         assertEquals("update work name",work.getName());
         assertEquals("update company name", dbCompany.getName());
@@ -87,9 +95,12 @@ public class JCompanyServiceTest {
         int personSize = jPersonService.findAll().size();
         int companySize = service.findAll().size();
 
-
+        log.info(String.format("work:%d,%d",workSize,originWorkSize));
         assertEquals(workSize,originWorkSize);
+        log.info(String.format("person:%d,%d",personSize,originPersonSize));
+
         assertEquals(personSize,originPersonSize);
+        log.info(String.format("company:%d,%d",companySize,originCompanySize));
         assertEquals(companySize,originCompanySize);
 
     }

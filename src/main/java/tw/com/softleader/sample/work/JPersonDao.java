@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 public class JPersonDao implements GenericDao<JPerson>{
 
 
-    private WorkDao workDao = new WorkDao();
-
     public JPersonDao() {
             this.dataSource = DataSourceUtil
                     .getInstance()
@@ -32,29 +30,49 @@ public class JPersonDao implements GenericDao<JPerson>{
 
     @Override
     public JPerson findOne(Long id) {
-        JPerson entity = null;
-        String sqlCmd = "SELECT * FROM jperson where id = " +id ;
-        try (Connection connection = dataSource.getConnection();
-             Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sqlCmd);){
+        JPerson person = null;
+        try {
 
 
+            String sqlCmd = "SELECT * FROM jperson where id = " +id ;
+            Connection connection3 = dataSource.getConnection();
+            Statement stmt3 = connection3.createStatement();
+            ResultSet rs3 = stmt3.executeQuery(sqlCmd);
+            while (rs3.next()) {
 
+                person = new JPerson();
+                person.setId(rs3.getLong("id"));
+                person.setName(rs3.getString("NAME"));
+                person.setIdno(rs3.getLong("idno"));
 
-            while (rs.next()) {
+                ArrayList<Work> works = new ArrayList<>();
+                Connection connection2 = dataSource.getConnection();
+                Statement stmt2 = connection2.createStatement();
+                String sqlCmd2 = "SELECT * FROM work where jpersonid =" + id;
+                ResultSet rs2 = stmt2.executeQuery(sqlCmd2);
 
-                entity = new JPerson();
-                entity.setId(rs.getLong("id"));
-                entity.setName(rs.getString("NAME"));
-                entity.setIdno(rs.getLong("idno"));
-                List<Work> works = workDao.findByJPersonId(rs.getLong("id"));
-                entity.setWorks(works);
+                while(rs2.next()) {
+
+                    Work work = new Work();
+                    work.setId(rs2.getLong("ID"));
+                    work.setName(rs2.getString("NAME"));
+                    works.add(work);
+
+                }
+                rs2.close();
+                stmt2.close();
+                connection2.close();
+                person.setWorks(works);
             }
+            rs3.close();
+            stmt3.close();
+            rs3.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return entity;
+        return person;
     }
 
     @Override
@@ -78,7 +96,7 @@ public class JPersonDao implements GenericDao<JPerson>{
                 entity.setId(rs.getLong("id"));
                 entity.setName(rs.getString("NAME"));
                 entity.setIdno(rs.getLong("idno"));
-                entity.setWorks(workDao.findByJPersonId(rs.getLong("id")));
+                entity.setWorks(findByJPersonId(rs.getLong("id")));
                 JPersons.add(entity);
             }
 
@@ -92,34 +110,49 @@ public class JPersonDao implements GenericDao<JPerson>{
     }
 
     @Override
-    public void insert(JPerson entity) {
+    public void insert(JPerson person) {
         try {
 
-            Connection connection = dataSource.getConnection();
-            Statement stmt = connection.createStatement();
+            Connection connection2 = dataSource.getConnection();
+            Statement stmt2 = connection2.createStatement();
 
 
-            String sqlCmd = "INSERT INTO jperson(name,idno,jcompanyid) VALUES ('" + entity.getName() + "', '" + entity.getIdno() + "', '" + entity.getjCompany().getId() + "');";
+            String sqlCmd2 = "INSERT INTO jperson(name,idno,jcompanyid) VALUES ('" + person.getName() + "', '" + person.getIdno() + "', '" + person.getjCompany().getId() + "');";
 
-            stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
+            stmt2.execute(sqlCmd2, Statement.RETURN_GENERATED_KEYS);
 
-            ResultSet keySet = stmt.getGeneratedKeys();
+            ResultSet keySet2 = stmt2.getGeneratedKeys();
 
-            if(keySet.next()) {
-                Long generatedId = keySet.getLong("ID");
-                entity.setId(generatedId);
+            if(keySet2.next()) {
+                Long generatedId2 = keySet2.getLong("ID");
+                person.setId(generatedId2);
             }
-            if (entity.getWorks() != null) {
-                for (Work work: entity.getWorks()) {
-                    work.setjPerson(entity);
-                    workDao.insert(work);
+            if (person.getWorks() != null) {
+
+                for (Work work: person.getWorks()) {
+                    work.setjPerson(person);
+                    Connection connection3 = dataSource.getConnection();
+                    Statement stmt3 = connection3.createStatement();
+                    String personId = work.getjPerson() == null ? 0+"" : work.getjPerson().getId().toString() ;
+                    String sqlCmd3 = "INSERT INTO work (name,jpersonid) VALUES ('"+work.getName()+ "', '"+ personId   +"');";
+
+                    stmt3.execute(sqlCmd3, Statement.RETURN_GENERATED_KEYS);
+                    ResultSet keySet3 = stmt3.getGeneratedKeys();
+                    if(keySet3.next()) {
+                        Long generatedId3 = keySet3.getLong("ID");
+                        work.setId(generatedId3);
+                    }
+
+                    keySet3.close();
+                    stmt3.close();
+                    connection3.close();
                 }
             }
-            keySet.close();
+            keySet2.close();
 
-            stmt.close();
+            stmt2.close();
 
-            connection.close();
+            connection2.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -128,34 +161,65 @@ public class JPersonDao implements GenericDao<JPerson>{
     }
 
     @Override
-    public void update(JPerson entity) {
+    public void update(JPerson person) {
         try {
 
-            Connection connection = dataSource.getConnection();
-            Statement stmt = connection.createStatement();
+            Connection connection2 = dataSource.getConnection();
+            Statement stmt2 = connection2.createStatement();
 
-            String sqlCmd = "UPDATE jperson SET idno = '" + entity.getIdno() + "', name = '" + entity.getName() + "' where id = '" + entity.getId() + "' ";
-            stmt.executeUpdate(sqlCmd);
-            final List<Long> dbWorkIds = workDao.findByJPersonId(entity.getId()).stream().map(work -> work.getId()).collect(Collectors.toList());
-            final Collection<Long> works = entity.getWorks().stream().map(work -> work.getId()).collect(Collectors.toList());
+            String sqlCmd2 = "UPDATE jperson SET idno = '" + person.getIdno() + "', name = '" + person.getName() + "' where id = '" + person.getId() + "' ";
+            stmt2.executeUpdate(sqlCmd2);
+            final List<Long> dbWorkIds = findByJPersonId(person.getId()).stream().map(work -> work.getId()).collect(Collectors.toList());
+            final Collection<Long> works = person.getWorks().stream().map(work -> work.getId()).collect(Collectors.toList());
+
             for (Long id: dbWorkIds) {
                 if (!works.contains(id)) {
-                    workDao.delete(id);
+                    Connection connection3 = dataSource.getConnection();
+                    Statement stmt3 = connection3.createStatement();
+
+                    String sqlCmd3 = "DELETE FROM work where ID = "+id;
+                    stmt3.executeUpdate(sqlCmd3);
+                    stmt3.close();
+                    connection3.close();
                 }
             }
 
-            for (Work work: entity.getWorks()) {
+            for (Work work: person.getWorks()) {
                 if (work.getId() == null) {
-                    workDao.insert(work);
+                    Connection connection3 = dataSource.getConnection();
+                    Statement stmt3 = connection3.createStatement();
+
+                    String personId = work.getjPerson() == null ? 0+"" : work.getjPerson().getId().toString() ;
+                    System.out.println();
+
+                    String sqlCmd3 = "INSERT INTO work (name,jpersonid) VALUES ('"+work.getName()+ "', '"+ personId   +"');";
+
+                    stmt3.execute(sqlCmd3, Statement.RETURN_GENERATED_KEYS);
+                    ResultSet keySet3 = stmt3.getGeneratedKeys();
+                    if(keySet3.next()) {
+                        Long generatedId = keySet3.getLong("ID");
+                        work.setId(generatedId);
+                    }
+
+                    keySet3.close();
+                    stmt3.close();
+                    connection3.close();
                 } else {
-                    workDao.update(work);
+                    Connection connection3 = dataSource.getConnection();
+                    Statement stmt3 = connection3.createStatement();
+                    String personId = work.getjPerson() == null ? 0+"" : work.getjPerson().getId().toString() ;
+
+                    String sqlCmd3 = "UPDATE work SET  name = '" + work.getName() + "', jpersonid = '" + personId + "' WHERE ID = " + work.getId();
+                    stmt3.executeUpdate(sqlCmd3);
+                    stmt3.close();
+                    connection3.close();
                 }
             }
 
 
 
-            stmt.close();
-            connection.close();
+            stmt2.close();
+            connection2.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -165,8 +229,20 @@ public class JPersonDao implements GenericDao<JPerson>{
     @Override
     public void delete(Long id) {
         try {
-            final List<Work> works = workDao.findByJPersonId(id);
-            works.forEach(work -> workDao.delete(work.getId()));
+            final List<Work> works = findByJPersonId(id);
+            works.forEach(work -> {
+
+                try {
+                    Connection connection2 = dataSource.getConnection();
+                    Statement stmt2 = connection2.createStatement();
+                    String sqlCmd2 = "DELETE FROM work where ID = " + work.getId();
+                    stmt2.executeUpdate(sqlCmd2);
+                    stmt2.close();
+                    connection2.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
             Connection connection = dataSource.getConnection();
             Statement stmt = connection.createStatement();
             String sqlCmd = "DELETE FROM jPerson where ID = "+id;
@@ -177,38 +253,37 @@ public class JPersonDao implements GenericDao<JPerson>{
             e.printStackTrace();
         }
     }
-
-
-    public List<JPerson> findByJCompanyId(Long id){
-        JPerson entity = null;
-        ArrayList<JPerson> jPeople = new ArrayList<>();
+    private List<Work> findByJPersonId(Long id){
+        ArrayList<Work> works= new ArrayList<>();;
         try {
-            Connection connection = dataSource.getConnection();
-            Statement stmt = connection.createStatement();
+            Work entity = null;
+            Connection connection2 = dataSource.getConnection();
+            Statement stmt2 = connection2.createStatement();
+            String sqlCmd2 = "SELECT * FROM work where jpersonid =" + id;
 
+            ResultSet rs2 = stmt2.executeQuery(sqlCmd2);
 
-            String sqlCmd = "SELECT * FROM jperson where jcompanyid =" + id;
+            while(rs2.next()) {
 
-            ResultSet rs = stmt.executeQuery(sqlCmd);
-
-            while(rs.next()) {
-
-                JPerson jPerson = new JPerson();
-                jPerson.setId(rs.getLong("ID"));
-                jPerson.setName(rs.getString("NAME"));
-                jPerson.setIdno(rs.getLong("IDNO"));
-                jPerson.setWorks(workDao.findByJPersonId(rs.getLong("ID")));
-                jPeople.add(jPerson);
+                Work work = new Work();
+                work.setId(rs2.getLong("ID"));
+                work.setName(rs2.getString("NAME"));
+                works.add(work);
 
             }
-            rs.close();
-            stmt.close();
-            connection.close();
+            rs2.close();
+            stmt2.close();
+            connection2.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return jPeople;
+        return works;
     }
+
+
+
+
+
 
 }

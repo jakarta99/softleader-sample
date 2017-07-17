@@ -14,9 +14,7 @@ public class Work {
     public String toString() {
         return "Work{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", jPerson=" + jPerson +
-                '}';
+                ", name='" + name + '}';
     }
 
     public JPerson getjPerson() {
