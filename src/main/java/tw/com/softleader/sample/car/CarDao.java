@@ -102,7 +102,7 @@ public class CarDao implements GenericDao<Car> {
 			
 			Statement stmt = connection.createStatement();
 			
-			String sqlCmd = "INSERT INTO CAR (name, color, j_person_id) VALUES ('"+entity.getName()+"','"+entity.getColor()+"',"+entity.getjPersonId()+");";
+			String sqlCmd = "INSERT INTO CAR (name, color, brand, j_person_id) VALUES ('"+entity.getName()+"','"+entity.getColor()+"','"+entity.getBrand()+"',"+entity.getjPersonId()+");";
 			
 			stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 			
@@ -136,6 +136,7 @@ public class CarDao implements GenericDao<Car> {
 			
 			String sqlCmd = "UPDATE CAR SET "
 								+ "name = '" + entity.getName() + "', "
+								+ "brand = '" + entity.getBrand() + "', "
 								+ "color = '" + entity.getColor() + "'  "
 								+ "WHERE ID = " + entity.getId();
 			
@@ -180,7 +181,7 @@ public class CarDao implements GenericDao<Car> {
 		Collection<Car> cars = new ArrayList<Car>();
 		
 		try {
-			if (jPersonId != null) {
+			if (jPersonId == null) {
 				return cars;
 			}
 			
@@ -189,7 +190,7 @@ public class CarDao implements GenericDao<Car> {
 			
 			Statement stmt = connection.createStatement();
 			
-			String sqlCmd = "SELECT * FROM car where j_perosn_id = "+jPersonId;
+			String sqlCmd = "SELECT * FROM car where j_person_id = "+jPersonId;
 			
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 			
@@ -218,6 +219,7 @@ public class CarDao implements GenericDao<Car> {
 			car.setId(rs.getLong("id"));
 			car.setName(rs.getString("name"));
 			car.setColor(rs.getString("color"));
+			car.setBrand(rs.getString("brand"));
 			car.setjPersonId(rs.getLong("j_person_id"));
 			
 		} catch (SQLException e) {

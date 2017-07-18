@@ -49,6 +49,7 @@ public class JCompanyServiceTest {
 		cars.add(car2);
 		
 		jPerson.setCars(cars);
+		jPeople.add(jPerson);
 		jCompany.setjPeople(jPeople);
 		jCompanyService.insert(jCompany);
 		log.info(" insert end"); 

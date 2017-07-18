@@ -23,12 +23,12 @@ public class JCompanyService implements GenericService<JCompany> {
 			JPersonDao jPersonDao = new JPersonDao();
 			CarDao carDao = new CarDao();
 			
-			Collection<JPerson> jPeople = jPersonDao.findByJCompanyId(id);
+			Collection<JPerson> jPeople = jPersonDao.findByCompanyId(id);
 			jPeople.forEach(p -> p.setCars(carDao.findByJPersonId(p.getId())));
 			c.setjPeople(jPeople);
 		});
 		
-		return jCompany.isPresent() ? jCompany.get() : new JCompany();
+		return jCompany.isPresent() ? jCompany.get() : null;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class JCompanyService implements GenericService<JCompany> {
 			CarDao carDao = new CarDao();
 			
 			jCompanies.forEach(c -> {
-				Collection<JPerson> jPeople = jPersonDao.findByJCompanyId(c.getId());
+				Collection<JPerson> jPeople = jPersonDao.findByCompanyId(c.getId());
 				jPeople.forEach(p -> p.setCars(carDao.findByJPersonId(p.getId())));
 				c.setjPeople(jPeople);
 			});
@@ -60,7 +60,7 @@ public class JCompanyService implements GenericService<JCompany> {
 		if (jPeople != null && jPeople.size() > 0) {
 			JPersonService jPersonService = new JPersonService();
 			jPeople.forEach(p -> {
-				p.setjCompanyId(entity.getId());
+				p.setCompanyId(entity.getId());
 				jPersonService.insert(p);
 			});
 		}
@@ -78,7 +78,7 @@ public class JCompanyService implements GenericService<JCompany> {
 				if (p.getId() != null) {
 					jPersonService.update(p);
 				}else {
-					p.setjCompanyId(entity.getId());
+					p.setCompanyId(entity.getId());
 					jPersonService.insert(p);
 				}
 			});

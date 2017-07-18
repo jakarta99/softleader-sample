@@ -10,13 +10,13 @@ public class JPerson {
 	
 	private String name;
 	
-	private Long jCompanyId;
+	private Long companyId;
 	
 	private Collection<Car> cars;
 
 	@Override
 	public String toString() {
-		return "JPerson [id=" + id + ", name=" + name + ", idNo = " + idNo + ", jCompanyId="+jCompanyId+"]";
+		return "JPerson [id=" + id + ", name=" + name + ", idNo = " + idNo + ", companyId="+companyId+"]";
 	}
 
 	public Long getId() {
@@ -51,12 +51,12 @@ public class JPerson {
 		this.cars = cars;
 	}
 
-	public Long getjCompanyId() {
-		return jCompanyId;
+	public Long getCompanyId() {
+		return companyId;
 	}
 
-	public void setjCompanyId(Long jCompanyId) {
-		this.jCompanyId = jCompanyId;
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
 	}
 
 }

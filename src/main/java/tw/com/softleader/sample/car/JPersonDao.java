@@ -100,7 +100,7 @@ public class JPersonDao implements GenericDao<JPerson> {
 			
 			Statement stmt = connection.createStatement();
 			
-			String sqlCmd = "INSERT INTO J_Person (name, id_no, j_company_id) VALUES ('"+entity.getName()+"','"+entity.getIdNo()+"',"+entity.getjCompanyId()+");";
+			String sqlCmd = "INSERT INTO J_Person (name, id_no, company_id) VALUES ('"+entity.getName()+"','"+entity.getIdNo()+"',"+entity.getCompanyId()+");";
 			
 			stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 			
@@ -135,8 +135,8 @@ public class JPersonDao implements GenericDao<JPerson> {
 			String sqlCmd = "UPDATE J_Person SET "
 								+ "name = '" + entity.getName() + "', "
 								+ "id_no = '" + entity.getIdNo() + "',  "
-								+ "j_company_id = " + entity.getjCompanyId()
-								+ "WHERE ID = " + entity.getId();
+								+ "company_id = " + entity.getCompanyId()
+								+ " WHERE ID = " + entity.getId();
 			
 			stmt.executeUpdate(sqlCmd);
 			
@@ -173,14 +173,14 @@ public class JPersonDao implements GenericDao<JPerson> {
 		}
 	}
 	
-	public void deleteByJCompanyId(Long jCompanyId){
+	public void deleteByCompanyId(Long jCompanyId){
 		try {
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 			
 			Statement stmt = connection.createStatement();
 			
-			String sqlCmd = "DELETE FROM J_Person WHERE j_company_id = "+jCompanyId;
+			String sqlCmd = "DELETE FROM J_Person WHERE company_id = "+jCompanyId;
 			
 			stmt.executeUpdate(sqlCmd);
 			
@@ -194,16 +194,19 @@ public class JPersonDao implements GenericDao<JPerson> {
 		}
 	}
 	
-	public Collection<JPerson> findByJCompanyId(Long companyId) {
+	public Collection<JPerson> findByCompanyId(Long companyId) {
 		Collection<JPerson> jPeople = new ArrayList<>();
 		try {
+			if (companyId == null) {
+				return jPeople;
+			}
 			
 			DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 			
 			Statement stmt = connection.createStatement();
 			
-			String sqlCmd = "SELECT * FROM J_Person WHERE j_company_id = " + companyId;
+			String sqlCmd = "SELECT * FROM J_Person WHERE company_id = " + companyId;
 			
 			ResultSet rs = stmt.executeQuery(sqlCmd);
 			
@@ -231,7 +234,7 @@ public class JPersonDao implements GenericDao<JPerson> {
 		jPerson.setId(rs.getLong("id"));
 		jPerson.setName(rs.getString("name"));
 		jPerson.setIdNo(rs.getString("id_no"));
-		jPerson.setjCompanyId(rs.getLong("j_company_id"));
+		jPerson.setCompanyId(rs.getLong("company_id"));
 		return jPerson;
 	}
 
