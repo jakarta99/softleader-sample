@@ -84,7 +84,8 @@ public class HumanDao implements GenericDao<Human> {
 			
 			Statement stmt = connection.createStatement();
 			
-			String sqlCmd = "INSERT INTO HUMAN (name, gender) VALUES ('"+entity.getName()+"','"+entity.getGender()+"');";
+			String sqlCmd = "INSERT INTO HUMAN (name, gender, personId) VALUES ('" + entity.getName() 
+			+ "','" + entity.getGender() + "','" + entity.getPersonId() + "');";
 			
 			stmt.execute(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 			

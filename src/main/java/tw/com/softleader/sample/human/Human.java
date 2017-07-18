@@ -7,6 +7,8 @@ public class Human {
 	private String name;
 	
 	private String gender;
+	
+	private Long personId;
 
 	public Long getId() {
 		return id;
@@ -35,6 +37,14 @@ public class Human {
 	@Override
 	public String toString() {
 		return "Human [id=" + id + ", name=" + name + ", gender=" + gender + "]";
+	}
+
+	public Long getPersonId() {
+		return personId;
+	}
+
+	public void setPersonId(Long personId) {
+		this.personId = personId;
 	}
 
 }
