@@ -13,7 +13,7 @@ public class DrinkServiceTest {
 	
 	private Logger log = LoggerFactory.getLogger(DrinkServiceTest.class);
 	
-	private DrinkService drinkService = new DrinkService();
+	private DrinkServiceImpl drinkService = new DrinkServiceImpl();
 
 	@Test
 	public void testCrud() {
