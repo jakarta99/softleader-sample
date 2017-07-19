@@ -4,9 +4,9 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="countryService" class="tw.com.softleader.sample.country.CountryServiceImpl">
-        <!-- <constructor-arg index="0" type="String" value="Big"/> -->
-<!--         <property name="defaultSize" value="Big"></property> -->
+    <bean id="countryServiceImpl" class="tw.com.softleader.sample.country.CountryServiceImpl">
+<!-- <constructor-arg index="0" type="String" value="Big"/> -->
+<property name="defaultSize"  value="Big"></property>
         <property name="dao" ref="countryDao"></property>
     </bean>
     <bean id="countryDao" class="tw.com.softleader.sample.country.CountryDao">

@@ -7,8 +7,7 @@ public class CountrySpringApp {
 
 	public static void main(String[] args) {
 		ApplicationContext appContext= new ClassPathXmlApplicationContext(new String[] {"/country.xml"});
-		CountryService countryService=(CountryService)appContext.getBean("countryService");
-		
+		CountryService countryService=(CountryService)appContext.getBean("countryServiceImpl");
 		
 		System.out.println(countryService.getAll());
 		

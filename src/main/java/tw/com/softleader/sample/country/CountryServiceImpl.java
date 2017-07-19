@@ -9,15 +9,14 @@ public class CountryServiceImpl implements CountryService {
 	
 	private CountryDao dao;
 	
-//	public CountryServiceImpl(){
-//		
-//	}
-//	
-//	public CountryServiceImpl(String size){
-//		this.defaultSize=size;
-//	}
+	public CountryServiceImpl(){
+		
+	}
 	
-
+	public CountryServiceImpl(String size){
+		System.out.println(defaultSize);
+		this.defaultSize=size;
+	}
 	
 	public void setDefaultSize(String defaultSize){
 		this.defaultSize=defaultSize;
@@ -34,6 +33,7 @@ public class CountryServiceImpl implements CountryService {
 
 	@Override
 	public Collection<Country> getAll() {
+		System.out.println(defaultSize);
 		return dao.findAll();
 	}
 
