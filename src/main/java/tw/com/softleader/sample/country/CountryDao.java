@@ -16,13 +16,18 @@ import tw.com.softleader.sample.commons.GenericDao;
 
 public class CountryDao implements GenericDao<Country> {
 
+	private DataSource ds;
+	public void setDataSource(DataSource dataSource){
+		this.ds=dataSource;
+	}
+	
 	private Logger log = Logger.getLogger(this.getClass());
 	
 	@Override
 	public Country findOne(Long id) {
 		Country country = new Country();
 		try {
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			//DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 
 			Statement stmt = connection.createStatement();
@@ -49,7 +54,7 @@ public class CountryDao implements GenericDao<Country> {
 	public Collection<Country> findAll() {
 		Collection<Country> countries = new ArrayList<Country>();
 		try {
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			//DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 
 			Statement stmt = connection.createStatement();
@@ -79,7 +84,7 @@ public class CountryDao implements GenericDao<Country> {
 	public void insert(Country entity) {
 		String sqlCmd = "insert into country(name,size)values(?,?)";
 		try {
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			//DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd, Statement.RETURN_GENERATED_KEYS);
@@ -108,7 +113,7 @@ public class CountryDao implements GenericDao<Country> {
 	public void update(Country entity) {
 		String sqlCmd = "update country set name=?,size=? where id=?";
 		try {
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			//DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
@@ -131,7 +136,7 @@ public class CountryDao implements GenericDao<Country> {
 	public void delete(Long id) {
 		String sqlCmd = "delete from country where id=?";
 		try {
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			//DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
