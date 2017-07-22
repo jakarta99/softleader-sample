@@ -11,6 +11,9 @@ public class WPerson {
 	
 	/** ID */
 	private String idno;
+
+	/** 公司ID */
+	private Long companyId;
 	
 	private Collection<Notebook> notebooks;
 	
@@ -36,6 +39,14 @@ public class WPerson {
 
 	public void setIdno(String idno) {
 		this.idno = idno;
+	}
+
+	public Long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
 	}
 
 	public Collection<Notebook> getNotebooks() {
