@@ -10,7 +10,7 @@ import org.junit.Test;
 public class ColorServiceTest {
 	private Logger log = Logger.getLogger(this.getClass());
 	
-	ColorService colorService = new ColorService();
+	ColorServiceImpl colorService = new ColorServiceImpl();
 	
 	@Deprecated
 	@Test
