@@ -11,38 +11,49 @@ import tw.com.softleader.sample.commons.GenericService;
  * @author Robert
  *
  */
-public class KCompanyService implements GenericService<KCompany> {
+public class KCompanyServiceImpl implements KCompanyService {
+	public String defaultName = "noName";  
+	public KCompanyDao kCompanyDao;
+	public void setkCompanyDao(KCompanyDao kCompanyDao) {
+		this.kCompanyDao = kCompanyDao;
+	}
+
+	public KCompanyServiceImpl(){
+		
+	}
+
+	public KCompanyServiceImpl(String name) {
+		this.defaultName = name;
+	}
+	public void setDefaultName(String defaultName) {
+		this.defaultName = defaultName;
+	}
 
 	@Override
 	public KCompany getOne(Long id) {
-		KCompanyDao kCompanyDao = new KCompanyDao();
 		return kCompanyDao.findOne(id);
 	}
 
 	@Override
 	public Collection<KCompany> getAll() {
-
-		KCompanyDao kCompanyDao = new KCompanyDao();
+		System.out.println(defaultName);
 		
 		return kCompanyDao.findAll();
 	}
 
 	@Override
 	public void insert(KCompany entity) {
-		KCompanyDao kCompanyDao = new KCompanyDao();
 		kCompanyDao.insert(entity);
 	}
 
 	@Override
 	public void update(KCompany entity) {
-		KCompanyDao kCompanyDao = new KCompanyDao();
 		kCompanyDao.update(entity);
 		
 	}
 
 	@Override
 	public void delete(Long id) {
-		KCompanyDao kCompanyDao = new KCompanyDao();
 		kCompanyDao.delete(id);
 		
 	}
