@@ -20,7 +20,7 @@ import tw.com.softleader.sample.commons.GenericDao;
 public class KCompanyDao implements GenericDao<KCompany> {
 
 	private Logger log = LoggerFactory.getLogger(KCompanyDao.class);
-
+	private DataSource ds;
 	@Override
 	public KCompany findOne(Long id) {
 		KCompany entity = null;
@@ -28,8 +28,8 @@ public class KCompanyDao implements GenericDao<KCompany> {
 
 		try {
 
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();
-			Connection connection = ds.getConnection();
+//			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = getDs().getConnection();
 
 			Statement stmt = connection.createStatement();
 
@@ -99,8 +99,8 @@ public class KCompanyDao implements GenericDao<KCompany> {
 		Collection<KCompany> companys = new ArrayList<KCompany>();
 
 		try {
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();
-			Connection connection = ds.getConnection();
+//			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = getDs().getConnection();
 
 			Statement stmt = connection.createStatement();
 
@@ -172,8 +172,8 @@ public class KCompanyDao implements GenericDao<KCompany> {
 	public void insert(KCompany entity) {
 
 		try {
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();
-			Connection connection = ds.getConnection();
+//			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = getDs().getConnection();
 
 			Statement stmt = connection.createStatement();
 
@@ -233,8 +233,8 @@ public class KCompanyDao implements GenericDao<KCompany> {
 	@Override
 	public void update(KCompany entity) {
 		try {
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();
-			Connection connection = ds.getConnection();
+//			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = getDs().getConnection();
 
 			Statement stmt = connection.createStatement();
 
@@ -272,8 +272,8 @@ public class KCompanyDao implements GenericDao<KCompany> {
 	@Override
 	public void delete(Long id) {
 		try {
-			DataSource ds = DataSourceUtil.getInstance().getDataSource();
-			Connection connection = ds.getConnection();
+//			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = getDs().getConnection();
 			Statement stmt = connection.createStatement();
 			KCompany company = findOne(id);
 			String sqlCmd;
@@ -299,6 +299,14 @@ public class KCompanyDao implements GenericDao<KCompany> {
 			e.printStackTrace();
 		}
 
+	}
+
+	public DataSource getDs() {
+		return ds;
+	}
+
+	public void setDs(DataSource ds) {
+		this.ds = ds;
 	}
 
 }
