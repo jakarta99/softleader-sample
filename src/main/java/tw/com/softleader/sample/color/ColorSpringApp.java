@@ -13,10 +13,10 @@ public class ColorSpringApp {
 		
 		ColorService colorService = (ColorService) appContext.getBean("colorService");
 		
-		colorService.getAll();
+		//colorService.getAll();
+		System.out.println(colorService.getAll());
 		
-		
-		
+
 	}
 
 }

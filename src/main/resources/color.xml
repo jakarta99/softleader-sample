@@ -5,15 +5,45 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="colorService" class="tw.com.softleader.sample.color.ColorServiceImpl">
-		 <!-- Constructor-based-->
-		 <constructor-arg name="color" value="Red"/> 
+		 <!-- Constructor-based -->
+		 <constructor-arg name="stringValue" value="Red"/> 
 		 <constructor-arg name="number" value="39"/>
 		 <constructor-arg name="numberLong" value="50"/>
 		 <constructor-arg name="booleanValue" value="TRUE"/>
 		 <!-- Setter-based-->
-		 <property name="defaultColor" value="Pink"/> 
-		 
+		 <property name="stringValue" value="Pink"/> 
+		 <property name="number" value="66"/> 
+		 <property name="numberLong" value="1111"/>
+		 <property name="booleanValue" value="FALSE"/>
+		 <!-- String[] -->
+		 <property name="stringValues">
+		 	<list>
+		 		<value>stringValues 1</value>
+		 		<value>stringValues 2</value>
+		 		<value>stringValues 3</value>
+		 	</list>
+		 </property>
+		 <!-- List<Color> -->
+		 <property name="colorList">
+		 	<list>
+				<ref bean="color1"/>
+				<ref bean="color2"/>
+				<ref bean="color1"/>
+		 	</list>
+		 </property>
 	</bean>
+
+	<bean id="color1" class="tw.com.softleader.sample.color.Color">
+		<property name="id" value="999" />
+		<property name="name" value="Black" />
+		<property name="code" value="AAAAA" />
+	</bean>
+	<bean id="color2" class="tw.com.softleader.sample.color.Color">
+		<property name="id" value="998" />
+		<property name="name" value="White" />
+		<property name="code" value="BBBBB" />
+	</bean> 
+	
 
 
 </beans>
