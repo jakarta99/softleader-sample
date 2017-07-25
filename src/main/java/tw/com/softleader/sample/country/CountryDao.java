@@ -7,27 +7,30 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
-import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
 
+@Repository
 public class CountryDao implements GenericDao<Country> {
 
 	private DataSource ds;
-	public void setDataSource(DataSource dataSource){
-		this.ds=dataSource;
+
+	public void setDataSource(DataSource dataSource) {
+		this.ds = dataSource;
 	}
-	
+
 	private Logger log = Logger.getLogger(this.getClass());
-	
+
 	@Override
 	public Country findOne(Long id) {
 		Country country = new Country();
 		try {
-			//DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			// DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 
 			Statement stmt = connection.createStatement();
@@ -54,7 +57,7 @@ public class CountryDao implements GenericDao<Country> {
 	public Collection<Country> findAll() {
 		Collection<Country> countries = new ArrayList<Country>();
 		try {
-			//DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			// DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 
 			Statement stmt = connection.createStatement();
@@ -67,9 +70,9 @@ public class CountryDao implements GenericDao<Country> {
 				country.setSize(rs.getString("size"));
 				countries.add(country);
 			}
-			
-			log.info("2:sqlCmd-->"+sqlCmd);
-			
+
+			log.info("2:sqlCmd-->" + sqlCmd);
+
 			rs.close();
 			stmt.close();
 			connection.close();
@@ -84,7 +87,7 @@ public class CountryDao implements GenericDao<Country> {
 	public void insert(Country entity) {
 		String sqlCmd = "insert into country(name,size)values(?,?)";
 		try {
-			//DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			// DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd, Statement.RETURN_GENERATED_KEYS);
@@ -93,7 +96,7 @@ public class CountryDao implements GenericDao<Country> {
 			stmt.executeUpdate();
 
 			ResultSet keySet = stmt.getGeneratedKeys();
-			log.info("2:keySet-->"+keySet);
+			log.info("2:keySet-->" + keySet);
 			if (keySet.next()) {
 				Long generatedId = keySet.getLong("ID");
 				entity.setId(generatedId);
@@ -113,7 +116,7 @@ public class CountryDao implements GenericDao<Country> {
 	public void update(Country entity) {
 		String sqlCmd = "update country set name=?,size=? where id=?";
 		try {
-			//DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			// DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);
@@ -136,7 +139,7 @@ public class CountryDao implements GenericDao<Country> {
 	public void delete(Long id) {
 		String sqlCmd = "delete from country where id=?";
 		try {
-			//DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			// DataSource ds = DataSourceUtil.getInstance().getDataSource();
 			Connection connection = ds.getConnection();
 
 			PreparedStatement stmt = connection.prepareStatement(sqlCmd);

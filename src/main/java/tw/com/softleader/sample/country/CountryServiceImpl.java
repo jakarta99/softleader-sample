@@ -2,26 +2,28 @@ package tw.com.softleader.sample.country;
 
 import java.util.Collection;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class CountryServiceImpl implements CountryService {
 	CountryDao countryDao = new CountryDao();
-	
-	private String defaultSize="Small";
-	
+
+	private String defaultSize = "Small";
+
 	private CountryDao dao;
-	
-	public CountryServiceImpl(){
-		
+
+	public CountryServiceImpl() {
 	}
-	
-	public CountryServiceImpl(String size){
+
+	public CountryServiceImpl(String size) {
 		System.out.println(defaultSize);
-		this.defaultSize=size;
+		this.defaultSize = size;
 	}
-	
-	public void setDefaultSize(String defaultSize){
-		this.defaultSize=defaultSize;
+
+	public void setDefaultSize(String defaultSize) {
+		this.defaultSize = defaultSize;
 	}
-	
+
 	public void setDao(CountryDao dao) {
 		this.dao = dao;
 	}

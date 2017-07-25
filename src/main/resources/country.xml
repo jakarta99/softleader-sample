@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -11,13 +15,18 @@
 		<property name="username" value="postgres" />
 		<property name="password" value="postgres" />
 	</bean>
-	<bean id="countryDao" class="tw.com.softleader.sample.country.CountryDao">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	<bean id="countryServiceImpl" class="tw.com.softleader.sample.country.CountryServiceImpl">
-		<constructor-arg index="0" type="String" value="Big" />
-		<property name="defaultSize" value="Big"></property>
-		<property name="dao" ref="countryDao"></property>
-	</bean>
+<!-- 	<bean id="countryDao" class="tw.com.softleader.sample.country.CountryDao"> -->
+<!-- 	<property name="dataSource" ref="dataSource" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="countryServiceImpl" class="tw.com.softleader.sample.country.CountryServiceImpl"> -->
+<!-- 	<constructor-arg index="0" type="String" value="Big" /> -->
+<!-- 	<property name="defaultSize" value="Big"></property> -->
+<!-- 	<property name="dao" ref="countryDao"></property> -->
+<!-- 	</bean> -->
 
+	<bean id="countryDao" class="tw.com.softleader.sample.country.CountryDao"></bean>
+	<bean id="countryServiceImpl" class="tw.com.softleader.sample.country.CountryServiceImpl"></bean>
+
+<!-- 	<context:annotation-config />  -->
+	<context:component-scan base-package="tw.com.softleader.sample.country" />
 </beans>
