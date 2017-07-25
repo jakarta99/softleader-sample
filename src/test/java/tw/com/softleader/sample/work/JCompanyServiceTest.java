@@ -20,11 +20,11 @@ public class JCompanyServiceTest {
     public void test () {
         JPersonService jPersonService = new JPersonService();
         JCompanyService service = new JCompanyService();
-        WorkService workService = new WorkService();
+        WorkServiceImpl workServiceImpl = new WorkServiceImpl();
 
         List<JPerson> jPersonList = new ArrayList<>();
         List<Work> workList = new ArrayList<>();
-        int originWorkSize = workService.findAll().size();
+        int originWorkSize = workServiceImpl.getAll().size();
         int originPersonSize = jPersonService.findAll().size();
         int originCompanySize = service.findAll().size();
         log.info(String.format("size:%d,%d,%d", originWorkSize, originPersonSize ,originCompanySize));
@@ -91,7 +91,7 @@ public class JCompanyServiceTest {
 
         service.delete(generatedId);
 
-        int workSize = workService.findAll().size();
+        int workSize = workServiceImpl.getAll().size();
         int personSize = jPersonService.findAll().size();
         int companySize = service.findAll().size();
 

@@ -12,15 +12,15 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by Jerry.lin on 2017/7/9.
  */
-public class WorkServiceTest {
+public class WorkServiceImplTest {
 
-    private Logger log = LoggerFactory.getLogger(DrinkServiceTest.class);
+    private Logger log = LoggerFactory.getLogger(WorkServiceImplTest.class);
 
-    private WorkService service = new WorkService();
+    private WorkServiceImpl service = new WorkServiceImpl();
 
     @Test
     public void crud () {
-        Collection<Work> works = service.findAll();
+        Collection<Work> works = service.getAll();
         int originalSize = works.size();
 
         final Work work1 = new Work();
@@ -33,13 +33,13 @@ public class WorkServiceTest {
 
         service.update(work1);
 
-        final Work dbEntity = service.findOne(generatedId);
+        final Work dbEntity = service.getOne(generatedId);
 
         assertEquals("sec work", dbEntity.getName());
 
         service.delete(generatedId);
 
-        works = service.findAll();
+        works = service.getAll();
 
         int finalSize = works.size();
 

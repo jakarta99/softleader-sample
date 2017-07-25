@@ -21,7 +21,7 @@ public class JPersonServiceTest {
     public void testCRUD() {
         JPersonService service = new JPersonService();
 
-        WorkService workService = new WorkService();
+        WorkServiceImpl workServiceImpl = new WorkServiceImpl();
         WorkDao workDao = new WorkDao();
         JPerson jperson0 = new JPerson();
         Work work = new Work();
