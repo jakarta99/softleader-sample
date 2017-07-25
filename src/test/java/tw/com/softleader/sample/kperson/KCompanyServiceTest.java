@@ -11,18 +11,20 @@ import org.slf4j.LoggerFactory;
 
 import tw.com.softleader.sample.KPerson.KCompany;
 import tw.com.softleader.sample.KPerson.KCompanyService;
+import tw.com.softleader.sample.KPerson.KCompanyServiceImpl;
+
 
 public class KCompanyServiceTest {
 	
 	private Logger log = LoggerFactory.getLogger(KCompanyServiceTest.class);
 	
-	private KCompanyService kCompanyService = new KCompanyService();
+	private KCompanyService kCompanyService = new KCompanyServiceImpl();
 
 	@Test
 	public void testCrud() {
 		
-//		KCompany one = kCompanyService.getOne(2l);
-//		System.out.println("getOne : " + one);
+		KCompany one = kCompanyService.getOne(1l);
+		System.out.println("getOne : " + one);
 //		one.setName("Robert_Wang");
 //		if (one.getClothes() != null && !one.getClothes().isEmpty()) {
 //			Cloth cloth = one.getClothes().stream().findAny().get();

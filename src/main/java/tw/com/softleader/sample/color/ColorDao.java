@@ -16,9 +16,8 @@ import tw.com.softleader.sample.commons.GenericDao;
 
 public class ColorDao implements GenericDao<Color>{
 	
-	private final String DB_DRIVER = "org.postgresql.Driver";
-	
-	private final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
+//	private final String DB_DRIVER = "org.postgresql.Driver";
+//	private final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
 	
 	private Color color ; 
 

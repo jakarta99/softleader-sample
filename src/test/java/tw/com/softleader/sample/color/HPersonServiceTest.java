@@ -19,7 +19,7 @@ public class HPersonServiceTest {
 	
 	HPersonService hPersonService = new HPersonService();
 	
-	ColorService colorService = new ColorService();
+	ColorServiceImpl colorService = new ColorServiceImpl();
 	
 	ColorDao colorDao = new ColorDao();
 	

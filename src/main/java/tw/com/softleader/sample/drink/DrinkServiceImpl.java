@@ -12,6 +12,18 @@ import tw.com.softleader.sample.commons.GenericService;
  *
  */
 public class DrinkServiceImpl implements DrinkService {
+	
+	private String defaultColor = "yellow";
+	
+	public DrinkServiceImpl() {
+		
+	}
+	
+	public DrinkServiceImpl(String color) {
+		this.defaultColor = color;
+	}
+	
+	
 
 	@Override
 	public Drink getOne(Long id) {
@@ -22,6 +34,8 @@ public class DrinkServiceImpl implements DrinkService {
 	@Override
 	public Collection<Drink> getAll() {
 
+		System.out.println(defaultColor);
+		
 		DrinkDao drinkDao = new DrinkDao();
 		
 		return drinkDao.findAll();

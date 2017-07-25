@@ -16,6 +16,8 @@ import tw.com.softleader.sample.commons.GenericDao;
 
 public class SportDao implements GenericDao<Sport> {
 
+	private DataSource dataSource;
+			
 	@Override
 	public Sport findOne(Long id) {
 
@@ -154,5 +156,17 @@ public class SportDao implements GenericDao<Sport> {
 		}
 
 	}
+
+	
+	public DataSource getDataSource() {
+		return dataSource;
+	}
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
+
+	
 
 }
