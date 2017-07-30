@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="bookService" class="tw.com.softleader.sample.books.BookServiceImpl">
+		<constructor-arg type="String" value="xxxx" />
+	</bean>
+
+	<bean id="dataSource" class="tw.com.softleader.sample.commons.DataSourceUtil">
+	</bean>
+
+	<bean id="copyFile" class="tw.com.softleader.sample.books.CopyFile">
+		<property name="configFile" value="/META-INF/LICENSE.txt"></property>
+		<property name="copyfileto"
+			value="src/main/java/tw/com/softleader/sample/books/apache-LICENSE.txt"></property>
+	</bean>
+</beans>
+
+
+
+
+

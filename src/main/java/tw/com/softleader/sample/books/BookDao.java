@@ -1,7 +1,6 @@
 package tw.com.softleader.sample.books;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,23 +10,20 @@ import java.util.Collection;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
 
+@Repository
 public class BookDao implements GenericDao<Book> {
-
-	private Logger log = Logger.getLogger(this.getClass());
-	private final String URL = "jdbc:postgresql://localhost:5432/testdb";
-	private final String acc = "postgres";
-	private final String password = "postgres";
 
 	@Override
 	public Book findOne(Long id) {
 
 		try {
-			Connection connection = DriverManager.getConnection(URL, acc, password);
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "select * from book where id=" + id;
@@ -61,7 +57,8 @@ public class BookDao implements GenericDao<Book> {
 		Collection<Book> books = new ArrayList<Book>();
 
 		try {
-			Connection connection = DriverManager.getConnection(URL, acc, password);
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "SELECT * FROM BOOK";
@@ -95,7 +92,8 @@ public class BookDao implements GenericDao<Book> {
 	@Override
 	public void insert(Book entity) {
 		try {
-			Connection connection = DriverManager.getConnection(URL, acc, password);
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
 			String sqlCmd = "insert into book(name,type) values (?,?)";
 			PreparedStatement pstmt = connection.prepareStatement(sqlCmd, Statement.RETURN_GENERATED_KEYS);
 
@@ -124,7 +122,8 @@ public class BookDao implements GenericDao<Book> {
 	@Override
 	public void update(Book entity) {
 		try {
-			Connection connection = DriverManager.getConnection(URL, acc, password);
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "update book set name='" + entity.getName() + "',type='" + entity.getType() + "' where id='"
@@ -145,7 +144,8 @@ public class BookDao implements GenericDao<Book> {
 	@Override
 	public void delete(Long id) {
 		try {
-			Connection connection = DriverManager.getConnection(URL, acc, password);
+			DataSource ds = DataSourceUtil.getInstance().getDataSource();
+			Connection connection = ds.getConnection();
 			Statement stmt = connection.createStatement();
 
 			String sqlCmd = "delete from book where id=" + id;
