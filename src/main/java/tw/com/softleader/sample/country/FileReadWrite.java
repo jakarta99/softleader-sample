@@ -2,6 +2,11 @@ package tw.com.softleader.sample.country;
 
 import java.io.File;
 import java.io.IOException;
+
+import javax.naming.Context;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.FileSystemUtils;
 
 public class FileReadWrite {
@@ -9,12 +14,12 @@ public class FileReadWrite {
 	public static void main(String[] args) throws IOException {
 		// Spring API 找到更強大的FileSyStemUtils (CLASS)，直接路徑對路徑的複製。
 		// 如果destination沒有apache-license文件，便會自動加並複製。
-		File src = new File(
-				"/Users/lacer/git/softleader-sample/src/main/java/tw/com/softleader/sample/country/LICENSE.txt");
-		File des = new File(
-				"/Users/lacer/git/softleader-sample/src/main/java/tw/com/softleader/sample/country/apache-license.txt");
-		// File地址在Mac和Window會不同！要改址再跑。
-		FileSystemUtils.copyRecursively(src, des);
+//		File src = new File(
+//				"/Users/lacer/git/softleader-sample/src/main/java/tw/com/softleader/sample/country/LICENSE.txt");
+//		File des = new File(
+//				"/Users/lacer/git/softleader-sample/src/main/java/tw/com/softleader/sample/country/apache-license.txt");
+//		// File地址在Mac和Window會不同！要改址再跑。
+//		FileSystemUtils.copyRecursively(src, des);
 
 		// ============================================================================
 
@@ -33,6 +38,15 @@ public class FileReadWrite {
 		// if (os != null) {
 		// System.out.println("Apache-License has been written");
 		// }
+		
+		// ============================================================================
+		
+		
+		ApplicationContext context=new ClassPathXmlApplicationContext();
+		Object licenseFile=context.getBean("licenseFile");
+		Object apacheFile=context.getBean("apacheFile");
+		
+		System.out.println(licenseFile);
 	}
 
 }

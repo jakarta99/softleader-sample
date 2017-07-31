@@ -15,18 +15,26 @@
 		<property name="username" value="postgres" />
 		<property name="password" value="postgres" />
 	</bean>
-<!-- 	<bean id="countryDao" class="tw.com.softleader.sample.country.CountryDao"> -->
-<!-- 	<property name="dataSource" ref="dataSource" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="countryServiceImpl" class="tw.com.softleader.sample.country.CountryServiceImpl"> -->
-<!-- 	<constructor-arg index="0" type="String" value="Big" /> -->
-<!-- 	<property name="defaultSize" value="Big"></property> -->
-<!-- 	<property name="dao" ref="countryDao"></property> -->
-<!-- 	</bean> -->
+	<!-- <bean id="countryDao" class="tw.com.softleader.sample.country.CountryDao"> -->
+	<!-- <property name="dataSource" ref="dataSource" /> -->
+	<!-- </bean> -->
+	<!-- <bean id="countryServiceImpl" class="tw.com.softleader.sample.country.CountryServiceImpl"> -->
+	<!-- <constructor-arg index="0" type="String" value="Big" /> -->
+	<!-- <property name="defaultSize" value="Big"></property> -->
+	<!-- <property name="dao" ref="countryDao"></property> -->
+	<!-- </bean> -->
 
 	<bean id="countryDao" class="tw.com.softleader.sample.country.CountryDao"></bean>
 	<bean id="countryServiceImpl" class="tw.com.softleader.sample.country.CountryServiceImpl"></bean>
 
-<!-- 	<context:annotation-config />  -->
+	<bean id="convertService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<bean class="tw.com.softleader.sample.country.ConvertService" />
+			</set>
+		</property>
+	</bean>
+
+	<!-- <context:annotation-config /> -->
 	<context:component-scan base-package="tw.com.softleader.sample.country" />
 </beans>
