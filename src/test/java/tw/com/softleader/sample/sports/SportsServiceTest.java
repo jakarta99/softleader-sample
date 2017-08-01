@@ -7,7 +7,7 @@ import org.junit.Test;
 import static java.lang.System.out;
 
 public class SportsServiceTest {
-	private SportsService test1 = new SportsService();
+	private SportsService test1 = new SportsServiceImpl();
 	Collection<Sport> sports = test1.getAll();
 
 	@Test

@@ -2,8 +2,6 @@ package tw.com.softleader.sample.KPerson;
 
 import java.util.Collection;
 
-import tw.com.softleader.sample.commons.GenericService;
-
 /**
  * 
  * KPerson的服務
@@ -57,6 +55,5 @@ public class KCompanyServiceImpl implements KCompanyService {
 		kCompanyDao.delete(id);
 		
 	}
-	
-	
+
 }

@@ -16,7 +16,7 @@ public class JCompanyServiceTest {
 	
 	private JCompanyService jCompanyService = new JCompanyService();
 	private JPersonService jPersonService = new JPersonService();
-	private CarService carService = new CarService();
+	private CarService carService = new CarServiceImpl();
 
 	@Test
 	public void testCrud() {

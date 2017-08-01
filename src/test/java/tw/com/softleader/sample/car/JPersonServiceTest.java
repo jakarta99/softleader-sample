@@ -15,7 +15,7 @@ public class JPersonServiceTest {
 	private Logger log = LoggerFactory.getLogger(JPersonServiceTest.class);
 	
 	private JPersonService jPersonService = new JPersonService();
-	private CarService carService = new CarService();
+	private CarService carService = new CarServiceImpl();
 
 	@Test
 	public void testCrud() {

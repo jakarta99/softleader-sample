@@ -48,7 +48,7 @@ public class JPersonService implements GenericService<JPerson> {
 		
 		Collection<Car> cars = entity.getCars();
 		if (cars != null && cars.size() > 0) {
-			CarService carService = new CarService();
+			CarService carService = new CarServiceImpl();
 			for (Car car : cars) {
 				car.setjPersonId(entity.getId());
 				carService.insert(car);
@@ -63,7 +63,7 @@ public class JPersonService implements GenericService<JPerson> {
 		
 		Collection<Car> cars = entity.getCars();
 		if (cars != null && cars.size() > 0) {
-			CarService carService = new CarService();
+			CarService carService = new CarServiceImpl();
 			for (Car car : cars) {
 				if (car.getId() == null) {
 					car.setjPersonId(entity.getId());
@@ -79,7 +79,7 @@ public class JPersonService implements GenericService<JPerson> {
 	public void delete(Long id) {
 		Optional<JPerson> jPerson = Optional.ofNullable(getOne(id));
 		jPerson.ifPresent(p -> {
-			CarService carService = new CarService();
+			CarService carService = new CarServiceImpl();
 			Collection<Car> cars = p.getCars();
 			if (cars != null && !cars.isEmpty()) {
 				cars.forEach(c -> carService.delete(c.getId()));

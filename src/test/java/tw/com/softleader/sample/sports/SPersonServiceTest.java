@@ -12,7 +12,7 @@ public class SPersonServiceTest {
 
 	private Logger log = Logger.getLogger(SPersonServiceTest.class);
 
-	SportsService sport = new SportsService();
+	SportsService sport = new SportsServiceImpl();
 	SPersonService spersonSv = new SPersonService();
 
 	@Test

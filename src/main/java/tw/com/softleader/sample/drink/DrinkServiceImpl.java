@@ -2,8 +2,6 @@ package tw.com.softleader.sample.drink;
 
 import java.util.Collection;
 
-import tw.com.softleader.sample.commons.GenericService;
-
 /**
  * 
  * 飲料的服務

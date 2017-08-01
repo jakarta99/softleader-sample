@@ -11,10 +11,12 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
 
+@Repository
 public class CarDao implements GenericDao<Car> {
 	
 	private Logger log = LoggerFactory.getLogger(CarDao.class);

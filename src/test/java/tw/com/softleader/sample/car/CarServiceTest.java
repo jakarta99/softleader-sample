@@ -16,7 +16,7 @@ public class CarServiceTest {
 	
 	private Logger log = LoggerFactory.getLogger(CarServiceTest.class);
 	
-	private CarService CarService = new CarService();
+	private CarService CarService = new CarServiceImpl();
 
 	@Test
 	public void testCrud() {
