@@ -9,7 +9,7 @@ import tw.com.softleader.sample.drink.Drink;
 
 public class BookServiceTest {
 
-	private BookService bookService = new BookService();
+	private BookService bookService = new BookServiceImpl();
 
 	@Test
 	public void testGetAll() {
