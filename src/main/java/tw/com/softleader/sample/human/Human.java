@@ -10,6 +10,15 @@ public class Human {
 	
 	private Long personId;
 
+	public Human() {
+		super();
+	}
+	
+	public Human(String name, String gender) {
+		this.name = name;
+		this.gender = gender;
+	}
+	
 	public Long getId() {
 		return id;
 	}

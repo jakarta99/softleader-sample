@@ -13,7 +13,7 @@ public class HumanServiceTest {
 
 	private Logger log = LoggerFactory.getLogger(HumanServiceTest.class);
 	
-	private HumanService humanService = new HumanService();
+	private HumanService humanService = new HumanServiceImpl();
 
 	@Test
 	public void testCrud() {

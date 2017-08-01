@@ -9,9 +9,12 @@ import java.util.Collection;
 
 import javax.sql.DataSource;
 
+import org.springframework.stereotype.Repository;
+
 import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
 
+@Repository
 public class HumanDao implements GenericDao<Human> {
 
 	@Override
