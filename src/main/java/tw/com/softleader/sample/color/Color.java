@@ -5,6 +5,7 @@ public class Color {
 	private String name;
 	private String code;
 	private Long pid;
+	private String birthday;
 
 	public Long getPid() {
 		return pid;
@@ -41,6 +42,14 @@ public class Color {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
 	}
 
 }

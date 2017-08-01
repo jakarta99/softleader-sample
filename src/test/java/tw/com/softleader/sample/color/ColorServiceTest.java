@@ -77,4 +77,23 @@ public class ColorServiceTest {
 
 		testGetAll();
 	}
+	
+	@Test
+	public void testConvertUpdate() {
+		
+		testGetAll();
+
+		/** testUpdate */
+		System.out.println("--------------testUpdate----------------");
+		Color color = new Color();
+		color = colorService.getOne(1L);
+		color.setName(color.getName());
+		color.setCode(color.getCode());
+		color.setPid(color.getPid());
+		color.setBirthday("19990101");
+		colorService.update(color);
+		
+		testGetAll();
+
+	}
 }

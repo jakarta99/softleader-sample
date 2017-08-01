@@ -3,7 +3,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
-
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<context:component-scan base-package="tw.com.softleader.sample.color"/>
+	
+	<bean id="colorDao" class="tw.com.softleader.sample.color.ColorDao">
+	</bean>
+	
+	<!-- 練習 -->
 	<bean id="colorService" class="tw.com.softleader.sample.color.ColorServiceImpl">
 		 <!-- Constructor-based -->
 		 <constructor-arg name="stringValue" value="Red"/> 

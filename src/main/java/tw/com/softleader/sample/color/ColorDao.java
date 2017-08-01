@@ -1,7 +1,6 @@
 package tw.com.softleader.sample.color;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,10 +9,12 @@ import java.util.Collection;
 
 import javax.sql.DataSource;
 
+import org.springframework.stereotype.Repository;
+
 import tw.com.softleader.sample.commons.DataSourceUtil;
 import tw.com.softleader.sample.commons.GenericDao;
 
-
+@Repository
 public class ColorDao implements GenericDao<Color>{
 	
 //	private final String DB_DRIVER = "org.postgresql.Driver";

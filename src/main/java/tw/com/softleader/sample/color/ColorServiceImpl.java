@@ -1,16 +1,18 @@
 package tw.com.softleader.sample.color;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author Hilda
  *
  */
+@Service
 public class ColorServiceImpl implements ColorService {
 	private Logger log = Logger.getLogger(this.getClass());
 	
@@ -22,7 +24,9 @@ public class ColorServiceImpl implements ColorService {
     private List<Color> colorList;
  
 	
-	ColorDao colorDao = new ColorDao();
+	//ColorDao colorDao = new ColorDao();
+    @Autowired 
+    ColorDao colorDao;
 	
 	public ColorServiceImpl() {
 		
@@ -44,18 +48,18 @@ public class ColorServiceImpl implements ColorService {
 	@Override
 	public Collection<Color> getAll() {	
 //		log.info("getAll");
-		log.info(stringValue);
-		log.info(number);
-		log.info(numberLong);
-		log.info(booleanValue);
-		
-		for (String list : stringValues){
-			log.info(list);
-		}
-		
-		for (Color list: colorList){
-			log.info(list.toString());
-		}
+//		log.info(stringValue);
+//		log.info(number);
+//		log.info(numberLong);
+//		log.info(booleanValue);
+//		
+//		for (String list : stringValues){
+//			log.info(list);
+//		}
+//		
+//		for (Color list: colorList){
+//			log.info(list.toString());
+//		}
 				
 		return colorDao.findAll();
 	}
@@ -76,6 +80,8 @@ public class ColorServiceImpl implements ColorService {
 	}
 	
 	
+
+
 
 	public void setStringValue(String stringValue) {
 		this.stringValue = stringValue;
