@@ -9,6 +9,15 @@
 	
 	<context:component-scan base-package="tw.com.softleader.sample.color"/>
 	
+	<!-- 
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<bean class="tw.com.softleader.sample.color.StringToDateConverter" />
+			</set>
+		</property>
+	</bean>
+ -->	
 	<bean id="colorDao" class="tw.com.softleader.sample.color.ColorDao">
 	</bean>
 	

@@ -20,7 +20,7 @@ public class ColorSpringApp {
 		
 		ColorService colorService = (ColorService) appContext.getBean("colorService");
 		System.out.println(colorService.getAll());
-		
+
 		String filePath = "classpath:META-INF/LICENSE.txt";
 		Resource template = appContext.getResource(filePath);
 		try {
