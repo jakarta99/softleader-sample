@@ -3,7 +3,7 @@ package tw.com.triplei.protal.entity;
 import java.math.BigDecimal;
 
 /**
- * 公司
+ * 保險公司
  */
 public class Insurer {
 	

@@ -1,9 +1,7 @@
 package tw.com.triplei.protal.entity;
 
 /**
- * 
  * 積點商品
- *
  */
 public class Gift {
 

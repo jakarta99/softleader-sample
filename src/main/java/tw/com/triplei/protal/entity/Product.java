@@ -1,9 +1,7 @@
 package tw.com.triplei.protal.entity;
 
 /**
- * 
  * 保險(儲蓄險)商品
- *
  */
 public class Product {
 	

@@ -10,9 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * 
  * 我要提問
- *
  */
 @Entity
 @Table(name = "Question")
