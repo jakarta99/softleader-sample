@@ -4,7 +4,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import tw.com.triplei.protal.entity.Gift;
-import tw.com.triplei.setting.entity.SettingInsurer;
 import tw.com.triplei.setting.service.SettingGiftService;
 
 public class SettingGiftApp {
