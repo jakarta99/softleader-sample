@@ -1,4 +1,4 @@
-package tw.com.triplei.setting.dao;
+package tw.com.triplei.protal.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

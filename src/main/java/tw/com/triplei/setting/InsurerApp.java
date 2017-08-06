@@ -4,7 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import tw.com.triplei.protal.entity.Insurer;
-import tw.com.triplei.setting.service.InsurerService;
+import tw.com.triplei.protal.service.InsurerService;
 
 public class InsurerApp {
 

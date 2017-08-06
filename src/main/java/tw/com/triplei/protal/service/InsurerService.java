@@ -1,12 +1,12 @@
-package tw.com.triplei.setting.service;
+package tw.com.triplei.protal.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import tw.com.triplei.protal.dao.InsurerDao;
 import tw.com.triplei.protal.entity.Insurer;
-import tw.com.triplei.setting.dao.InsurerDao;
 
 @Service
 public class InsurerService {
