@@ -32,10 +32,10 @@ public class Insurer {
 	@Column(name = "LOGO")
 	private String logo;
 
-	@Column(name = "COMPLAINTRATIO")
+	@Column(name = "COMPLAINT_RATIO")
 	private BigDecimal complaintRatio; // 投訴率
 
-	@Column(name = "BISRATIO")
+	@Column(name = "BIS_RATIO")
 	private BigDecimal bisRatio; // 資本適足率 Bank of International Settlement ratio
 
 }

@@ -9,10 +9,13 @@ import javax.persistence.Table;
 
 /**
  * 保險(儲蓄險)商品
+ * 
+ * 
+ * @author Sarah Chou
  */
 
 @Entity
-@Table(name = "Product")
+@Table(name = "PRODUCT")
 public class Product {
 	
 	@Id
@@ -20,7 +23,7 @@ public class Product {
 	@Column(name = "ID")
 	private Long id;
 	
-	@Column(name = "INSURERID")
+	@Column(name = "INSURER_ID")
 	private Long insurerId;
 	
 	// 其他商品細項待確認需求後陸續增加

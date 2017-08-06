@@ -11,29 +11,30 @@ import javax.persistence.Table;
 
 /**
  * 我要提問
+ * 
+ * @author Zhao Xun
  */
 @Entity
-@Table(name = "Question")
+@Table(name = "QUESTION")
 public class Question {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
-	private Long id; 
-	
-	@Column(name = "ASKEREMAIL")
+	private Long id;
+
+	@Column(name = "ASKER_EMAIL")
 	private String askerEmail;
-	
+
 	@Column(name = "CONTENT")
 	private String content;
-	
-	@Column(name = "QUESTIONTYPE")
+
+	@Column(name = "QUESTION_TYPE")
 	private String questionType;
-	
-	@Column(name = "POSTTIME")
+
+	@Column(name = "POST_TIME")
 	private LocalDateTime postTime;
-	
-	
+
 	public Long getId() {
 		return id;
 	}

@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import tw.com.triplei.protal.entity.Gift;
 
-public interface SettingGiftDao extends JpaRepository<Gift, Long> {
+public interface GiftDao extends JpaRepository<Gift, Long> {
 
 }

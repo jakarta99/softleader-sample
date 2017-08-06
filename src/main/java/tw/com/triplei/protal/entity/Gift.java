@@ -17,7 +17,7 @@ public class Gift {
 	@Column(name = "ID")
 	private Long id;
 
-	@Column(name = "GIFTTYPE")
+	@Column(name = "GIFT_TYPE")
 	private String giftType;
 
 	@Column(name = "NAME")
@@ -38,10 +38,10 @@ public class Gift {
 	@Column(name = "BONUS")
 	private int bonus; // 兌換點數
 
-	@Column(name = "EXCHANGECOUNT")
+	@Column(name = "EXCHANGE_COUNT")
 	private int exchangeCount; // 累積兌換次數
 
-	@Column(name = "EXCHANGEPERSONMAX")
+	@Column(name = "EXCHANGE_PERSON_MAX")
 	private int exchangePersonMax; // 對大購買數量
 
 }

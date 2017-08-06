@@ -5,16 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import tw.com.triplei.protal.dao.SettingGiftDao;
+import tw.com.triplei.protal.dao.GiftDao;
 import tw.com.triplei.protal.entity.Gift;
 
 @Service
-public class SettingGiftService {
+public class GiftService {
 
 	@Autowired
-	private SettingGiftDao settingGiftDao;
+	private GiftDao giftDao;
 
 	public List<Gift> getAll() {
-		return settingGiftDao.findAll();
+		return giftDao.findAll();
 	}
 }
