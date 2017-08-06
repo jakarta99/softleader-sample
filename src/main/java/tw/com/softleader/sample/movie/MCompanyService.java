@@ -4,23 +4,25 @@ import java.util.Collection;
 
 import tw.com.softleader.sample.commons.GenericService;
 
-public class MCompanyService implements GenericService<MCompany> {
-
+public class MCompanyService implements GenericService<MCompany>{
+	
 	MCompanyDao mCompanyDao = new MCompanyDao();
 	
 	@Override
 	public MCompany getOne(Long id) {
-		return mCompanyDao.findOne(id);
+		mCompanyDao.findOne(id);
+		return null;
 	}
 
 	@Override
 	public Collection<MCompany> getAll() {
-		return mCompanyDao.findAll();
+		mCompanyDao.findAll();
+		return null;
 	}
 
 	@Override
-	public void insert(MCompany entity) {	
-		mCompanyDao.insert(entity);
+	public void insert(MCompany entity) {
+		mCompanyDao.insert(entity);;
 	}
 
 	@Override
