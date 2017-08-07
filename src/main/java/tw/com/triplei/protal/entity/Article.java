@@ -11,6 +11,9 @@ import javax.persistence.Table;
 
 /**
  * 文章
+ * 
+ * 
+ * @author Howard Chang
  */
 
 @Entity
