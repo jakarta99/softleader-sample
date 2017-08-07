@@ -18,4 +18,24 @@ public class InsurerService {
 		return insurerDao.findAll();
 	}
 
+	public Insurer getOne(Long id) {
+		return insurerDao.getOne(id);
+	}
+
+	public Insurer insert(Insurer insurer) {
+		return insurerDao.save(insurer);
+	}
+
+	public Insurer update(Insurer insurer) {
+		return insurerDao.save(insurer);
+	}
+
+	public boolean delete(Long id) {
+		insurerDao.delete(id);
+		if (insurerDao.findOne(id) != null) {
+			return false;
+		}
+		return true;
+	}
+
 }

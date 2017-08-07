@@ -17,4 +17,24 @@ public class GiftService {
 	public List<Gift> getAll() {
 		return giftDao.findAll();
 	}
+
+	public Gift gatOne(Long id) {
+		return giftDao.getOne(id);
+	}
+
+	public Gift insert(Gift gift) {
+		return giftDao.save(gift);
+	}
+
+	public Gift update(Gift gift) {
+		return giftDao.save(gift);
+	}
+
+	public boolean delete(Long id) {
+		giftDao.delete(id);
+		if (giftDao.findOne(id) != null) {
+			return false;
+		}
+		return true;
+	}
 }
