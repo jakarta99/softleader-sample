@@ -1,19 +1,28 @@
 package tw.com.softleader.sample.work;
 
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by JerryLin on 2017/7/9.
  */
+@Entity
+@Table(name = "JCOMPANY")
 public class JCompany {
 
 
 
-
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "NAME")
     private String name;
+    @Column(name = "TEL")
     private String tel;
-    List<JPerson> jPersonList ;
+    @OneToMany
+    @JoinColumn(name = "JCOMPANY_ID")
+    private List<JPerson> jPersonList ;
 
     public void setId(Long id) {
         this.id = id;

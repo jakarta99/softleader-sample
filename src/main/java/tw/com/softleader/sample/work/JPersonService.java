@@ -1,39 +1,38 @@
 package tw.com.softleader.sample.work;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import tw.com.softleader.sample.commons.GenericDao;
+import tw.com.softleader.sample.commons.GenericService;
 
 import java.util.Collection;
 
 /**
  * Created by Jerry.lin on 2017/7/9.
  */
-public class JPersonService implements GenericDao<JPerson> {
+public class JPersonService implements GenericService<JPerson> {
 
-
+    @Autowired
     private JPersonDao dao;
 
-    public JPersonService() {
-        dao = new JPersonDao();
+
+    @Override
+    public JPerson getOne(Long id) {
+        return dao.getOne(id);
     }
 
     @Override
-    public JPerson findOne(Long id) {
-        return dao.findOne(id);
-    }
-
-    @Override
-    public Collection<JPerson> findAll() {
+    public Collection<JPerson> getAll() {
         return dao.findAll();
     }
 
     @Override
     public void insert(JPerson entity) {
-        dao.insert(entity);
+        dao.save(entity);
     }
 
     @Override
     public void update(JPerson entity) {
-        dao.update(entity);
+        dao.save(entity);
     }
 
     @Override

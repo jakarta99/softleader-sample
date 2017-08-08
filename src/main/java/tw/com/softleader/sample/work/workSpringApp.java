@@ -24,8 +24,8 @@ public class workSpringApp {
     public static void main(String[] args) {
 
         try {
-            ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[] {"work.xml"});
-            final WorkService workService = (WorkService) appContext.getBean("workService");
+            ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:/work.xml");
+            final WorkService workService = (WorkService) applicationContext.getBean("workService");
 
 
 

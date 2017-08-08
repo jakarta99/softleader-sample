@@ -1,20 +1,33 @@
 package tw.com.softleader.sample.work;
 
+import org.hibernate.mapping.Join;
+
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by JerryLin on 2017/7/9.
  */
+@Entity
+@Table(name = "JPERSON")
 public class JPerson {
 
 
 
-
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "NAME")
     private String name;
+    @Column(name = "IDNO")
     private Long idno;
+    @OneToMany
+    @JoinColumn(name = "JPERSON_ID")
     List<Work> works ;
+    @ManyToOne
+    @JoinColumn(name = "JCOMPANY_ID")
     private JCompany jCompany;
 
     public void setjCompany(JCompany jCompany) {
