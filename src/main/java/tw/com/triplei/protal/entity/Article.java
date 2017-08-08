@@ -4,10 +4,14 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import tw.com.triplei.enums.ArticleType;
 
 /**
  * 文章
@@ -25,8 +29,9 @@ public class Article {
 	@Column(name = "ID")
 	private Long id;
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "ARTICLE_TYPE")
-	private String articleType; // 文章類別
+	private ArticleType articleType; // 文章類別
 
 	@Column(name = "TITLE")
 	private String title;

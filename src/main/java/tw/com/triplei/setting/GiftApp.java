@@ -10,7 +10,7 @@ public class GiftApp {
 
 	public static void main(String[] args) {
 		ApplicationContext application = new ClassPathXmlApplicationContext("classpath:/application-context.xml");
-		GiftService giftService = (GiftService) application.getBean("GiftService");
+		GiftService giftService = (GiftService) application.getBean("giftService");
 
 		for (Gift gift : giftService.getAll()) {
 			System.out.println(gift);
