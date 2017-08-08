@@ -1,4 +1,4 @@
-package tw.com.triplei.enums;
+package tw.com.triplei.portal.enums;
 
 public enum ArticleType {
 

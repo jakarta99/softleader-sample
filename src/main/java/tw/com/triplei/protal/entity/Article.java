@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import tw.com.triplei.enums.ArticleType;
+import tw.com.triplei.portal.enums.ArticleType;
 
 /**
  * 文章
