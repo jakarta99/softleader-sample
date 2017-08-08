@@ -18,7 +18,7 @@ public class GiftService {
 		return giftDao.findAll();
 	}
 
-	public Gift gatOne(Long id) {
+	public Gift getOne(Long id) {
 		return giftDao.getOne(id);
 	}
 
