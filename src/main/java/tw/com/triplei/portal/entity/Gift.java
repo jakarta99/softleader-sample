@@ -2,8 +2,6 @@ package tw.com.triplei.portal.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,7 +26,7 @@ public class Gift {
 	
 //	@Enumerated(EnumType.STRING)
 	@Column(name = "GIFT_TYPE")
-	private String giftType;
+	private GiftType giftType;
 
 	@Column(name = "NAME")
 	private String name;
@@ -62,11 +60,11 @@ public class Gift {
 		this.id = id;
 	}
 
-	public String getGiftType() {
+	public GiftType getGiftType() {
 		return giftType;
 	}
 
-	public void setGiftType(String giftType) {
+	public void setGiftType(GiftType giftType) {
 		this.giftType = giftType;
 	}
 

@@ -16,9 +16,11 @@ public class WishController {
 
 	@Autowired
 	private WishService wishService;
-
+	
 	@RequestMapping("/list")
-	public String getWishes(Model model) {
+	public String checkWeekUseCount(Model model) {
+		//check login-->re-direct to /gift/list 
+		//-->onclick wish, checkweekusecount 
 		List<Wish> wishes = wishService.getAll();
 		model.addAttribute("wishlist", wishes);
 

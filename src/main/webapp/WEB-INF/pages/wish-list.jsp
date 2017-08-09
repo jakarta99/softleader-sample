@@ -24,8 +24,8 @@
   position: absolute;
   top: 25%;
   left: 25%;
-  width: 50%;
-  height: 50%;
+  width: 450px;
+  height: 400px;
   padding: 16px;
   border: 2px solid	blue;
   background-color: white;
@@ -41,7 +41,7 @@
 
 </head>
 <body>
- <button type="button" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'">Test for Pop up Block</button>
+ <button type="button" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'">許願池</button>
  
   <div id="light" class="white_content">
   <button type="button" style="float:right" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">Close</button>
@@ -54,10 +54,10 @@
   </div>
   <div>
   <h4>希望增加的兑换商品：</h4>
-  <div style="width:150px;height:150px;border:blue solid 1px;float:left">
+  <div style="width:140px;height:150px;border:blue solid 1px;float:left">
     <input type="file" class="file" />
   </div>
-  <textarea name="descriptions" id="wishDescription" style="border:blue solid 1px;width:300px;height:145px;float:right;border-radius:5px">
+  <textarea name="descriptions" id="wishDescription" style="border:blue solid 1px;width:290px;height:146px;float:right;border-radius:5px">
   寫下您的願望~
   </textarea>
   </div>
