@@ -3,8 +3,8 @@ package tw.com.triplei.setting;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import tw.com.triplei.protal.entity.Gift;
-import tw.com.triplei.protal.service.GiftService;
+import tw.com.triplei.portal.entity.Gift;
+import tw.com.triplei.portal.service.GiftService;
 
 public class GiftApp {
 

@@ -5,7 +5,7 @@
 <title>Gift Names</title>
 <style type="text/css">
 td{
-padding:2px;
+padding:5px;
 border:black solid 1px;
 }
 
@@ -19,15 +19,15 @@ border:black solid 1px;
 <table style="border-collapse:collapse">
 <tr>
 <th>ID</th>
-<th>Category</th>
-<th>Name</th>
-<th>Brand</th>
-<th>Image 1</th>
-<th>Image 2</th>
-<th>Image 3</th>
-<th>Redeem Points</th>
-<th>Redeemed Count</th>
-<th>Available Sets</th>
+<th>類別</th>
+<th>點數商品名稱</th>
+<th>品牌</th>
+<th>圖1</th>
+<th>圖2</th>
+<th>圖3</th>
+<th>點數兌換</th>
+<th>已兌換次數</th>
+<th>共可兌換數量</th>
 </tr>
 <c:forEach var="gift" items="${giftlist}">
 <tr>

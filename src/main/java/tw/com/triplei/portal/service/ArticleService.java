@@ -1,13 +1,13 @@
-package tw.com.triplei.protal.service;
+package tw.com.triplei.portal.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import tw.com.triplei.protal.dao.ArticleDao;
-import tw.com.triplei.protal.entity.Article;
-import tw.com.triplei.protal.entity.Product;
+import tw.com.triplei.portal.dao.ArticleDao;
+import tw.com.triplei.portal.entity.Article;
+import tw.com.triplei.portal.entity.Product;
 
 @Service
 public class ArticleService {

@@ -1,4 +1,4 @@
-package tw.com.triplei.protal.entity;
+package tw.com.triplei.portal.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

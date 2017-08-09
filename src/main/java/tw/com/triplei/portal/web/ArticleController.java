@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import tw.com.triplei.protal.entity.Article;
-import tw.com.triplei.protal.service.ArticleService;
+import tw.com.triplei.portal.entity.Article;
+import tw.com.triplei.portal.service.ArticleService;
 
 @RequestMapping("/article")
 @Controller
