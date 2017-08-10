@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import tw.com.triplei.portal.entity.Gift;
 import tw.com.triplei.portal.service.GiftService;
@@ -24,5 +23,5 @@ public class GiftController {
 		model.addAttribute("giftlist", gifts);
 		return "/gift-list";
 	}
-
+	
 }

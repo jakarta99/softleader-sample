@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <html>
 <head>
 <title>Gift Names</title>
@@ -106,7 +107,11 @@ border:black solid 1px;
   <div>
   <h4>希望增加的兑换商品：</h4>
   <div style="width:140px;height:150px;border:blue solid 1px;float:left">
-    <input type="file" class="file" />
+<!--   <form method="POST" action="uploadFile" enctype="multipart/form-data"> -->
+<!--     <input type="file" accept=".jpg" name="file" /> -->
+<!--     <input type="submit" value="Upload"> -->
+<!--     </form> -->
+	<input type="file" name="upload">
   </div>
   <textarea name="descriptions" id="wishDescription" style="border:blue solid 1px;width:290px;height:146px;float:right;border-radius:5px">
   寫下您的願望~
