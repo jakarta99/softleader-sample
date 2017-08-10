@@ -10,7 +10,7 @@
 <a href="index.jsp"><img alt="" src="#">TRIPLE-I Logo HERE</a>
 <h2>Welcome Page</h2>
 
-<a href="#">各公司資訊</a><!-- Insurer-->
+<a href="insurer/list">各公司資訊</a><!-- Insurer-->
 
 <a href="#">商品專區</a><!-- Product-->
 
