@@ -47,6 +47,7 @@ border:black solid 1px;
 </script>
 </head>
 <body>
+<a href="http://localhost:8080/softleader-sample/"><img alt="" src="#">TRIPLE-I Logo HERE</a>
 <table style="border-collapse:collapse">
 <tr>
 <th>ID</th>

@@ -26,7 +26,7 @@ public class Gift {
 	
 //	@Enumerated(EnumType.STRING)
 	@Column(name = "GIFT_TYPE")
-	private GiftType giftType;
+	private String giftType;
 
 	@Column(name = "NAME")
 	private String name;
@@ -60,11 +60,11 @@ public class Gift {
 		this.id = id;
 	}
 
-	public GiftType getGiftType() {
+	public String getGiftType() {
 		return giftType;
 	}
 
-	public void setGiftType(GiftType giftType) {
+	public void setGiftType(String giftType) {
 		this.giftType = giftType;
 	}
 

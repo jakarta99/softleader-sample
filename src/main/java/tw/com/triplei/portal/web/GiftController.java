@@ -18,7 +18,7 @@ public class GiftController {
 	@Autowired
 	private GiftService giftService;
 
-	@RequestMapping(value="/list", method=RequestMethod.GET)
+	@RequestMapping("/list")
 	public String getNames(Model model) {
 		List<Gift> gifts = giftService.getAll();
 		model.addAttribute("giftlist", gifts);
