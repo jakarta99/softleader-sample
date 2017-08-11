@@ -17,13 +17,13 @@ public class WishController {
 	@Autowired
 	private WishService wishService;
 	
-	@RequestMapping("/list")
+	@RequestMapping(value="/list")
 	public String checkWeekUseCount(Model model) {
 		//check login-->re-direct to /gift/list 
 		//-->onclick wish, checkweekusecount 
 		List<Wish> wishes = wishService.getAll();
 		model.addAttribute("wishlist", wishes);
-
+		
 		return "/wish-list";
 	}
 
