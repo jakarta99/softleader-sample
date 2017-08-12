@@ -46,13 +46,12 @@
 		<form:form method="GET" action="question/insert"
 			modelAttribute="Question">
 			<h3>請留下您的問題:</h3>
-			<textarea name="questionContent" id="questionContent"
-				style="border: blue solid 1px; width: 600px; height: 150px; border-radius: 5px">
- </textarea>
+			<form:textarea path="CONTENT" name="questionContent" id="questionContent"
+				style="border: blue solid 1px; width: 600px; height: 150px; border-radius: 5px" />
 			<br>
 			<br>		
 			<div>
-				<label>請留下e-mail</label> <input name="email" id="email" type="text" value=""
+				<label>請留下e-mail</label> <form:input  path = "ASKER_EMAIL" name="email" id="email" type="text" value=""
 					autofocus placeholder="aaa@gmail.com" size="20" />
 			</div>
 			<br>

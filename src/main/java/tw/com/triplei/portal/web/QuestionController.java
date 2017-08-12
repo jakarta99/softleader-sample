@@ -27,7 +27,7 @@ public class QuestionController {
 	}
 
 	@RequestMapping("/insert")
-	public String addQuestion(@ModelAttribute("question")Question question, Model model) {
+	public String addQuestion(@ModelAttribute("Question")Question question, Model model) {
 
 		LocalDateTime posttime = LocalDateTime.now();
 		question.setPostTime(posttime);
