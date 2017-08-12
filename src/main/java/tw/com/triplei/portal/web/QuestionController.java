@@ -36,13 +36,9 @@ public class QuestionController {
 		return "/questions";
 	}
 
-<<<<<<< HEAD
+
 	@RequestMapping(value="/insert",method=RequestMethod.POST)
 	public String addQuestion(@ModelAttribute("question")Question question,Model model) {
-=======
-	@RequestMapping("/insert")
-	public String addQuestion(@ModelAttribute("Question")Question question, Model model) {
->>>>>>> 19daebef351f099f845a9feab57703cfe5989dd5
 
 		LocalDateTime posttime = LocalDateTime.now();
 		question.setPostTime(posttime);
