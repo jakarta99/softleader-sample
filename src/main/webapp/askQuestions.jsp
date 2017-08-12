@@ -44,7 +44,7 @@
 	<div
 		style="border: blue solid 1px; width: 800px; height: 300px; border-radius: 5px; padding: 15px">
 		<form:form method="GET" action="question/insert"
-			modelAttribute="Question">
+			modelAttribute="question">
 			<h3>請留下您的問題:</h3>
 			<form:textarea path="CONTENT" name="questionContent" id="questionContent"
 				style="border: blue solid 1px; width: 600px; height: 150px; border-radius: 5px" />
