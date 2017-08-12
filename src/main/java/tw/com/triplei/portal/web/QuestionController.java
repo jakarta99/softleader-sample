@@ -3,11 +3,16 @@ package tw.com.triplei.portal.web;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import tw.com.triplei.portal.entity.Question;
 import tw.com.triplei.portal.service.QuestionService;
@@ -15,14 +20,15 @@ import tw.com.triplei.portal.service.QuestionService;
 @RequestMapping("/question")
 @Controller
 public class QuestionController {
+	
 	@Autowired
 	QuestionService questionservice;
-<<<<<<< HEAD
 	
-=======
-
-
->>>>>>> dfb0272a91db3f35433aa40151de366597d2e945
+	@RequestMapping("/view")
+	public ModelAndView showView(@Valid @ModelAttribute("question")Question question,BindingResult result,Model model) {
+		return new ModelAndView("/askQuestions");
+	}
+	
 	@RequestMapping("/list")
 	public String getAllQuestion(Model model) {
 		List<Question> list = questionservice.getAll();
@@ -30,8 +36,8 @@ public class QuestionController {
 		return "/questions";
 	}
 
-	@RequestMapping("/insert")
-	public String addQuestion(@ModelAttribute("question")Question question, Model model) {
+	@RequestMapping(value="/insert",method=RequestMethod.POST)
+	public String addQuestion(@ModelAttribute("question")Question question,Model model) {
 
 		LocalDateTime posttime = LocalDateTime.now();
 		question.setPostTime(posttime);
@@ -39,8 +45,8 @@ public class QuestionController {
 		question.setQuestionType("測試用");
 
 		questionservice.insert(question);
-
-		return "/AskQuestionSuccess";
+		model.addAttribute("paste",question);
+		return "/askQuestions";
 
 	}
 

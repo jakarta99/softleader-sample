@@ -8,7 +8,7 @@
 </head>
 <body>
 <nav>
-<a href="index.jsp"><img alt="" src="#">TRIPLE-I Logo HERE</a>
+<a href="index.jsp"><img alt="" src="Logo.png">TRIPLE-I Logo HERE</a>
 <h2>Welcome Page</h2>
 
 <a href="insurer/list">各公司資訊</a><!-- Insurer-->
@@ -30,8 +30,8 @@
 
 <button href="#">登入</button> <!-- Login-->
 
-
-<a href="<c:url value="askQuestions.jsp"/>">缐上服務</a>
+<%-- <c:url value="askQuestions.jsp"/> --%>
+<a href="question/view">缐上服務</a>
 <button href="#">開始篩選儲蓄險</button>
 </nav>
 </body>
