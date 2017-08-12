@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import tw.com.triplei.portal.entity.Question;
@@ -16,33 +17,31 @@ import tw.com.triplei.portal.service.QuestionService;
 public class QuestionController {
 	@Autowired
 	QuestionService questionservice;
+<<<<<<< HEAD
 	
+=======
+
+
+>>>>>>> dfb0272a91db3f35433aa40151de366597d2e945
 	@RequestMapping("/list")
-	public String getAllQuestion(Model model){
-		List<Question> list  = questionservice.getAll();
+	public String getAllQuestion(Model model) {
+		List<Question> list = questionservice.getAll();
 		model.addAttribute("questionlist", list);
 		return "/questions";
 	}
-	
-	
+
 	@RequestMapping("/insert")
-	public String addQuestion(String questionContent ,String email,Model model){
-		
-		System.out.println(questionContent);
-		System.out.println(email);
-		
-		question.setAskerEmail(email);
-		question.setContent(questionContent);
+	public String addQuestion(@ModelAttribute("question")Question question, Model model) {
+
 		LocalDateTime posttime = LocalDateTime.now();
 		question.setPostTime(posttime);
-		//暫時沒有問題類別
+		// 暫時沒有問題類別
 		question.setQuestionType("測試用");
-		
+
 		questionservice.insert(question);
-		
+
 		return "/AskQuestionSuccess";
-		
+
 	}
-	
-	
+
 }
