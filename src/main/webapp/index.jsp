@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html"
     pageEncoding="UTF-8"%>
     <%@include file="/WEB-INF/css/panel.css" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
 <title>Index</title>
@@ -30,7 +31,7 @@
 <button href="#">登入</button> <!-- Login-->
 
 
-<a href="#">缐上服務</a>
+<a href="<c:url value="askQuestions.jsp"/>">缐上服務</a>
 <button href="#">開始篩選儲蓄險</button>
 </nav>
 </body>

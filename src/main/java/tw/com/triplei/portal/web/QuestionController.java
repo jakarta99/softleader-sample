@@ -1,5 +1,6 @@
 package tw.com.triplei.portal.web;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,34 @@ import tw.com.triplei.portal.service.QuestionService;
 public class QuestionController {
 	@Autowired
 	QuestionService questionservice;
+	@Autowired
+	Question question;
 	
 	@RequestMapping("/list")
 	public String getAllQuestion(Model model){
 		List<Question> list  = questionservice.getAll();
 		model.addAttribute("questionlist", list);
 		return "/questions";
+	}
+	
+	
+	@RequestMapping("/insert")
+	public String addQuestion(String questionContent ,String email,Model model){
+		
+		System.out.println(questionContent);
+		System.out.println(email);
+		
+		question.setAskerEmail(email);
+		question.setContent(questionContent);
+		LocalDateTime posttime = LocalDateTime.now();
+		question.setPostTime(posttime);
+		//暫時沒有問題類別
+		question.setQuestionType("測試用");
+		
+		questionservice.insert(question);
+		
+		return "/AskQuestionSuccess";
+		
 	}
 	
 	
