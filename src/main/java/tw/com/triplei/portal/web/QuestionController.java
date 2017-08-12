@@ -16,8 +16,6 @@ import tw.com.triplei.portal.service.QuestionService;
 public class QuestionController {
 	@Autowired
 	QuestionService questionservice;
-	@Autowired
-	Question question;
 	
 	@RequestMapping("/list")
 	public String getAllQuestion(Model model){
