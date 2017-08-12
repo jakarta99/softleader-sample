@@ -9,81 +9,132 @@
 </head>
 <body>
 
-	<a href="<c:url value="/index.jsp"/>"><img alt="" src="#">TRIPLE-I Logo HERE</a>
-	<table style="border-collapse:collapse">
-	<tr>
-	<th>ID</th>
-	<th>類別</th>
-	<th>點數商品名稱</th>
-	<th>品牌</th>
-	<th>圖1</th>
-	<th>圖2</th>
-	<th>圖3</th>
-	<th>點數兌換</th>
-	<th>已兌換次數</th>
-	<th>共可兌換數量</th>
-	</tr>
-	<c:forEach var="gift" items="${giftlist}">
-	<tr>
-	<td>${gift.id}</td>
-	<td>${gift.giftType}</td>
-	<td>${gift.name}</td>
-	<td>${gift.brand}</td>
-	<td>${gift.image1}</td>
-	<td>${gift.image2}</td>
-	<td>${gift.image3}</td>
-	<td>${gift.bonus}</td>
-	<td>${gift.exchangeCount}</td>
-	<td>${gift.exchangePersonMax}</td>
-	</tr>
-	</c:forEach>
+	<a href="<c:url value="/index.jsp"/>"><img alt="" src="#">TRIPLE-I
+		Logo HERE</a>
+	<table style="border-collapse: collapse">
+		<tr>
+			<th>ID</th>
+			<th>類別</th>
+			<th>點數商品名稱</th>
+			<th>品牌</th>
+			<th>圖1</th>
+			<th>圖2</th>
+			<th>圖3</th>
+			<th>點數兌換</th>
+			<th>已兌換次數</th>
+			<th>共可兌換數量</th>
+		</tr>
+		<c:forEach var="show" items="${giftlist}">
+			<tr>
+				<td>${show.id}</td>
+				<td>${show.giftType}</td>
+				<td>${show.name}</td>
+				<td>${show.brand}</td>
+				<td><img src="" />${show.image1}</td>
+				<td>${show.image2}</td>
+				<td>${show.image3}</td>
+				<td>${show.bonus}</td>
+				<td>${show.exchangeCount}</td>
+				<td>${show.exchangePersonMax}</td>
+			</tr>
+		</c:forEach>
 	</table>
 
-<!-- 	<div> -->
-<!-- 	<div><span style="font-family:Arial;color:blue;font-size:10px;">HOT</span><span style="">熱門兌換</span></div> -->
-<!-- 	<div> -->
-<%-- 	<c:forEach var="hot" items="${hotlist}"> --%>
-<%-- 	<div>${hot.image1}</div> --%>
-<%-- 	<span>${hot.name}</span> --%>
-<%-- 	<span>${hot.bonus}</span> --%>
-<%-- 	</c:forEach> --%>
-<!-- 	</div> -->
-<!-- 	<button type="button">查看更多</button> -->
-<!-- 	</div> -->
+	<!-- 	<div> -->
+	<!-- 	<div><span style="font-family:Arial;color:blue;font-size:10px;">HOT</span><span style="">熱門兌換</span></div> -->
+	<!-- 	<div> -->
+	<%-- 	<c:forEach var="hot" items="${hotlist}"> --%>
+	<%-- 	<div>${hot.image1}</div> --%>
+	<%-- 	<span>${hot.name}</span> --%>
+	<%-- 	<span>${hot.bonus}</span> --%>
+	<%-- 	</c:forEach> --%>
+	<!-- 	</div> -->
+	<!-- 	<button type="button">查看更多</button> -->
+	<!-- 	</div> -->
 	<div>
-	<form:form method="POST" action="insert" modelAttribute="gift">
-		<table>
-			<tr>
-				<td>Name: </td>
-				<td><form:input path="name" type="text" /></td>
-			</tr>
-			<tr>
-				<td>Gift Type: </td>
-				<td><form:input path="giftType" type="text" /></td>
-			</tr>
-			<tr>
-				<td>Brand: </td>
-				<td><form:input path="brand" type="text"/></td>
-			</tr>
-			<tr>
-				<td><input type="submit" value="Add New Gift" /></td>
-			</tr>
-		</table>
-	</form:form>
+		<form:form method="POST" action="insert" modelAttribute="gift">
+			<table>
+				<tr>
+					<td>產品名稱:</td>
+					<td><form:input path="name" type="text" /></td>
+				</tr>
+				<tr>
+					<td>產品類別:</td>
+					<td><form:input path="giftType" type="text" /></td>
+				</tr>
+				<tr>
+					<td>品牌:</td>
+					<td><form:input path="brand" type="text" /></td>
+				</tr>
+				<tr>
+					<td>兌換點數:</td>
+					<td><form:input path="bonus" type="text" /></td>
+				</tr>
+				<tr>
+					<td>數量:</td>
+					<td><form:input path="exchangeCount" type="text" /></td>
+				</tr>
+				<tr>
+					<td>限兌換數量:</td>
+					<td><form:input path="exchangePersonMax" type="text" /></td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="新增點數商品" /></td>
+				</tr>
+			</table>
+		</form:form>
 	</div>
-	
+
 	<div>
-	<form:form method="GET" action="delete" modelAttribute="gift">
-		<table>
-			<tr>
-				<td>ID: </td>
-				<td><form:input path="id" type="text" /></td>
-			</tr>
-			<tr>
-				<td><input type="submit" value="Delete" /></td>
-			</tr>
-		</table>
-	</form:form>
+		<form:form method="POST" action="update" modelAttribute="gift">
+			<table>
+				<tr>
+					<td>產品ID:</td>
+					<td><form:input path="id" type="text" /></td>
+				</tr>
+				<tr>
+					<td>產品名稱:</td>
+					<td><form:input path="name" type="text" /></td>
+				</tr>
+				<tr>
+					<td>產品類別:</td>
+					<td><form:input path="giftType" type="text" /></td>
+				</tr>
+				<tr>
+					<td>品牌:</td>
+					<td><form:input path="brand" type="text" /></td>
+				</tr>
+				<tr>
+					<td>兌換點數:</td>
+					<td><form:input path="bonus" type="text" /></td>
+				</tr>
+				<tr>
+					<td>數量:</td>
+					<td><form:input path="exchangeCount" type="text" /></td>
+				</tr>
+				<tr>
+					<td>限兌換數量:</td>
+					<td><form:input path="exchangePersonMax" type="text" /></td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="更新點數商品" /></td>
+				</tr>
+			</table>
+		</form:form>
+	</div>
+
+	<div>
+		<form:form method="POST" action="delete" modelAttribute="gift">
+			<table>
+				<tr>
+					<td>產品ID:</td>
+					<td><form:input path="id" type="text" /></td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="刪除點數商品" /></td>
+				</tr>
+			</table>
+		</form:form>
 	</div>
 	<!-- 以下是許願池的 -->
 	<button type="button"

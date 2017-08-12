@@ -9,22 +9,34 @@
 </head>
 <body>
 	<div>
-		<h2>New Gift Information</h2>
+		<h2>新產品資訊</h2>
 		<table>
 			<tr>
-				<td>Name :</td>
+				<td>新產品名稱:</td>
 				<td>${newGift.name}</td>
 			</tr>
 			<tr>
-				<td>Gift Type :</td>
+				<td>產品類別:</td>
 				<td>${newGift.giftType}</td>
 			</tr>
 			<tr>
-				<td>Brand :</td>
+				<td>品牌:</td>
 				<td>${newGift.brand}</td>
+			</tr>
+			<tr>
+				<td>兌換點數:</td>
+				<td>${newGift.bonus}</td>
+			</tr>
+			<tr>
+				<td>數量:</td>
+				<td>${newGift.exchangeCount}</td>
+			</tr>
+			<tr>
+				<td>限兌換數量:</td>
+				<td>${newGift.exchangePersonMax}</td>
 			</tr>
 		</table>
 	</div>
-	<a href="<c:url value="/index.jsp"/>">Back</a>
+	<a href="<c:url value='/gift/list'/>">回上一頁</a>
 </body>
 </html>
