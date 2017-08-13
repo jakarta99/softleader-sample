@@ -13,7 +13,7 @@
 
 <a href="insurer/list">各公司資訊</a><!-- Insurer-->
 
-<a href="#">商品專區</a><!-- Product-->
+<a href="product/filter">商品專區</a><!-- Product-->
 
 <div class="dropdown">
 <button class="dropbtn">積點專區</button><!-- Gift-->
