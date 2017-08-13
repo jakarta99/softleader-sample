@@ -33,6 +33,7 @@ public class GiftController {
 		giftService.update(gift);
 		return new ModelAndView("/gift-list","giftlist",giftService.getAll());
 	}else{
+		
 		giftService.insert(gift);
 			return new ModelAndView("/AddGiftSuccess", "newGift", gift);
 		}

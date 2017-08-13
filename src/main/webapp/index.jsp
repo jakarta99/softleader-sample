@@ -8,7 +8,7 @@
 </head>
 <body>
 <nav>
-<a href="index.jsp"><img alt="" src="Logo.png">TRIPLE-I Logo HERE</a>
+<a href="index.jsp"><img alt="" src="">TRIPLE-I Logo HERE</a>
 <h2>Welcome Page</h2>
 
 <a href="insurer/list">各公司資訊</a><!-- Insurer-->
