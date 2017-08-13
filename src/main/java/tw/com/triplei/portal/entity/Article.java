@@ -24,6 +24,70 @@ import tw.com.triplei.portal.enums.ArticleType;
 @Table(name = "ARTICLE")
 public class Article {
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public ArticleType getArticleType() {
+		return articleType;
+	}
+
+	public void setArticleType(ArticleType articleType) {
+		this.articleType = articleType;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getBannerImage() {
+		return bannerImage;
+	}
+
+	public void setBannerImage(String bannerImage) {
+		this.bannerImage = bannerImage;
+	}
+
+	public LocalDateTime getPublishTime() {
+		return publishTime;
+	}
+
+	public void setPublishTime(LocalDateTime publishTime) {
+		this.publishTime = publishTime;
+	}
+
+	public int getClickCount() {
+		return clickCount;
+	}
+
+	public void setClickCount(int clickCount) {
+		this.clickCount = clickCount;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
