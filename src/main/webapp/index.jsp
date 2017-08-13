@@ -24,7 +24,15 @@
 <a href="wish/list">許願池</a> <!-- Wish-->
 </div></div>
 
-<a href="article/list">文章專欄</a> <!-- Article-->
+
+<div class="dropdown">
+<button class="dropbtn" >文章專欄</button>
+<div class="dropcontent" >
+<a href="article/list"style="width: 100px">編輯精選</a>
+<a href="article/news"style="width: 100px">新聞專區</a>
+<a href="article/goodread"style="width: 100px">小資族必讀</a>
+<a href="article/investmenttipsstyle="width: 100px"">理財觀念</a>
+</div></div>
 
 <a href="#">討論區</a> <!-- Question-->
 
