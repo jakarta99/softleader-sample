@@ -23,26 +23,25 @@ public class GiftController {
 	private GiftService giftService;
 
 	@RequestMapping("/list")
-	public ModelAndView viewGifts(@Valid @ModelAttribute("gift")Gift gift, BindingResult result, Model model) { 
+	public ModelAndView viewGifts(@Valid @ModelAttribute("gift") Gift gift, BindingResult result, Model model) {
 		return new ModelAndView("/gift-list", "giftlist", giftService.getAll());
 	}
 
-	@RequestMapping(value="/insert", method=RequestMethod.POST)
-	public ModelAndView addNewGift(@ModelAttribute("gift") Gift gift) {
-		giftService.insert(gift);
-		return new ModelAndView("/AddGiftSuccess", "newGift", gift);
-	}
-
-	@RequestMapping(value="/update", method=RequestMethod.POST)
+	@RequestMapping(value="/save", method=RequestMethod.POST)
 	public ModelAndView updateGift(@ModelAttribute("gift") Gift gift) {
+		if(gift.getId()!=null){
 		giftService.update(gift);
 		return new ModelAndView("/gift-list","giftlist",giftService.getAll());
+	}else{
+		giftService.insert(gift);
+			return new ModelAndView("/AddGiftSuccess", "newGift", gift);
+		}
 	}
 
-	@RequestMapping(value="/delete", method=RequestMethod.GET)
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView deleteGift(@PathVariable("id") long id) {
 		giftService.delete(id);
-		return new ModelAndView("/gift-list","giftlist",giftService.getAll());
+		return new ModelAndView("/gift-list", "giftlist", giftService.getAll());
 	}
 
 }
