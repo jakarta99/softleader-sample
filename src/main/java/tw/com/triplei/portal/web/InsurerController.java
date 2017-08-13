@@ -18,55 +18,51 @@ import tw.com.triplei.portal.service.InsurerService;
 @Controller
 public class InsurerController {
 
-
 	@Autowired
 	private InsurerService insurerService;
 
 	@RequestMapping("/list")
 	public String getListPage(Model model) {
 		List<Insurer> insurers = insurerService.getAll();
-		model.addAttribute("insurer",new Insurer());
+		model.addAttribute("insurer", new Insurer());
 		model.addAttribute("models", insurers);
 		return "/insurer-list";
 	}
 
 	@RequestMapping("/select")
-	public String getOneInsurer(@ModelAttribute("insurer")Insurer insurer,Model model) {
+	public String getOneInsurer(@ModelAttribute("insurer") Insurer insurer, Model model) {
 		Insurer insurerselectone = insurerService.getOne(insurer.getId());
-		model.addAttribute("insurer",new Insurer());
+		model.addAttribute("insurer", new Insurer());
 		model.addAttribute("models", insurerselectone);
 		return "/insurer-kmt";
 	}
-	
-//	@RequestMapping("/insert")
-//	public String insertInsurer(@ModelAttribute("insurer") Insurer insurer, Model model){
-//		Insurer insert = insurerService.insert(insurer);
-//		model.addAttribute("insert", insert);
-//		return "redirect:list";
-//	}
-	
+
+	// @RequestMapping("/insert")
+	// public String insertInsurer(@ModelAttribute("insurer") Insurer insurer,
+	// Model model){
+	// Insurer insert = insurerService.insert(insurer);
+	// model.addAttribute("insert", insert);
+	// return "redirect:list";
+	// }
+
 	@RequestMapping("/update")
-	public String updateInsurer(@ModelAttribute("insurer") Insurer insurer,Model model){
+	public String updateInsurer(@ModelAttribute("insurer") Insurer insurer, Model model) {
 		Insurer insurerupdate = insurerService.update(insurer);
 		model.addAttribute("insurer", new Insurer());
-		if(insurer.getId()!=null){
+		if (insurer.getId() != null) {
 			model.addAttribute("models", insurerupdate);
-		}else{
+		} else {
 			model.addAttribute("models", insurer);
 		}
 		return "redirect:list";
 	}
-	
 
-    @RequestMapping("/delete")
-    public String deleteGift(@ModelAttribute("delete") Insurer insurer,BindingResult result,Model model){
-    	if (result.hasErrors()) {
-            return "error";
-        }
-    	insurerService.delete(insurer.getId());
-    	List<Insurer> insurers = insurerService.getAll();
-    	model.addAttribute("models", insurers);
-        return "redirect:list";
-    }
+	@RequestMapping("/delete")
+	public String deleteGift(@ModelAttribute("insurer") Insurer insurer, Model model) {
+		insurerService.delete(insurer.getId());
+		List<Insurer> insurers = insurerService.getAll();
+		model.addAttribute("models", insurers);
+		return "redirect:list";
+	}
 
 }
