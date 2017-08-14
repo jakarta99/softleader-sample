@@ -1,14 +1,15 @@
-<<<<<<< HEAD:src/main/webapp/WEB-INF/pages/askQuestions.jsp
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/css/panel.css"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
 <title>AskQuestion</title>
 </head>
 <body>
 	<nav>
-		<a href="index.jsp"><img alt="" src="#">TRIPLE-I Logo HERE</a>
+		<a href="<c:url value="/index.jsp"/>"><img alt="" src="#">TRIPLE-I
+		Logo HERE</a>
 		<h2>Welcome Page</h2>
 
 		<a href="insurer/list">各公司資訊</a>

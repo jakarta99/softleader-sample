@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import tw.com.triplei.portal.enums.gender;
+//import tw.com.triplei.portal.enums.gender;
 
 /**
  * 保險(儲蓄險)商品
