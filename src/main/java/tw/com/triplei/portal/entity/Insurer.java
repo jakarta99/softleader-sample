@@ -18,6 +18,12 @@ import javax.persistence.Table;
 @Table(name = "INSURER")
 public class Insurer {
 
+	@Override
+	public String toString() {
+		return "Insurer [id=" + id + ", name=" + name + ", information=" + information + ", logo=" + logo
+				+ ", complaintRatio=" + complaintRatio + ", bisRatio=" + bisRatio + "]";
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
@@ -37,5 +43,54 @@ public class Insurer {
 
 	@Column(name = "BIS_RATIO")
 	private BigDecimal bisRatio; // 資本適足率 Bank of International Settlement ratio
+
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getInformation() {
+		return information;
+	}
+
+	public void setInformation(String information) {
+		this.information = information;
+	}
+
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
+	public BigDecimal getComplaintRatio() {
+		return complaintRatio;
+	}
+
+	public void setComplaintRatio(BigDecimal complaintRatio) {
+		this.complaintRatio = complaintRatio;
+	}
+
+	public BigDecimal getBisRatio() {
+		return bisRatio;
+	}
+
+	public void setBisRatio(BigDecimal bisRatio) {
+		this.bisRatio = bisRatio;
+	}
 
 }

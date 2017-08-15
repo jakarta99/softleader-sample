@@ -51,42 +51,9 @@
 	<!-- 	</div> -->
 	<!-- 	<button type="button">查看更多</button> -->
 	<!-- 	</div> -->
-	<div>
-		<form:form method="POST" action="insert" modelAttribute="gift">
-			<table>
-				<tr>
-					<td>產品名稱:</td>
-					<td><form:input path="name" type="text" /></td>
-				</tr>
-				<tr>
-					<td>產品類別:</td>
-					<td><form:input path="giftType" type="text" /></td>
-				</tr>
-				<tr>
-					<td>品牌:</td>
-					<td><form:input path="brand" type="text" /></td>
-				</tr>
-				<tr>
-					<td>兌換點數:</td>
-					<td><form:input path="bonus" type="text" /></td>
-				</tr>
-				<tr>
-					<td>數量:</td>
-					<td><form:input path="exchangeCount" type="text" /></td>
-				</tr>
-				<tr>
-					<td>限兌換數量:</td>
-					<td><form:input path="exchangePersonMax" type="text" /></td>
-				</tr>
-				<tr>
-					<td><input type="submit" value="新增點數商品" /></td>
-				</tr>
-			</table>
-		</form:form>
-	</div>
 
 	<div>
-		<form:form method="POST" action="update" modelAttribute="gift">
+		<form:form method="POST" action="save" modelAttribute="gift">
 			<table>
 				<tr>
 					<td>產品ID:</td>
@@ -117,7 +84,19 @@
 					<td><form:input path="exchangePersonMax" type="text" /></td>
 				</tr>
 				<tr>
-					<td><input type="submit" value="更新點數商品" /></td>
+					<td>圖1:</td>
+					<td><form:input path="image1" type="file" /></td>
+				</tr>
+				<tr>
+					<td>圖2:</td>
+					<td><form:input path="image2" type="file" /></td>
+				</tr>
+				<tr>
+					<td>圖3:</td>
+					<td><form:input path="image3" type="file" /></td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="新增/更新點數商品" /></td>
 				</tr>
 			</table>
 		</form:form>
