@@ -84,6 +84,18 @@
 					<td><form:input path="exchangePersonMax" type="text" /></td>
 				</tr>
 				<tr>
+					<td>圖1:</td>
+					<td><form:input path="image1" type="file" /></td>
+				</tr>
+				<tr>
+					<td>圖2:</td>
+					<td><form:input path="image2" type="file" /></td>
+				</tr>
+				<tr>
+					<td>圖3:</td>
+					<td><form:input path="image3" type="file" /></td>
+				</tr>
+				<tr>
 					<td><input type="submit" value="新增/更新點數商品" /></td>
 				</tr>
 			</table>
