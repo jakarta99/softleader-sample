@@ -47,7 +47,7 @@ public class QuestionController {
 
 		questionservice.insert(question);
 		model.addAttribute("paste",question);
-		return "/askQuestions";
+		return "/AskQuestionSuccess";
 
 	}
 

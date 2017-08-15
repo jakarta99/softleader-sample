@@ -44,6 +44,23 @@
 	<div>
 		<h2>感謝提問</h2>
 		
+		<div>
+	<table>
+	<h3>Print Result</h3>
+	<tr>
+	<td>${paste.content}</td>
+	</tr>
+	<tr>
+	<td>${paste.askerEmail}</td>
+	</tr>
+	<tr>
+	<td>${paste.questionType}</td>
+	</tr>
+	<tr>
+	<td>${paste.postTime}</td>
+	</tr>
+	</table>
+	</div>
 
 	 
 	</div>
