@@ -1,8 +1,8 @@
 $(function() {
 			dialog = $("#loginWindow").dialog({
 				autoOpen : false,
-				height : 400,
-				width : 350,
+				height : 250,
+				width : 250,
 				modal : true,
 				close : function() {form[0].reset();},
 				show: {
@@ -25,4 +25,8 @@ $(function() {
 			});
 
 		});
+
+$("#loginBtn").on("click",function(){
+	$(location).href="http://tw.yahoo.com";
+})
 		

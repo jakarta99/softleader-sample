@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
-<%@ include file="/resources/css/panel.css"%>
-<%@ include file="/resources/css/login.css"%>
+<%-- <%@ include file="/resources/css/panel.css"%> --%>
+<%-- <%@ include file="/resources/css/login.css"%> --%>
+<%-- <%@ include file="/resources/css/frame.css"%> --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
@@ -15,7 +16,6 @@
 <script src="<c:url value="/resources/js/login.js" />"
 	type="text/javascript"></script>
 
-<%@ include file="/resources/css/frame.css"%>
 <style>
 .onlineQuestion {
 	border: 1px black solid;
@@ -50,15 +50,17 @@ pointer:cursor;
 	pointer: cursor;
 }
 </style>
+<link href="resources/css/frame.css" rel="stylesheet">
+<link href="resources/css/login.css" rel="stylesheet">
+<link href="resources/css/panel.css" rel="stylesheet">
 </head>
 <body>
 
 	<!-- 登入視窗 -->
-	<div id="loginWindow" title="Login">
+	<div id="loginWindow" title="登入">
 		<div class="container">
 
 			<form class="form-signin">
-				<h2 class="form-signin-heading">登入</h2>
 				<label for="inputEmail" class="sr-only">Email：</label> <input
 					type="email" id="inputEmail" class="form-control"
 					placeholder="Email address" required autofocus> <label
@@ -70,11 +72,10 @@ pointer:cursor;
 						記住我
 					</label>
 				</div>
-				<button class="btn btn-lg btn-primary btn-block" type="submit">登入</button>
+				<button id="loginBtn" class="btn btn-lg btn-primary btn-block" type="submit">登入</button>
 			</form>
 		</div>
 	</div>
-
 	<!-- 登入視窗尾巴 -->
 	<!-- 左半邊 -->
 
@@ -111,7 +112,7 @@ pointer:cursor;
 					<span class="dropbtn">積點專區</span>
 					<!-- Gift-->
 					<div class="dropcontent">
-						<a href="gift/list">積點商品</a> <a href="gift/score">兌換記錄</a> <a
+						<a href="gift/page">積點商品</a> <a href="gift/score">兌換記錄</a> <a
 							href="gift/wait">點數審核</a> <a href="wish/list">許願池</a>
 						<!-- Wish-->
 					</div>
@@ -134,8 +135,8 @@ pointer:cursor;
 				<!-- Login-->
 			</div>
 			<!-- 控制板結束 -->
-			<div  class="onlineQuestion">
-				<p style="padding-top:10%;"><a href="question/view">缐上服務</a></p>
+			<div  id="xxx" class="onlineQuestion" >
+				<p  style="padding-top:10%;">缐上服務</p>
 				<%-- <c:url value="askQuestions.jsp"/> --%>
 			</div>
 		</div>

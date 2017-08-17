@@ -26,6 +26,11 @@ public class GiftController {
 	public ModelAndView viewGifts(@Valid @ModelAttribute("gift") Gift gift, BindingResult result, Model model) {
 		return new ModelAndView("/gift-list", "giftlist", giftService.getAll());
 	}
+	
+	@RequestMapping("/page")
+	public ModelAndView showGifts(@Valid @ModelAttribute("gift") Gift gift, BindingResult result, Model model) {
+		return new ModelAndView("/gift-page", "giftlist", giftService.getAll());
+	}
 
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	public ModelAndView updateGift(@ModelAttribute("gift") Gift gift) {

@@ -1,14 +1,4 @@
 <style>
-a {
-	font-size: 15px;
-	font-family: Arial;
-	text-decoration: none;
-	margin: auto 5px;
-	padding: 10px;
-	border-radius: 5px;
-	color: white;
-	padding:0px;
-}
 
 .dropbtn {
 	background-color: white;
@@ -34,14 +24,9 @@ a {
 	min-width: 100px;
 	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.1);
 	z-index: 1;
+	text-align:center;
 }
 
-.dropcontent a {
-	color: black;
-	text-decoration: none;
-	display: block;
-	border: none;
-}
 .panel{
 	padding:7px; 
 	color:white;
@@ -59,5 +44,22 @@ a {
 
 .dropdown:hover .dropbtn {
 	background-color: #AED6F1;
+}
+.nav a {
+	font-size: 15px;
+	font-family: Arial;
+	text-decoration: none;
+	margin: auto 5px;
+	padding: 10px;
+	border-radius: 5px;
+	color: white;
+	padding:0px;
+}
+.dropcontent a {
+	color: black;
+	text-decoration: none;
+	display: block;
+	border: none;
+	padding:5px;
 }
 </style>
