@@ -27,7 +27,6 @@
 	position: fixed;
 	bottom: 10%;
 	right: 3%;
-	
 }
 .onlineQuestion:hover{
 pointer:cursor;

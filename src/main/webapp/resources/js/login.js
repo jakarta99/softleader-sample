@@ -26,7 +26,4 @@ $(function() {
 
 		});
 
-$("#loginBtn").on("click",function(){
-	$(location).href="http://tw.yahoo.com";
-})
 		
