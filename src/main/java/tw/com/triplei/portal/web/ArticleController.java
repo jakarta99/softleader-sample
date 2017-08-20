@@ -19,8 +19,14 @@ public class ArticleController {
 	@RequestMapping("/list")
 	public String getListPage(Model model) {
 		List<Article> articles = articleService.getAll();
-		model.addAttribute("models",articles);
+		model.addAttribute("models", articles);
 		return "/article-list";
+	}
+
+	@RequestMapping("/page")
+	public String getPagePage(Model model) {
+
+		return "/Article-Page";
 	}
 
 }

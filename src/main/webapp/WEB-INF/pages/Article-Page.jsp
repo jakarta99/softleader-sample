@@ -1,22 +1,22 @@
-<%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
-<%-- <%@ include file="/resources/css/panel.css"%> --%>
-<%-- <%@ include file="/resources/css/login.css"%> --%>
-<%-- <%@ include file="/resources/css/frame.css"%> --%>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> -->
 <html>
 <head>
-<title>Index</title>
+<!-- <meta http-equiv="Content-Type" content="text/html; charset=BIG5"> -->
+<title>Article-Page</title>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <script src="<c:url value="/resources/js/jquery-3.2.1.min.js" />"
 	type="text/javascript"></script>
 <script src="<c:url value="/resources/js/jquery-ui.min.js" />"
 	type="text/javascript"></script>
 <script src="<c:url value="/resources/js/login.js" />"
 	type="text/javascript"></script>
-
-<style>
+	
+	<style>
 .onlineQuestion {
 	border: 1px black solid;
 	border-radius: 50%;
@@ -49,9 +49,10 @@ pointer:cursor;
 	pointer: cursor;
 }
 </style>
-<link href="resources/css/frame.css" rel="stylesheet">
-<link href="resources/css/login.css" rel="stylesheet">
-<link href="resources/css/panel.css" rel="stylesheet">
+<link href="../resources/css/ArticleFrame.css" rel="stylesheet">
+<link href="../resources/css/ArticleLogin.css" rel="stylesheet">
+<link href="../resources/css/ArticlePanel.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -82,15 +83,14 @@ pointer:cursor;
 		<div class="article">
 			<a href="index.jsp"><button class="logo">TRIPLE-I
 					這裡貼Logo</button></a>
-			<div>
-				<h2>最專業的保險理財</h2>
-				<h2>讓你的財富開始起飛</h2>
-				<p>TRIPLE-I為您準備了簡易的商品比較及公開透明的資訊。 讓你妳輕鬆篩選商品，並擁有專業的保險團隊提供相關知識，
-					即時為您解決理賠問題或保險疑問。</p>
-			</div>
-			<div >
-			<a href="#" class="startSelect">開始篩選儲蓄險</a>
-			</div>
+		</div>
+		<div class="articlea">
+		<p style="font-size:30px "><b>文章專欄</b></p>
+		<p>編輯精選</p>
+		<p>新聞專區</p>
+		<p>小資族必讀</p>
+		<p>理財觀念</p>
+		
 		</div>
 	</article>
 	<!-- 左半邊結束 -->
@@ -134,10 +134,7 @@ pointer:cursor;
 				<!-- Login-->
 			</div>
 			<!-- 控制板結束 -->
-			<div  id="xxx" class="onlineQuestion" >
-				<p  style="padding-top:10%;">缐上服務</p>
-				<%-- <c:url value="askQuestions.jsp"/> --%>
-			</div>
+			
 		</div>
 	</nav>
 
