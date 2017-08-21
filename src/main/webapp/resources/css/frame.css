@@ -7,14 +7,14 @@ body{
 
 article{
 	height:100%;
-	width:40%;
+	width:37%;
 	float:left;
 	background-color:white;
 }
 
 nav{
 	height:100%;
-	width:55%;
+	width:63%;
 	float:right;
 	background:rgb(109,140,231);
 }
