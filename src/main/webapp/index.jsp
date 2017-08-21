@@ -53,7 +53,7 @@
 					</div>
 				</div>
 				<div class="dropdown">
-					<span class="dropbtn">文章專欄</span>
+					<span class="dropbtn"><a href="article/page">文章專欄</a></span>
 					<div class="dropcontent">
 						<a href="article/list">編輯精選</a> <a href="article/news">新聞專區</a> <a
 							href="article/goodread">小資族必讀</a> <a
