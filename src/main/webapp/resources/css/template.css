@@ -1,9 +1,7 @@
 body {
 	margin: auto;
-	width: 80%;
-	height: 60%;
-	padding: 3%;
-	margin-top:3%;
+	margin:1%;
+	margin-bottom:5%;
 }
 
 article {
@@ -12,7 +10,7 @@ article {
 	float: left;
 	background: rgb(109, 140, 231);
 	height: 100%;
-	border: 1px blue solid;
+/* 	border: 1px blue solid; */
 	padding: 2%;
 }
 nav {
@@ -20,7 +18,7 @@ nav {
 	width: 60%;
 	text-align: right;
 	height: 100%;
-	border: 1px solid green;
+/* 	border: 1px solid green; */
 	padding: 2%;
 }
 .nav{

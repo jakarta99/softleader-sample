@@ -1,7 +1,5 @@
 <style>
-a{
-	font-family: Arial;
-}
+
 .dropbtn {
 	background-color: white;
 	cursor: pointer;
@@ -31,7 +29,7 @@ a{
 
 .panel{
 	padding:7px; 
-	color:white;
+	color:gray ;
 }
 .panel a:hover{
 	background-color: #AED6F1; 
@@ -54,7 +52,7 @@ a{
 	margin: auto 5px;
 	padding: 10px;
 	border-radius: 5px;
-	color: white;
+	color: gray;
 	padding:0px;
 }
 .dropcontent a {
@@ -63,44 +61,5 @@ a{
 	display: block;
 	border: none;
 	padding:5px;
-	font-family: Arial;
-}
-
-.onlineQuestion {
-	border: 1px black solid;
-	border-radius: 50%;
-	height: 70px;
-	width: 70px;
-	background: rgba(50, 50, 50, 0.6);
-	color: white;
-	position: fixed;
-	bottom: 10%;
-	right: 3%;
-	padding:0px;
-}
-
-.onlineQuestion:hover {
-	pointer: cursor;
-}
-
-.startSelect {
-	border: 1px rgb(109, 140, 231) solid;
-	border-radius: 20px;
-	color: blue;
-	background: white;
-	position: relative;
-	font-size: 15px;
-	margin-top: 9%;
-	color: rgb(109, 140, 231);
-	padding: 6px 5%;
-}
-
-.startSelect:hover {
-	pointer: cursor;
-}
-#logout{
-	font-family:Arial;
-	margin:1% 2%;
-	margin-left:3%;
 }
 </style>

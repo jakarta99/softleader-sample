@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import tw.com.triplei.portal.entity.Insurer;
 import tw.com.triplei.portal.service.InsurerService;
@@ -30,20 +31,13 @@ public class InsurerController {
 	}
 
 	@RequestMapping("/select")
-	public String getOneInsurer(@ModelAttribute("insurer") Insurer insurer, Model model) {
-		Insurer insurerselectone = insurerService.getOne(insurer.getId());
+	public String getOneInsurer(@RequestParam("id") Long id, Model model) {
+		Insurer insurerselectone = insurerService.getOne(id);
 		model.addAttribute("insurer", new Insurer());
 		model.addAttribute("models", insurerselectone);
-		return "/insurer-kmt";
+		return "/insurer-list";
 	}
 
-	// @RequestMapping("/insert")
-	// public String insertInsurer(@ModelAttribute("insurer") Insurer insurer,
-	// Model model){
-	// Insurer insert = insurerService.insert(insurer);
-	// model.addAttribute("insert", insert);
-	// return "redirect:list";
-	// }
 
 	@RequestMapping("/update")
 	public String updateInsurer(@ModelAttribute("insurer") Insurer insurer, Model model) {
@@ -66,3 +60,4 @@ public class InsurerController {
 	}
 
 }
+

@@ -13,28 +13,44 @@ public class UserService {
 
 	@Autowired
 	private UserDao userDao;
-	
-	public List<User>getAll(){
+
+	public List<User> getAll() {
 		return userDao.findAll();
 	}
-	
-	public User getOne(Long id){
+
+	public User getOne(Long id) {
 		return userDao.findOne(id);
 	}
-	
-	public User insert(User user){
+
+	public User insert(User user) {
 		return userDao.save(user);
 	}
-	
-	public User update(User user){
+
+	public User update(User user) {
 		return userDao.save(user);
 	}
-	
-	public boolean delete(Long id){
-		if(userDao.findOne(id)!=null){
-		userDao.delete(id);
-		return true;
+
+	public boolean delete(Long id) {
+		if (userDao.findOne(id) != null) {
+			userDao.delete(id);
+			return true;
 		}
 		return false;
+	}
+
+	public User loginCheck(User user) {
+		String password = user.getPassword();
+		String email = user.getEmail();
+		User check = userDao.findByEmail(email);
+		try {
+			if (check.getEmail().equalsIgnoreCase(email)) {
+				if (check.getPassword().equalsIgnoreCase(password)) {
+					return check;
+				}
+			}
+		} catch (NullPointerException e) {
+			return null;
+		}
+		return null;
 	}
 }
