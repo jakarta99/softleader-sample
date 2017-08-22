@@ -15,7 +15,7 @@
 
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
 		destroy-method="close">
-		<property name="jdbcUrl" value="jdbc:postgresql://localhost:5433/testdb" />
+		<property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/testdb" />
 		<property name="driverClassName" value="org.postgresql.Driver"/>
 		<property name="username" value="postgres" />
 		<property name="password" value="postgres" />
@@ -32,7 +32,7 @@
 			<props>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
-				<prop key="hibernate.enable_lazy_load_no_trans">true</prop> <!-- 改用filter -->
+<!-- 				<prop key="hibernate.enable_lazy_load_no_trans">true</prop> 改用filter -->
 			</props>
 		</property>
 	</bean>
