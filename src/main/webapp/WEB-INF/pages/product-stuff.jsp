@@ -1,133 +1,158 @@
-<%@ page language="java" contentType="text/html; charset=BIG5"
-	pageEncoding="BIG5"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 <head>
-<title>°Ó«~±M°Ï</title>
+<title>å•†å“å°ˆå€</title>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/i18n/jquery-ui-i18n.min.js"></script>
+<script src="<c:url value="/resources/js/jquery-3.2.1.min.js" />"
+	type="text/javascript"></script>
+<script src="<c:url value="/resources/js/jquery-ui.min.js" />"
+	type="text/javascript"></script>
+<script src="<c:url value="/resources/js/login.js" />"
+	type="text/javascript"></script>
+<script>
+	$(function() {
+		$.datepicker.setDefaults($.datepicker.regional['zh-TW']);
+		$("#datepicker").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "yy-mm-dd"
+		});
+
+		$('.optionzone').hide();
+		$('.filterbutton').click(function() {
+			$('.optionzone').show(1000, function() {
+			})
+		})
+	});
+</script>
+<link href="../resources/css/login.css" rel="stylesheet">
+<link href="../resources/css/general.css" rel="stylesheet">
+<style>
+.startSelect {
+	border: 1px rgb(109, 140, 231) solid;
+	border-radius: 20px;
+	color: blue;
+	background: white;
+	position: relative;
+	font-size: 15px;
+	margin-top: 9%;
+	color: rgb(109, 140, 231);
+	padding: 6px 5%;
+	margin-left: 320px;
+}
+
+.startSelect:hover {
+	pointer: cursor;
+}
+
+.optionzone {
+	width: 1000px;
+	height: 100px;
+	margin-top: 100px;
+}
+</style>
 </head>
 <body>
-	<a href="<c:url value="/index.jsp"/>"><img alt="" src="#">TRIPLE-I
-		Logo HERE</a>
+	<!-- from index -->
+	<nav>
+		<div class="nav">
+			<div class="panel">
+				<a href="insurer/list">å„å…¬å¸è³‡è¨Š</a> <a href="product/filter">å•†å“å°ˆå€</a>
+				<div class="dropdown">
+					<span class="dropbtn">ç©é»å°ˆå€</span>
+					<div class="dropcontent">
+						<a href="gift/page">ç©é»å•†å“</a> <a href="gift/score">å…Œæ›è¨˜éŒ„</a> <a
+							href="gift/wait">é»æ•¸å¯©æ ¸</a> <a href="wish/list">è¨±é¡˜æ± </a>
+					</div>
+				</div>
+				<div class="dropdown">
+					<span class="dropbtn">æ–‡ç« å°ˆæ¬„</span>
+					<div class="dropcontent">
+						<a href="article/list">ç·¨è¼¯ç²¾é¸</a> <a href="article/news">æ–°èå°ˆå€</a> <a
+							href="article/goodread">å°è³‡æ—å¿…è®€</a> <a
+							href="article/investmenttips">ç†è²¡è§€å¿µ</a>
+					</div>
+				</div>
+				<a href="#">è¨è«–å€</a> <span id="login" class="loginCSS">ç™»å…¥</span>
+			</div>
 
-µù:13-58¥Ø«eµL§@¥Î
-	<form:form action="list" method="get" modelAttribute="product">
-		<label class="required">©Ê§O</label>
-		<form:radiobutton path="gender" value="male" />¨k
-		<form:radiobutton path="gender" value="female" />¤k
+		</div>
+		<div class="optionzone">
+			<label class="required">å­˜æ¬¾æ–¹å¼</label> <select name="depositmethod">
+				<option>ä¸€æ¬¡ç¹³æ¸…</option>
+				<option>åˆ†æœˆç¹³æ¸…</option>
+			</select> <label class="required">åˆ©ç‡</label> <select name="interest">
+				<option>å®£å‘Šåˆ©ç‡</option>
+				<option>æµ®å‹•åˆ©ç‡</option>
+			</select> <label class="required">é‡‘é¡(å…ƒ/å¹´)</label> <select name="sum">
+				<option>~10,000</option>
+				<option>10,000~100,000</option>
+				<option>100,000~</option>
+			</select><br>
+			 <label class="required">ç¹³è²»å¹´é™</label> <select name="period">
+				<option>3å¹´ä»¥ä¸‹</option>
+				<option>3-10å¹´</option>
+				<option>10å¹´ä»¥ä¸Š</option>
+			</select> <label class="required">å¯é ˜å›æ™‚é–“</label> <select name="back">
+				<option>3å¹´ä»¥ä¸‹</option>
+				<option>3-10å¹´</option>
+				<option>10å¹´ä»¥ä¸Š</option>
+			</select><br><a href="#" class="startSelect">ç¯©é¸</a>
+		</div>
 
-		<label class="required">¹ô§O</label>
-		<form:select path="currency">
-			<form:option value="NTD">¥x¹ô</form:option>
-			<form:option value="JPY">¤é¹ô</form:option>
-			<form:option value="USD">¬üª÷</form:option>
-		</form:select>
-		
-		 <label class="required">¦s´Ú¤è¦¡</label>
-		 <form:select path="depositmethod">
-			<form:option value="¤@¦¸Ãº²M"/>
-			<form:option value="¤À¤ëÃº²M"/>
-		</form:select> 
-		
-		<label class="required">§Q²v</label>
-		<form:select path="interest">
-			<form:option value="«Å§i§Q²v"/>
-			<form:option value="¯B°Ê§Q²v"/>
-		</form:select>
-		
-		<label class="required">ª÷ÃB(¤¸/¦~)</label>
-		<form:select path="sum">
-			<form:option value="~10,000"/>
-			<form:option value="10,000~100,000"/>
-			<form:option value="100,000~"/>
-		</form:select> 
-		
-		<label class="required">Ãº¶O¦~­­</label>
-		<form:select path="period">
-			<form:option value="3¦~¥H¤U"/>
-			<form:option value="3-10¦~"/>
-			<form:option value="10¦~¥H¤W"/>
-		</form:select>
-		
-		<label class="required">¥i»â¦^®É¶¡</label>
-		<form:select path="back">
-			<form:option value="3¦~¥H¤U"/>
-			<form:option value="3-10¦~"/>
-			<form:option value="10¦~¥H¤W"/>
-		</form:select>
+	</nav>
 
-		<!-- 	demo¥Î -->
-		<label class="required">½Ğ¿ï¾Ü«OÀI¤½¥q</label>
-		<form:select path="insurer">
-			<form:option value="1">A¤H¹Ø</form:option>
-			<form:option value="2">B¤H¹Ø</form:option>
-			<form:option value="3">C¤H¹Ø</form:option>
-			<form:option value="4">D¤H¹Ø</form:option>
-			<form:option value="5">E¤H¹Ø</form:option>
-			<form:option value="6">F¤H¹Ø</form:option>
-			<form:option value="7">G¤H¹Ø</form:option>
-			<form:option value="8">H¤H¹Ø</form:option>
-			<form:option value="9">I¤H¹Ø</form:option>
-			<form:option value="10">J¤H¹Ø</form:option>
-			<form:option value="11">K¤H¹Ø</form:option>
-			<form:option value="12">L¤H¹Ø</form:option>
-			<form:option value="13">M¤H¹Ø</form:option>
-			<form:option value="14">N¤H¹Ø</form:option>
-			<form:option value="15">O¤H¹Ø</form:option>
-			<form:option value="16">P¤H¹Ø</form:option>
-			<form:option value="17">Q¤H¹Ø</form:option>
-			<form:option value="18">R¤H¹Ø</form:option>
-			<form:option value="19">S¤H¹Ø</form:option>
-			<form:option value="20">T¤H¹Ø</form:option>
-			<form:option value="21">U¤H¹Ø</form:option>
-			<form:option value="22">V¤H¹Ø</form:option>
-			<form:option value="23">W¤H¹Ø</form:option>
-			<form:option value="24">X¤H¹Ø</form:option>
-			<form:option value="25">Y¤H¹Ø</form:option>
-		</form:select>
-		<!-- 	demo¥Î -->
-		<input type="submit" value="¿z¿ï"/>
-	</form:form>
+	<div id="loginWindow" title="ç™»å…¥">
+		<div class="container">
+			<form class="form-signin">
+				<label for="inputEmail" class="sr-only">Emailï¼š</label> <input
+					type="email" id="inputEmail" class="form-control"
+					placeholder="Email address" required autofocus> <label
+					for="inputPassword" class="sr-only">å¯†ç¢¼ï¼š</label> <input
+					type="password" id="inputPassword" class="form-control"
+					placeholder="Password" required>
+				<div class="checkbox">
+					<label><input type="checkbox" value="remember-me">è¨˜ä½æˆ‘</label>
+				</div>
+				<button id="loginBtn" class="btn btn-lg btn-primary btn-block"
+					type="submit">ç™»å…¥</button>
+			</form>
+		</div>
+	</div>
+	<article>
+		<div class="article">
+			<a href="../index.jsp"><button class="logo">TRIPLE-I
+					é€™è£¡è²¼Logo</button></a>
+			<div>
+				<form action="#" method="post">
+					<label>æ€§åˆ¥</label> <input type="radio" name="gender" value="male"
+						required />ç”· <input type="radio" name="gender" value="female" />å¥³
+					<p>
+						ç”Ÿæ—¥<br> <input type="text" id="datepicker">
+					</p>
 
-	<c:forEach var="products" items="${models}">
-		<form:label path="insurerdetal">${product.insurer_id}</form:label>
-		<form:label path="productdetal">${product.id}</form:label>
-		<form:select path="id">
-			<form:option value="detal">ÀËµø°Ó«~¸Ô²Ó¸ê°T</form:option>
-			<form:option value="§Ú¦³¿³½ì" href="product/shop"></form:option>
-		</form:select>
-	</c:forEach>
-	
-	<a href="../insurer/list">¬d¬İ¤½¥q¸ê°T</a>
-
-	<!-- <!-- ¼ÈµL¸ê®Æ -->
-	<!-- 	<table> -->
-	<!-- 		<tr> -->
-	<!-- 			<th>«OÀI¤½¥q¦WºÙ</th> -->
-	<!-- 			<th>Á`Ãºª÷ÃB</th> -->
-	<!-- 			<th>»â¦^ª÷ÃB</th> -->
-	<!-- 			<th>²b³ø¹S</th> -->
-	<!-- 			<th>IRR</th> -->
-	<!-- 		</tr> -->
-	<!-- 		<tr> -->
-	<!-- 			<td>Àx»WÀI¦WºÙ</td> -->
-	<!-- 			<td>Á`Ãºª÷ÃB(¼Æ¦r)</td> -->
-	<!-- 			<td>»â¦^ª÷ÃB(¼Æ¦r)</td> -->
-	<!-- 			<td>²b³ø¹S(¼Æ¦r)</td> -->
-	<!-- 			<td>IRR(¼Æ¦r)</td> -->
-	<!-- 		</tr> -->
-	<!-- 		<hr> -->
-	<!-- 		<tr> -->
-	<!-- 			<td>«OÃB:</td> -->
-	<!-- 			<td>Ãº¶O§é¦©:</td> -->
-	<!-- 			<td>ºü¦~«O¶O:</td> -->
-	<!-- 			<td>Ãº¶OÃş§O:</td> -->
-	<!-- 			<td>§é¦©«á¦~Ãº«O¶O:</td> -->
-	<!-- 			<td>«Å§i§Q²v:</td> -->
-	<!-- 			<td>§é¦©«e¦~Ãº«O¶O:</td> -->
-	<!-- 			<td>­º¦~«O¶O:</td> -->
-	<!-- 			<td>Ãº¶O¤è¦¡:</td> -->
-	<!-- 		</tr> -->
-	<!-- 	</table> -->
+					<label>å¹£åˆ¥</label><br> <select name="currency" class="option">
+						<option value="NTD">å°å¹£</option>
+						<option value="JPY">æ—¥å¹£</option>
+						<option value="USD">ç¾é‡‘</option>
+					</select>
+				</form>
+				<div>
+					<input class="filterbutton" type="submit" value="é–‹å§‹ç¯©é¸" /> <input
+						type="reset" value="é‡æ–°é¸æ“‡" />
+				</div>
+			</div>
+		</div>
+	</article>
 </body>
 </html>

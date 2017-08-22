@@ -1,14 +1,12 @@
 package tw.com.triplei.portal.entity;
 
-import java.util.ArrayList;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 //import tw.com.triplei.portal.enums.gender;
@@ -27,10 +25,10 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "ID")
-	//@ManyToOne(fetch=FetchType.EAGER,targetEntity="INSURER_ID")
 	private Long id;
 	
 	@Column(name = "INSURER_ID")
+//	@ManyToOne(fetch=FetchType.EAGER,targetEntity="")
 	private Long insurerId;
 	
 	@Column(name = "GENDER")
